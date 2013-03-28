@@ -9,10 +9,10 @@ namespace WebGarten2
 
         public HttpHost(string baseAddress)
         {
-            var config = new HttpSelfHostConfiguration(baseAddress);
-            _handler = new FrontHandler(baseAddress);
-            _server = new HttpSelfHostServer(config,new Bridge(_handler));
-        }
+            var config = new HttpSelfHostConfiguration(baseAddress); //Contentor de definições
+            _handler = new FrontHandler(baseAddress); //Recebe pedidos, executa os metodos e devolve a resposta
+            _server = new HttpSelfHostServer(config,new Bridge(_handler));//Escuta pedidos de http. Porque passar um HttpMessageHandler???
+        }                                                                 // Envia-se um HttpMessageHandler para se controlar o modo como se gera respostas. Basicamente chamar o fronthandler e montar a resposta numa nova thread
 
         public HttpHost Add(params CommandBind[] cmds)
         {

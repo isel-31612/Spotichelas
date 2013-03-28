@@ -22,7 +22,7 @@ namespace WebGarten2
         public CommandBind Bind
         {
             get { return new CommandBind(this, _attr.HttpMethod, _attr.UriTemplate); }
-        }
+        }// Propriedade que retorna um novo wrapper. Porque retornar um novo tipo? Nao retorna. Cria um novo wrapper e coloca-se nele
 
         public HttpResponseMessage Execute(HttpRequestMessage req)
         {

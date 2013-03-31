@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>SpotiChelas.DomainModel.Database.DatabaseConnection</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,8 +49,14 @@
     <Compile Include="Controller\HomeController.cs" />
     <Compile Include="Controller\PlaylistController.cs" />
     <Compile Include="Controller\TrackController.cs" />
+    <Compile Include="DomainModel\Database\SQLConnection.cs" />
     <Compile Include="DomainModel\Data\Album.cs" />
     <Compile Include="DomainModel\Data\Artist.cs" />
+    <Compile Include="DomainModel\Data\DBAttributes\DBForeignKey.cs" />
+    <Compile Include="DomainModel\Data\DBAttributes\DBIdentity.cs" />
+    <Compile Include="DomainModel\Data\DBAttributes\DBField.cs" />
+    <Compile Include="DomainModel\Data\DBAttributes\DBNotNull.cs" />
+    <Compile Include="DomainModel\Data\DBAttributes\DBPrimaryKey.cs" />
     <Compile Include="DomainModel\Data\Identity.cs" />
     <Compile Include="DomainModel\Data\Playlist.cs" />
     <Compile Include="DomainModel\Data\Track.cs" />

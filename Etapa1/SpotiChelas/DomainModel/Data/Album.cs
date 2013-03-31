@@ -9,11 +9,6 @@ namespace SpotiChelas.DomainModel.Data
     public class Album : Identity
     {
         String _name;
-        List<Artist> _artists
-        {
-            get { return _artists; }
-            set { _artists = value; }
-        }
         uint   _year;
         List<Track> _tracks
         {

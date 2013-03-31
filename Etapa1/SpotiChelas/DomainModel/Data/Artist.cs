@@ -15,7 +15,6 @@ namespace SpotiChelas.DomainModel.Data
             set { _albuns = value; }
         }
 
-
         public Artist(String name)
         {
             _name = name;

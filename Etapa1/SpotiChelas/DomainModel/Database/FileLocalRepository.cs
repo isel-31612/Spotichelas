@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace SpotiChelas.DomainModel.Database
 {
-    interface FileLocalRepository : Repository
+    public class FileLocalRepository : Repository
     {
+        Int32 Repository.setT<T>(T t)
+        {
+            return 0;
+        }
+
+        T Repository.getT<T>(int id)
+        {
+            return default(T);
+        }
     }
 }

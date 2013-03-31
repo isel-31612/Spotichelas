@@ -10,33 +10,32 @@ namespace SpotiChelas.DomainModel.Database
 {
     public class MemoryLocalRepository : Repository
     {
-        private Dictionary<Type, Dictionary<Int32,Object>> arrayTable;
+        private Dictionary<Type, Dictionary<Int32,Object>> repoTables;
         public MemoryLocalRepository()
         {
-            arrayTable = new Dictionary<Type, Dictionary<Int32, Object>>();
+            repoTables = new Dictionary<Type, Dictionary<Int32, Object>>();
         }
 
         Int32 Repository.setT<T>(T t)
         {
             Type type = t.GetType();
             Dictionary<Int32,Object> dList;
-            arrayTable.TryGetValue(type, out dList);
-            if (default(Dictionary<Int32, Object>) == dList)
+            if (repoTables.TryGetValue(type, out dList))
             {
-                arrayTable.Add(type, dList = new Dictionary<Int32, Object>());
+                repoTables.Add(type, dList = new Dictionary<Int32, Object>());
             }
             int highestIdx = dList.Max(x => { return x.Key; });//se calhar devia por aqui um lock xD
-            //t.setId(highestIdx + 1);
-            //dList.Add(t.getId(), t); //Como e possivel t.getId dar erro?
-            return 0;// t.getId();
+            t.setId(highestIdx + 1);
+            dList.Add(t.getId(), t);
+            return t.getId();
         }
 
         T Repository.getT<T>(int id)
         {
-            Type type = typeof(Identity);
+            Type type = typeof(T);
             Dictionary<Int32, Object> dList;
-            if (!arrayTable.TryGetValue(type, out dList))
-                return default(T);//talvez uma excepçao aqui faça mais sentido
+            if (!repoTables.TryGetValue(type, out dList))
+                throw new InvalidOperationException(); //E preciso uma excepçao melhorzita
             Object obj;
             if (!dList.TryGetValue(id, out obj))
                 return default(T);

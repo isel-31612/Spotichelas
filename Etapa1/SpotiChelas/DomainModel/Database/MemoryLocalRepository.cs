@@ -41,5 +41,23 @@ namespace SpotiChelas.DomainModel.Database
                 return default(T);
             return (T)obj;
         }
+
+        T[] Repository.getAllLike<T>(T t)
+        {
+            Type type = typeof(T);
+            Queue<T> result = new Queue<T>();
+            Dictionary<Int32, Object> dList;
+            if (!repoTables.TryGetValue(type, out dList))
+                throw new InvalidOperationException(); //E preciso uma excepçao melhorzita
+            foreach (var pair in dList)
+            {
+                if (t.match(pair.Value))
+                {
+                    result.Enqueue((T)pair.Value);
+                }
+
+            }
+            return result.ToArray();
+        }
     }
 }

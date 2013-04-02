@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGarten2.Tests", "WebGart
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotiChelas", "SpotiChelas\SpotiChelas.csproj", "{BC9E9AF5-7017-4DBA-A1BB-E109BC430C6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotiChelasTests", "SpotiChelasTests\SpotiChelasTests.csproj", "{EA23B016-637A-470C-8CE3-297F81302F90}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,16 +85,6 @@ Global
 		{BC9E9AF5-7017-4DBA-A1BB-E109BC430C6D}.Release|ARM.ActiveCfg = Release|Any CPU
 		{BC9E9AF5-7017-4DBA-A1BB-E109BC430C6D}.Release|x64.ActiveCfg = Release|Any CPU
 		{BC9E9AF5-7017-4DBA-A1BB-E109BC430C6D}.Release|x86.ActiveCfg = Release|Any CPU
-		{EA23B016-637A-470C-8CE3-297F81302F90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA23B016-637A-470C-8CE3-297F81302F90}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA23B016-637A-470C-8CE3-297F81302F90}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{EA23B016-637A-470C-8CE3-297F81302F90}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{EA23B016-637A-470C-8CE3-297F81302F90}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{EA23B016-637A-470C-8CE3-297F81302F90}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA23B016-637A-470C-8CE3-297F81302F90}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EA23B016-637A-470C-8CE3-297F81302F90}.Release|ARM.ActiveCfg = Release|Any CPU
-		{EA23B016-637A-470C-8CE3-297F81302F90}.Release|x64.ActiveCfg = Release|Any CPU
-		{EA23B016-637A-470C-8CE3-297F81302F90}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

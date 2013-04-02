@@ -20,5 +20,10 @@ namespace SpotiChelas.DomainModel.Database
         {
             throw new NotImplementedException();
         }
+
+        T[] Repository.getAllLike<T>(T t)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

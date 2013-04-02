@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>SpotiChelas.DomainModel.Database.DatabaseConnection</StartupObject>
+    <StartupObject>SpotiChelas.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -50,6 +50,9 @@
     <Compile Include="Controller\PlaylistController.cs" />
     <Compile Include="Controller\TrackController.cs" />
     <Compile Include="DomainModel\Database\SQLConnection.cs" />
+    <Compile Include="DomainModel\Database\SQLTableCreator.cs" />
+    <Compile Include="DomainModel\Database\SqlTypeBinder.cs" />
+    <Compile Include="DomainModel\Database\TypeBinder.cs" />
     <Compile Include="DomainModel\Data\Album.cs" />
     <Compile Include="DomainModel\Data\Artist.cs" />
     <Compile Include="DomainModel\Data\DBAttributes\DBForeignKey.cs" />

@@ -1,5 +1,4 @@
-﻿using SpotiChelas.DomainModel.Data;
-using SpotiChelas.DomainModel.Data.DBAttributes;
+﻿using Entities;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotiChelas.DomainModel.Database
+namespace DataAccess
 {
     public class DatabaseConnection
     {

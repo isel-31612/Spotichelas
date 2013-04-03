@@ -1,17 +1,16 @@
-﻿using SpotiChelas.Views.Playlist;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Net;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System;
-using SpotiChelas.DomainModel.Data;
 using WebGarten2;
-using SpotiChelas.DomainModel;
-using SpotiChelas.DomainModel.Database;
+using DataAccess;
+using Entities;
+using Views;
 using WebGarten2.Html;
 
 
-namespace SpotiChelas.Controller
+namespace Controllers
 {
     public class PlaylistController
     {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Reflection;
 using System.Text;
-using SpotiChelas.DomainModel;
-using SpotiChelas.DomainModel.Data.DBAttributes;
+using Entities;
+using Entities.DBAttributes;
 
-namespace SpotiChelas.DomainModel.Database
+namespace DataAccess
 {
     class SQLTableCreator
     {

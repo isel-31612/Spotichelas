@@ -1,11 +1,11 @@
-﻿using SpotiChelas.DomainModel.Data.DBAttributes;
+﻿using Entities.DBAttributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotiChelas.DomainModel.Data
+namespace Entities
 {
     public class Album : Identity
     {

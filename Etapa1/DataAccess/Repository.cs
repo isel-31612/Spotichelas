@@ -1,7 +1,7 @@
-﻿using SpotiChelas.DomainModel.Data;
+﻿using Entities;
 using System;
 
-namespace SpotiChelas.DomainModel.Database
+namespace DataAccess
 {
     public interface Repository
     {

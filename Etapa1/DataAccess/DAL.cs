@@ -1,8 +1,7 @@
-﻿using SpotiChelas.DomainModel.Data;
-using SpotiChelas.DomainModel.Database;
+﻿using Entities;
 using System;
 
-namespace SpotiChelas.DomainModel
+namespace DataAccess
 {
     class DAL
     {

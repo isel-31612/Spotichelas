@@ -2,7 +2,7 @@
 using Utils;
 using WebGarten2.Html;
 
-namespace SpotiChelas.Views
+namespace Views
 {
     //TODO: rever tipo e retorno de content(evitar cópia)
     public class HomeView : HtmlDoc

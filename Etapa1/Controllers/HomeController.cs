@@ -1,10 +1,9 @@
-﻿using SpotiChelas.Views;
+﻿using Views;
 using System.Net.Http;
 using WebGarten2;
 using WebGarten2.Html;
 
-
-namespace SpotiChelas.Controller
+namespace Controllers
 {
     public class HomeController
     {

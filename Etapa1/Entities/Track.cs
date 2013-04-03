@@ -11,14 +11,14 @@ namespace SpotiChelas.DomainModel.Data
     {
         [DBField]
         [DBNotNull]
-        public String _name;
+        public String Name { get; set; }
         [DBField]
-        public uint _duration; // in seconds, [0...]
+        public uint Duration { get; set; } // in seconds, [0...]
 
         public Track(String name, uint duration)
         {
-            _name = name;
-            _duration = duration;
+            Name = name;
+            Duration = duration;
         }
 
         public override bool match(Object o)
@@ -26,7 +26,7 @@ namespace SpotiChelas.DomainModel.Data
             Track t = o as Track;
             if (t == null)
                 throw new InvalidCastException();
-            return this._name.Equals(t._name) || this._duration.Equals(t._duration);
+            return this.Name.Equals(t.Name) || this.Duration.Equals(t.Duration);
         }
     }
 }

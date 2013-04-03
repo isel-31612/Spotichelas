@@ -57,8 +57,8 @@
       <Project>{86889e8d-3b96-4ae5-8820-63c338cb34c9}</Project>
       <Name>Controllers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Entidades\Entities.csproj">
-      <Project>{a9f40cb4-9174-480c-9186-b835ac161984}</Project>
+    <ProjectReference Include="..\Entities\Entities.csproj">
+      <Project>{da155d36-5a52-4d01-a70f-ffd6ff04ef8e}</Project>
       <Name>Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebGarten2\WebGarten2.csproj">

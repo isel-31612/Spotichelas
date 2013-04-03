@@ -11,19 +11,17 @@ namespace SpotiChelas.DomainModel.Data
     {
         [DBField]
         [DBNotNull]
-        private String _name;
+        public String Name { get; set; }
         [DBField]
-        private String _description;
-
-        public String Name { get { return _name; } }
-        public String Description { get { return _description; } }
+        public String Description { get; set; }
         public List<Track> Tracks {get; set;}
         
 
         public Playlist(String name, String description)
         {
-            _name = name;
-            _description = description;
+            Name = name;
+            Description = description;
+            Tracks = new List<Track>();
         }
 
         public override bool match(object o)
@@ -31,7 +29,7 @@ namespace SpotiChelas.DomainModel.Data
             Playlist pl = o as Playlist;
             if (pl == null)
                 throw new InvalidCastException();
-            return this._name.Equals(pl._name) || this._description.Equals(pl._description);
+            return this.Name.Equals(pl.Name) || this.Description.Equals(pl.Description);
         }
     }
 }

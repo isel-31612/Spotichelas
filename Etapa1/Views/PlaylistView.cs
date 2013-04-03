@@ -2,6 +2,7 @@
 using System.Linq;
 using Utils;
 using WebGarten2.Html;
+using SpotiChelas.DomainModel.Data;
 
 namespace SpotiChelas.Views.Playlist
 {
@@ -43,7 +44,7 @@ namespace SpotiChelas.Views.Playlist
                 H3(Text("Description: "+p.Description)),
                 H3(Text("Track List")),
                 Ul(
-                    p.Tracks.Select(track => Li(Text(track._name))).ToArray()
+                    p.Tracks.Select(track => Li(Text(track.Name))).ToArray()
                 ),
                 Form("post", ResolveUri.ForPlaylistRemove(p), P(InputSubmit("Delete"))),
                 Form("get", ResolveUri.ForPlaylistEdit(p), P(InputSubmit("Edit")))

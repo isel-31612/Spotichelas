@@ -11,9 +11,9 @@ namespace SpotiChelas.DomainModel.Data
     {
         [DBField]
         [DBNotNull]
-        public String _name;
+        public String Name { get; set; }
         [DBField]
-        public uint   _year;
+        public uint Year { get; set; }
         List<Track> _tracks
         {
             get{ return _tracks; }
@@ -22,8 +22,8 @@ namespace SpotiChelas.DomainModel.Data
 
         public Album(String name, uint year)
         {
-            _name = name;
-            _year = year;
+            Name = name;
+            Year = year;
         }
 
         public override bool match(Object o)
@@ -31,7 +31,7 @@ namespace SpotiChelas.DomainModel.Data
             Album al = o as Album;
             if (al == null)
                 throw new InvalidCastException();
-            return this._name.Equals(al._name) || this._tracks.Equals(al._tracks) || this._year.Equals(al._year);
+            return this.Name.Equals(al.Name) || this._tracks.Equals(al._tracks) || this.Year.Equals(al.Year);
         }
     }
 }

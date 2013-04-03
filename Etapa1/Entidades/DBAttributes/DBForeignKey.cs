@@ -7,7 +7,14 @@ using System.Threading.Tasks;
 namespace SpotiChelas.DomainModel.Data.DBAttributes
 {
     [AttributeUsage(AttributeTargets.All, Inherited = true, AllowMultiple = false)]
-    class DBField : Attribute
+    public class DBForeignKey : Attribute
     {
+        public string table;
+        public string field;
+        public DBForeignKey(string table, string field)
+        {
+            this.table = table;
+            this.field = field;
+        }
     }
 }

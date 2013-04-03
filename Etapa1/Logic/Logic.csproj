@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BC9E9AF5-7017-4DBA-A1BB-E109BC430C6D}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{3554E605-C3D7-474D-BE7C-B13CA5F14C35}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SpotiChelas</RootNamespace>
-    <AssemblyName>SpotiChelas</AssemblyName>
+    <RootNamespace>Logic</RootNamespace>
+    <AssemblyName>Logic</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -31,13 +29,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>SpotiChelas.Program</StartupObject>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,26 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\Controllers\Controllers.csproj">
-      <Project>{86889e8d-3b96-4ae5-8820-63c338cb34c9}</Project>
-      <Name>Controllers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Entidades\Entities.csproj">
-      <Project>{a9f40cb4-9174-480c-9186-b835ac161984}</Project>
-      <Name>Entities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WebGarten2\WebGarten2.csproj">
-      <Project>{7cfc4bb7-9673-4082-9806-893f3efc5dfc}</Project>
-      <Name>WebGarten2</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using SpotiChelas.DomainModel.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SpotiChelas.Controller;
-using SpotiChelas.DomainModel.Data;
 
 namespace SpotiChelas
 {

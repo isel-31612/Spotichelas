@@ -6,7 +6,7 @@ using WebGarten2.Html;
 
 namespace SpotiChelas.Controller
 {
-    class HomeController
+    public class HomeController
     {
         //Apenas para testar as views, podem alterar a vontade
         [HttpMethod("GET", "/")]

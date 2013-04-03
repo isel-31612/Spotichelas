@@ -13,11 +13,14 @@ namespace SpotiChelas.DomainModel.Database
 
         Int32 Repository.setT<T>(T t)
         {
+            _cache = null;
             throw new NotImplementedException();
         }
 
         T Repository.getT<T>(int id, out T t)
         {
+            if (_cache == null)
+                _cache = null;
             throw new NotImplementedException();
         }
 

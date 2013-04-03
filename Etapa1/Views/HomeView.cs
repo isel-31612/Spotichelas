@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using Utils;
 using WebGarten2.Html;
 
 namespace SpotiChelas.Views
 {
     //TODO: rever tipo e retorno de content(evitar cópia)
-    class HomeView : HtmlDoc
+    public class HomeView : HtmlDoc
     {
         public HomeView()
             : base("Home SpotiChelas",

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace SpotiChelas.DomainModel.Data.DBAttributes
 {
-    [AttributeUsage(AttributeTargets.All, Inherited = true, AllowMultiple = false)]
-    class DBPrimaryKey : Attribute
+    [AttributeUsage(AttributeTargets.All, Inherited=true, AllowMultiple=false)]
+    public class DBIdentity : Attribute
     {
     }
 }

@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Utils;
 using WebGarten2.Html;
-using SpotiChelas.DomainModel.Data;
 
 namespace SpotiChelas.Views.Playlist
 {
     //TODO: rever metodos de acesso as propriedades do modelo de dados
     //talvez colocar propriedades (playlist._name => playlist.Name)
-    class PlaylistListView : HtmlDoc
+    public class PlaylistListView : HtmlDoc
     {
         public PlaylistListView(IEnumerable<SpotiChelas.DomainModel.Data.Playlist> p) 
             : base("Playlists",
@@ -20,7 +20,7 @@ namespace SpotiChelas.Views.Playlist
     }
 
 
-    class PlaylistNewView : HtmlDoc
+    public class PlaylistNewView : HtmlDoc
     {
         public PlaylistNewView(SpotiChelas.DomainModel.Data.Playlist p)
             : base("New Playlist",
@@ -34,7 +34,7 @@ namespace SpotiChelas.Views.Playlist
     }
 
 
-    class PlaylistDetailView : HtmlDoc
+    public class PlaylistDetailView : HtmlDoc
     {
         public PlaylistDetailView(SpotiChelas.DomainModel.Data.Playlist p)
             : base("Playlist Detail",

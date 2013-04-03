@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SpotiChelas.DomainModel.Data.DBAttributes
 {
     [AttributeUsage(AttributeTargets.All, Inherited = true, AllowMultiple = false)]
-    class DBNotNull : Attribute
+    public class DBPrimaryKey : Attribute
     {
     }
 }

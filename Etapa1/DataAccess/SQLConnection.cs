@@ -46,8 +46,8 @@ namespace SpotiChelas.DomainModel.Database
             var cmd = con.CreateCommand();
             cmd.Transaction = tran;
             SQLTableCreator tc = new SQLTableCreator(con);
-            if (!SQLTableCreator.ExistsTableNamed(tran,con, t.GetType().Name))
-                tc.createTable(tran,typeof(Track));
+            if (!SQLTableCreator.ExistsTableNamed(cmd, t.GetType().Name))
+                tc.createTable(cmd,typeof(Track));
             cmd.CommandText = "INSERT INTO "+t.GetType().Name+" (getId,_name,_duration) VALUES("+t.getId()+",'" + t._name + "'," + t._duration + ")";
             cmd.ExecuteNonQuery();
         }

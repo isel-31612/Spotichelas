@@ -1,23 +1,21 @@
 ﻿using SpotiChelas.Views.Playlist;
 using System.Net.Http;
 using System.Net;
-using WebGarten2;
-using WebGarten2.Html;
-using SpotiChelas.DomainModel.Data;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System;
+using SpotiChelas.DomainModel.Data;
+using WebGarten2;
 using SpotiChelas.DomainModel;
+using SpotiChelas.DomainModel.Database;
+using WebGarten2.Html;
 
 
 namespace SpotiChelas.Controller
 {
-    class PlaylistController
+    public class PlaylistController
     {
-        //REPOSITORIO APENAS PARA TESTES
-        private List<Playlist> _repo = testRepo._repo;
-
-        
+        List<Playlist> _repo = new List<Playlist>();
         //Apenas para testar as views, podem alterar a vontade
         [HttpMethod("GET", "/playlist")]
         public HttpResponseMessage Get()

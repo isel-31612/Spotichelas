@@ -1,9 +1,10 @@
-﻿using SpotiChelas.DomainModel.Data.DBAttributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Reflection;
 using System.Text;
+using SpotiChelas.DomainModel;
+using SpotiChelas.DomainModel.Data.DBAttributes;
 
 namespace SpotiChelas.DomainModel.Database
 {
@@ -16,18 +17,16 @@ namespace SpotiChelas.DomainModel.Database
             this.con = con;
         }
 
-        public static bool ExistsTableNamed(SqlTransaction tran,SqlConnection con, string str)
+        public static bool ExistsTableNamed(SqlCommand cmd, string str)
         {
-            var existsCMD = con.CreateCommand();
-            existsCMD.CommandText = "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME='" + str + "'";
-            existsCMD.Transaction = tran;
-            SqlDataReader reader = existsCMD.ExecuteReader();
+            cmd.CommandText = new StringBuilder("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME='").Append(str).Append("'").ToString();
+            SqlDataReader reader = cmd.ExecuteReader();
             bool exists = reader.HasRows;
             reader.Close();
             return exists;
         }
 
-        public void createTable(SqlTransaction tran,Type t)
+        public void createTable(SqlCommand cmd, Type t)
         {
             string tableName = t.Name;
             MemberInfo[] fields = getAllDatabaseFields(t);
@@ -39,9 +38,8 @@ namespace SpotiChelas.DomainModel.Database
             }
             AppendMemberData(fields[fields.Length - 1], ref str);
             str.Append(")");
-            var createTableCMD = new SqlCommand(str.ToString(),con);
-            createTableCMD.Transaction = tran;
-            createTableCMD.ExecuteNonQuery();
+            cmd.CommandText= str.ToString();
+            cmd.ExecuteNonQuery();
         }
 
         private MemberInfo[] getAllDatabaseFields(Type t)

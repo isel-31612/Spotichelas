@@ -16,7 +16,7 @@ namespace SpotiChelas.DomainModel.Database
             throw new NotImplementedException();
         }
 
-        T Repository.getT<T>(int id)
+        T Repository.getT<T>(int id, out T t)
         {
             throw new NotImplementedException();
         }

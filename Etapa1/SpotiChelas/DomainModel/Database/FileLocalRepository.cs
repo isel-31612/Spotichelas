@@ -13,9 +13,10 @@ namespace SpotiChelas.DomainModel.Database
             return 0;
         }
 
-        T Repository.getT<T>(int id)
+        T Repository.getT<T>(int id, out T t)
         {
-            return default(T);
+            t = default(T);
+            return t;
         }
 
         T[] Repository.getAllLike<T>(T t)

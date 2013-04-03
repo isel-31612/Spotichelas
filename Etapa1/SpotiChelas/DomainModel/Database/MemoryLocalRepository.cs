@@ -30,16 +30,18 @@ namespace SpotiChelas.DomainModel.Database
             return t.getId();
         }
 
-        T Repository.getT<T>(int id)
+        T Repository.getT<T>(int id, out T t)
         {
             Type type = typeof(T);
             Dictionary<Int32, Object> dList;
             if (!repoTables.TryGetValue(type, out dList))
                 throw new InvalidOperationException(); //E preciso uma excepçao melhorzita
             Object obj;
+            t = default(T);
             if (!dList.TryGetValue(id, out obj))
-                return default(T);
-            return (T)obj;
+                return t;
+            t = obj as T;
+            return t;
         }
 
         T[] Repository.getAllLike<T>(T t)

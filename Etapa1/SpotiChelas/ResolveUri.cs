@@ -12,7 +12,7 @@ namespace SpotiChelas
         public static string ForHome()          { return "/home";       }
         public static string ForPlaylist()      { return "/playlist";   }
         public static string ForSearch()        { return "/search";     }
-        public static string ForPlaylistNew() { return "/playlist/new"; }
+        public static string ForPlaylistNew()   { return "/playlist/new"; }
         public static string For(Playlist p)    { return "/playlist/"+p.getId(); }
 
         

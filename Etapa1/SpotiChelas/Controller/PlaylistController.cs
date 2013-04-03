@@ -14,22 +14,8 @@ namespace SpotiChelas.Controller
     class PlaylistController
     {
         //REPOSITORIO APENAS PARA TESTES
-        private List<Playlist> _repo;
-        public PlaylistController()
-        {   
-            _repo = new List<Playlist>{
-                new Playlist("PL 1", "desc da playlist 1"),
-                new Playlist("PL_rockalhada", "description da playlist nr2")
-            };
-            int i = 1; foreach (Playlist p in _repo)
-            {
-                p.setId(i++);
-                p.Tracks = new List<Track>();
-                p.Tracks.Add(new Track("Track 1", 2344));
-                p.Tracks.Add(new Track("Track 2", 6552));
-                p.Tracks.Add(new Track("Track 3", 85152));
-            }
-        }
+        private List<Playlist> _repo = testRepo._repo;
+
         
         //Apenas para testar as views, podem alterar a vontade
         [HttpMethod("GET", "/playlist")]
@@ -37,7 +23,7 @@ namespace SpotiChelas.Controller
         {
             return new HttpResponseMessage
             {
-                Content = new PlaylistView(_repo).AsHttpContent("text/html")
+                Content = new PlaylistListView(_repo).AsHttpContent("text/html")
             };
         }
 
@@ -74,7 +60,7 @@ namespace SpotiChelas.Controller
             //retornar resposta
             return new HttpResponseMessage(HttpStatusCode.OK)
             {
-                Content = new PlaylistView(_repo).AsHttpContent("text/html")
+                Content = new PlaylistListView(_repo).AsHttpContent("text/html")
             };
         }
 
@@ -88,6 +74,23 @@ namespace SpotiChelas.Controller
                 Content = new PlaylistDetailView(pl).AsHttpContent("text/html")
             };
         }
+
+
+        [HttpMethod("POST", "/playlist/{id}/remove")]
+        public HttpResponseMessage Delete(int id)
+        {
+            //verificacoes
+
+            //remover do repositorio
+            _repo.RemoveAt(id-1);
+
+            //retornar resposta
+            return new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new PlaylistListView(_repo).AsHttpContent("text/html")
+            };
+        }
+        
 
     }
 }

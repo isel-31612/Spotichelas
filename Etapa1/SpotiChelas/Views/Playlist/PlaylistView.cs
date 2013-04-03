@@ -7,9 +7,9 @@ namespace SpotiChelas.Views.Playlist
 {
     //TODO: rever metodos de acesso as propriedades do modelo de dados
     //talvez colocar propriedades (playlist._name => playlist.Name)
-    class PlaylistView : HtmlDoc
+    class PlaylistListView : HtmlDoc
     {
-        public PlaylistView(IEnumerable<SpotiChelas.DomainModel.Data.Playlist> p) 
+        public PlaylistListView(IEnumerable<SpotiChelas.DomainModel.Data.Playlist> p) 
             : base("Playlists",
                 H1(Text("Playlist list")),
                 Ul(
@@ -22,12 +22,12 @@ namespace SpotiChelas.Views.Playlist
 
     class PlaylistNewView : HtmlDoc
     {
-        public PlaylistNewView()
+        public PlaylistNewView(SpotiChelas.DomainModel.Data.Playlist p)
             : base("New Playlist",
                 H1(Text("Create a new playlist")),
                 Form("post", ResolveUri.ForPlaylist(),
-                    Label("name", "Name: "), InputText("name"),
-                    Label("desc", "Description: "), InputText("desc"),
+                    Label("name", "Name: "), InputText("name", p==null ? "" : p.Name),
+                    Label("desc", "Description: "), InputText("desc", p==null ? "" : p.Description),
                     P(InputSubmit("Submit"))
                 )
             ){ }
@@ -44,7 +44,9 @@ namespace SpotiChelas.Views.Playlist
                 H3(Text("Track List")),
                 Ul(
                     p.Tracks.Select(track => Li(Text(track._name))).ToArray()
-                )
+                ),
+                Form("post", ResolveUri.ForPlaylistRemove(p), P(InputSubmit("Delete"))),
+                Form("get", ResolveUri.ForPlaylistEdit(p), P(InputSubmit("Edit")))
             ) { }
     }
 }

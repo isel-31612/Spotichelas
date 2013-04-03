@@ -30,6 +30,15 @@ namespace WebGarten2.Html
                 .WithAttr("name", name);
         }
 
+        // ******* ADDED *******************************
+        public static IWritable InputText(String name, String value)
+        {
+            return new HtmlElem("input")
+                .WithAttr("type", "text")
+                .WithAttr("name", name)
+                .WithAttr("value", value);
+        }
+        // *********************************************
         public static IWritable InputSubmit(String value)
         {
             return new HtmlElem("input")

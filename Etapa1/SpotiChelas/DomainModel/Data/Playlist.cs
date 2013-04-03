@@ -11,14 +11,14 @@ namespace SpotiChelas.DomainModel.Data
     {
         [DBField]
         [DBNotNull]
-        public String _name;
+        private String _name;
         [DBField]
-        public String _description;
-        List<Track> _tracks
-        {
-            get { return _tracks; }
-            set { _tracks = value; }
-        }
+        private String _description;
+
+        public String Name { get { return _name; } }
+        public String Description { get { return _description; } }
+        public List<Track> Tracks {get; set;}
+        
 
         public Playlist(String name, String description)
         {

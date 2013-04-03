@@ -33,7 +33,7 @@ namespace SpotiChelas.Controller
         {
             return new HttpResponseMessage
             {
-                Content = new PlaylistNewView().AsHttpContent("text/html")
+                Content = new PlaylistNewView(null).AsHttpContent("text/html")
             };
         }
 
@@ -76,6 +76,7 @@ namespace SpotiChelas.Controller
         }
 
 
+        //tipo de pedido http deveria ser delete?
         [HttpMethod("POST", "/playlist/{id}/remove")]
         public HttpResponseMessage Delete(int id)
         {
@@ -88,6 +89,20 @@ namespace SpotiChelas.Controller
             return new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new PlaylistListView(_repo).AsHttpContent("text/html")
+            };
+        }
+
+        
+        [HttpMethod("GET", "/playlist/{id}/edit")]
+        public HttpResponseMessage Edit(int id)
+        {
+            //verificar
+            Playlist pl = _repo.Find(p => p.getId() == id);
+
+            //retornar resposta
+            return new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new PlaylistNewView(pl).AsHttpContent("text/html")
             };
         }
         

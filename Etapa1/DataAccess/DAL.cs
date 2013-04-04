@@ -3,21 +3,41 @@ using System;
 
 namespace DataAccess
 {
-    class DAL
+    public class DAL
     {
-        private static Repository repo
+        private static DAL singleton = null;
+
+        public static DAL Factory()
         {
-            get { if (repo == null) repo = new MemoryLocalRepository(); return repo; }
-            set { repo = value; }
+            if(singleton == null)
+                singleton = new DAL();
+            return singleton;
         }
 
-        public static T get<T>(int idx, out T t) where T : Identity
+        public static DAL Factory(Repository r)
+        {
+            return new DAL(r);
+        }
+
+        private DAL()
+        {
+            repo = new MemoryLocalRepository();
+        }
+
+        private DAL(Repository r)
+        {
+            repo = r;
+        }
+
+        private Repository repo;
+
+        public T get<T>(int idx, out T t) where T : Identity
         {
             t = repo.getT(idx, out t);
             return t;
         }
 
-        public static T[] getAll<T>(int[] idx, out T[] t) where T : Identity
+        public T[] getAll<T>(int[] idx, out T[] t) where T : Identity
         {
             t = new T[idx.Length];
             for (int i = 0; i < idx.Length; i++)
@@ -29,17 +49,17 @@ namespace DataAccess
             return t;
         }
 
-        public static T[] getAll<T>(T t) where T : Identity
+        public T[] getAll<T>(T t) where T : Identity
         {
             return repo.getAllLike(t);
         }
 
-        public static int put<T>(T t) where T : Identity
+        public int put<T>(T t) where T : Identity
         {
             return repo.setT(t);
         }
 
-        public static int[] putAll<T>(T[] t) where T : Identity
+        public int[] putAll<T>(T[] t) where T : Identity
         {
             int[] idx = new int[t.Length];
             for (int i=0;i<t.Length;i++)

@@ -22,7 +22,20 @@ namespace Entities
         }
 
         public abstract bool match(object o);
-    }
 
+        private bool deleted;
+        [DBField]
+        public bool isDeleted()
+        {
+            return deleted;
+        }
+
+        public void delete(bool b)
+        {
+            this.deleted = b;
+        }
+        
+
+    }
 
 }

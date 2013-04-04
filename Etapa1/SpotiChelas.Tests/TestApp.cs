@@ -2,7 +2,7 @@
 using System;
 using Controllers;
 
-namespace SpotiChelas
+namespace SpotiChelas.Tests
 {
     public class Program
     {

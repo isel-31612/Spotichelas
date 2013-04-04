@@ -29,7 +29,8 @@ namespace Entities
             Playlist pl = o as Playlist;
             if (pl == null)
                 throw new InvalidCastException();
-            return this.Name.Equals(pl.Name) || this.Description.Equals(pl.Description);
+            return ((pl.Name!=null) || this.Name.Equals(pl.Name)) &&
+                ((pl.Description!=null) || this.Description.Equals(pl.Description));
         }
     }
 }

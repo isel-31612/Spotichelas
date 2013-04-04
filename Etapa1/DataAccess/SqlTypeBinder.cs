@@ -16,6 +16,7 @@ namespace DataAccess
             typeLib.Add(typeof(int),"INT");
             typeLib.Add(typeof(uint), "INT");
             typeLib.Add(typeof(string), "NVARCHAR(20)");
+            typeLib.Add(typeof(bool), "BIT");
         }
 
         public string getTypeFor(Type t)

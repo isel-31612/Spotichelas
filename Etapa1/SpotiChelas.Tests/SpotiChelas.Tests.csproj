@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{21AFCCD5-D6B1-4158-9DAC-028A2693B27B}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{35967947-37C9-48C0-9CD6-F5055B82EB72}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataAccess</RootNamespace>
-    <AssemblyName>DataAccess</AssemblyName>
+    <RootNamespace>SpotiChelas.Tests</RootNamespace>
+    <AssemblyName>SpotiChelas.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,12 +23,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>SpotiChelas.Tests.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -39,22 +44,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cache.cs" />
-    <Compile Include="CachedWebRepository.cs" />
-    <Compile Include="DAL.cs" />
-    <Compile Include="FileLocalRepository.cs" />
-    <Compile Include="MemoryLocalRepository.cs" />
+    <Compile Include="TestApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository.cs" />
-    <Compile Include="SQLConnection.cs" />
-    <Compile Include="SQLTableCreator.cs" />
-    <Compile Include="SqlTypeBinder.cs" />
-    <Compile Include="TypeBinder.cs" />
+    <Compile Include="Test.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Controllers\Controllers.csproj">
+      <Project>{86889e8d-3b96-4ae5-8820-63c338cb34c9}</Project>
+      <Name>Controllers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
+      <Project>{21afccd5-d6b1-4158-9dac-028a2693b27b}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Entities\Entities.csproj">
       <Project>{da155d36-5a52-4d01-a70f-ffd6ff04ef8e}</Project>
       <Name>Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebGarten2\WebGarten2.csproj">
+      <Project>{7cfc4bb7-9673-4082-9806-893f3efc5dfc}</Project>
+      <Name>WebGarten2</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

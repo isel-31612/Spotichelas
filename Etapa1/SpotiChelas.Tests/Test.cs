@@ -24,7 +24,6 @@ namespace SpotiChelas.Tests
                     p.Tracks.Add(new Track("Track 3", 85152));
                 }
 
-                DAL.putAll(_repo.ToArray());
                 Program.Main(null);
             }
         }

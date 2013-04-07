@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlbumView.cs" />
+    <Compile Include="ArtistView.cs" />
     <Compile Include="HomeView.cs" />
     <Compile Include="PlaylistView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

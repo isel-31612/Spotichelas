@@ -1,23 +1,19 @@
-﻿using Entities.DBAttributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Entities
 {
     public class Playlist : Identity
     {
-        [DBField]
-        [DBNotNull]
         public String Name { get; set; }
-        [DBField]
         public String Description { get; set; }
-        public List<Track> Tracks {get; set;}
-        
+        public virtual List<Track> Tracks {get; set;}
 
-        public Playlist(String name, String description)
+        public Playlist() // for test. Delete ASAP
+        {
+        }
+
+        public Playlist(string name, string description)
         {
             Name = name;
             Description = description;
@@ -29,8 +25,9 @@ namespace Entities
             Playlist pl = o as Playlist;
             if (pl == null)
                 throw new InvalidCastException();
-            return ((pl.Name!=null) || this.Name.Equals(pl.Name)) &&
-                ((pl.Description!=null) || this.Description.Equals(pl.Description));
+            return ((pl.Name==null)         || pl.Name.Equals(Name)) &&
+                    ((pl.Description==null) || pl.Description.Equals(Description)) &&
+                    ((pl.Tracks.Count==0)   || pl.Tracks.Equals(Tracks));
         }
     }
 }

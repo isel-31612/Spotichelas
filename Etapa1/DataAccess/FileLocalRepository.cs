@@ -1,27 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Entities;
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess
 {
     public class FileLocalRepository : Repository
     {
+        private SqlContext db;
+
+        public FileLocalRepository()//TODO: Ctor to create a DIFERENT database
+        {
+            db = new SqlContext();
+        }
+
         Int32 Repository.setT<T>(T t)
         {
-            return 0;
+            T ret = db.Set<T>().Add(t);
+            db.SaveChanges();
+            return ret.id;
         }
 
         T Repository.getT<T>(int id, out T t)
         {
-            t = default(T);
+            t = db.Set<T>().Where(x => x.id == id).First();
             return t;
         }
 
         T[] Repository.getAllLike<T>(T t)
         {
-            throw new NotImplementedException();
+            return db.Set<T>().Where(x => x.match(t)).ToArray<T>();
+        }
+
+        int Repository.update<T>(int id, T t)
+        {
+            throw new NotImplementedException(); //TODO
+        }
+
+        private class SqlContext : DbContext
+        {
+            public DbSet<Playlist> Playlists { get; set; }
+            public DbSet<Track> Tracks { get; set; }
+            public DbSet<Album> Albums { get; set; }
+            public DbSet<Artist> Artists { get; set; }
         }
     }
 }

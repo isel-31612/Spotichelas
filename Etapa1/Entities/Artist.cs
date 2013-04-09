@@ -1,16 +1,10 @@
-﻿using Entities.DBAttributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Entities
 {
     public class Artist : Identity
     {
-        [DBField]
-        [DBNotNull]
         public String Name { get; set; }
         List<Album> Albuns { get; set; }
 
@@ -23,9 +17,10 @@ namespace Entities
         public override bool match(object o)
         {
             Artist ar = o as Artist;
-            if (o == null)
+            if (ar == null)
                 throw new InvalidCastException();
-            return this.Name.Equals(ar.Name) || this.Albuns.Equals(ar.Albuns);
+            return ((ar.Name == null)    || ar.Name.Equals(Name)) &&
+                    ((ar.Albuns.Count==0)|| (ar.Albuns.Equals(Albuns)));
         }
     }
 }

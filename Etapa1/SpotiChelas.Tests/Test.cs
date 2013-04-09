@@ -1,31 +1,50 @@
 ﻿using Entities;
 using DataAccess;
 using System.Collections.Generic;
+using NUnit.Framework;
+using System;
+using System.Data.Entity;
+using System.Linq;
 
 namespace SpotiChelas.Tests
 {
-    public class Test_Init_Repo
+    public class Test_Repository
     {
-        public static class testRepo
+        [TestFixture]
+        public class testRepo
         {
-            public static List<Playlist> _repo = new List<Playlist>{
-                new Playlist("PL 1", "desc da playlist 1"),
-                new Playlist("PL_rockalhada", "description da playlist nr2")
-            };
+            [Test]
+            public void Test_DataAccessLayer_v1()
+            {
+                //setUp
+                DAL repo = DAL.Factory(new FileLocalRepository());
+                Playlist p1 = new Playlist("Playlist 1", "Music 4 ever");
+                Playlist p2 = null;
+
+                //test
+                repo.put(p1);
+                repo.get(p1.id, out p2);
+
+                //Assert
+                Assert.AreEqual(p1, p2);
+            }
+            private class Unknow : Identity{public override bool match(object o){return false;}}
+
+            [Test]
+            public void test_DataAccessLayer_With_Unknow_Type()
+            {
+                //setUp
+                DAL repo = DAL.Factory(new FileLocalRepository());
+                Identity v = new Unknow();
+
+                //Assert
+                Assert.Throws<InvalidOperationException>(() => { repo.get(0, out v); });
+                Assert.Throws<InvalidOperationException>(() => { repo.put(v); });
+            }
 
             public static void Main()
             {
-                int i = 1; foreach (Playlist p in _repo)
-                {
-                    p.setId(i++);
-                    p.Tracks = new List<Track>();
-                    p.Tracks.Add(new Track("Track 1", 2344));
-                    p.Tracks.Add(new Track("Track 2", 6552));
-                    p.Tracks.Add(new Track("Track 3", 85152));
-                }
-
-                DAL.putAll(_repo.ToArray());
-                Program.Main(null);
+                new testRepo().Test_DataAccessLayer_v1();
             }
         }
     }

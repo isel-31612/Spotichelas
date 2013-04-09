@@ -50,7 +50,7 @@ namespace Controllers
             //adicionar no repositorio
             //MODO DE ADICAO TEMPORARIO
             Playlist tmp = new Playlist(content["name"], content["desc"]);
-            tmp.setId(_repo.Count+1);
+            tmp.id = (_repo.Count+1);
             tmp.Tracks = new List<Track>();
             tmp.Tracks.Add(new Track("Track 7", 5689));
             _repo.Add(tmp);
@@ -66,7 +66,7 @@ namespace Controllers
         [HttpMethod("GET", "/playlist/{id}")]
         public HttpResponseMessage Get(int id)
         {
-            Playlist pl = _repo.Find(p => p.getId() == id);
+            Playlist pl = _repo.Find(p => p.id == id);
             return new HttpResponseMessage
             {
                 Content = new PlaylistDetailView(pl).AsHttpContent("text/html")
@@ -95,7 +95,7 @@ namespace Controllers
         public HttpResponseMessage Edit(int id)
         {
             //verificar
-            Playlist pl = _repo.Find(p => p.getId() == id);
+            Playlist pl = _repo.Find(p => p.id == id);
 
             //retornar resposta
             return new HttpResponseMessage(HttpStatusCode.OK)

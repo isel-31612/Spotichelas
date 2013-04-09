@@ -68,5 +68,10 @@ namespace DataAccess
             }
             return idx;
         }
+
+        public int update<T>(int id, T t) where T : Identity
+        {
+            return repo.update(id, t);
+        }
     }
 }

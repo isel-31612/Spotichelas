@@ -1,29 +1,20 @@
-﻿using Entities.DBAttributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Entities
 {
     public class Album : Identity
     {
-        [DBField]
-        [DBNotNull]
-        public String Name { get; set; }
-        [DBField]
+        public string Name { get; set; }        
         public uint Year { get; set; }
-        List<Track> _tracks
-        {
-            get{ return _tracks; }
-            set{ _tracks = value; }
-        }
+        List<Track> Tracks  { get; set; }
 
-        public Album(String name, uint year)
+        public Album(string name, uint year)
         {
             Name = name;
             Year = year;
+            Tracks = new List<Track>();
         }
 
         public override bool match(Object o)
@@ -31,7 +22,9 @@ namespace Entities
             Album al = o as Album;
             if (al == null)
                 throw new InvalidCastException();
-            return this.Name.Equals(al.Name) || this._tracks.Equals(al._tracks) || this.Year.Equals(al.Year);
+            return (al.Name==null)      || al.Name.Equals(Name) &&
+                   (al.Year==0)      || al.Year.Equals(Year)  &&
+                   ((al.Tracks.Count==0)||(al.Tracks.Equals(Tracks)));
         }
     }
 }

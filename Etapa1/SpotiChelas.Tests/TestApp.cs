@@ -4,7 +4,7 @@ using Controllers;
 
 namespace SpotiChelas.Tests
 {
-    public class Program
+    public class Test_Program
     {
         public static void Main(string[] args)
         {

@@ -25,9 +25,9 @@ namespace DataAccess
                 repoTables.Add(type, dList = new Dictionary<Int32, Object>());
             }
             int highestIdx = dList.Max(x => { return x.Key; });//se calhar devia por aqui um lock xD
-            t.setId(highestIdx + 1);
-            dList.Add(t.getId(), t);
-            return t.getId();
+            t.id = highestIdx + 1;
+            dList.Add(t.id, t);
+            return t.id;
         }
 
         T Repository.getT<T>(int id, out T t)
@@ -60,6 +60,11 @@ namespace DataAccess
 
             }
             return result.ToArray();
+        }
+
+        int Repository.update<T>(int id, T t)
+        {
+            throw new NotImplementedException(); //TODO
         }
     }
 }

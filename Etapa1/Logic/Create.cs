@@ -5,36 +5,55 @@ namespace Logic
 {
     public class Create
     {
-        private static DAL repo = DAL.Factory();
+        private DAL repo;
+        public Create()
+        {
+            repo = DAL.Factory();
+        }        
 
-        public static void Playlist(string name,string desc)
+        public void Playlist(string name,string desc)
         {
             Playlist p = new Playlist(name, desc);
             Playlist[] matchingPlaylists = repo.getAll(p);  //find all with same name and desc
-            if (matchingPlaylists.Length<=0)                //if no match is found...
-                repo.put(p);                                //add
+            if (matchingPlaylists.Length <= 0)              //if no match is found...
+            {              
+                int id = repo.put(p);                       //add
+                p.id = id;                                  //give it an ID
+            }
         }
 
 
-        public static void Album(string name, uint year)
+        public void Album(string name, uint year)
         {
             Album a = new Album(name, year);
-            //search if exists a deleted
-            //Add a to repository
+            Album[] matchingAlbuns = repo.getAll(a);
+            if (matchingAlbuns.Length <= 0)
+            {
+                int id = repo.put(a);
+                a.id = id;
+            }
         }
 
-        public static void Artist(string name)
+        public void Artist(string name)
         {
             Artist a = new Artist(name);
-            //search if exists a deleted
-            //add a to repository
+            Artist[] matchingArtists = repo.getAll(a);
+            if (matchingArtists.Length <= 0)
+            {
+                int id = repo.put(a);
+                a.id = id;
+            }
         }
 
-        public static void Track(string name,uint duration)
+        public void Track(string name,uint duration)
         {
             Track t = new Track(name, duration);
-            //search if exists a deleted
-            //add t to repository
+            Track[] matchingTracks = repo.getAll(t);
+            if (matchingTracks.Length <= 0)
+            {
+                int id = repo.put(t);
+                t.id = id;
+            }
         }
     }
 }

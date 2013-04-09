@@ -1,5 +1,4 @@
-﻿using Entities.DBAttributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,12 +8,8 @@ namespace Entities
 {
     public class Track : Identity
     {
-        [DBField]
-        [DBNotNull]
         public String Name { get; set; }
-        [DBField]
         public uint Duration { get; set; } // in seconds, [0...]
-
         public Track(String name, uint duration)
         {
             Name = name;
@@ -26,7 +21,8 @@ namespace Entities
             Track t = o as Track;
             if (t == null)
                 throw new InvalidCastException();
-            return this.Name.Equals(t.Name) || this.Duration.Equals(t.Duration);
+            return ((t.Name==null)||t.Name.Equals(Name)) &&
+                    ((t.Duration == 0) || t.Duration.Equals(Duration));
         }
     }
 }

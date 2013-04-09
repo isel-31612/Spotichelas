@@ -56,6 +56,10 @@
       <Project>{da155d36-5a52-4d01-a70f-ffd6ff04ef8e}</Project>
       <Name>Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{88FAF17D-C105-427B-A1AF-58C60CB15CB1}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Views\Views.csproj">
       <Project>{c6b0b4cb-f91d-4570-a3b7-78df7f35c3a5}</Project>
       <Name>Views</Name>

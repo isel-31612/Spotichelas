@@ -36,7 +36,7 @@ namespace SpotiChelas.Tests
                 //setUp
                 DAL repo = DAL.Factory(new FileLocalRepository());
                 Identity v = new Unknow();
-
+				
                 //Assert
                 Assert.Throws<InvalidOperationException>(() => { repo.get(0, out v); });
                 Assert.Throws<InvalidOperationException>(() => { repo.put(v); });

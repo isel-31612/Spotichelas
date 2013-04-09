@@ -21,7 +21,7 @@ namespace DataAccess
 
         private DAL()
         {
-            repo = new MemoryLocalRepository();
+            repo = new MemoryLocalRepository(); //TODO: dependency injector
         }
 
         private DAL(Repository r)
@@ -47,7 +47,7 @@ namespace DataAccess
         }
         public T[] getAll<T>() where T : Identity
         {
-            return null; //TODO: create this->repo.getAll(); // in interface and implementing classes
+            return repo.getAll<T>();
         }
 
         public T[] getAll<T>(T t) where T : Identity
@@ -77,7 +77,7 @@ namespace DataAccess
 
         public T remove<T>(int id) where T : Identity
         {
-            throw new NotImplementedException(); //TODO: do it!
+            return repo.remove<T>(id);
         }
     }
 }

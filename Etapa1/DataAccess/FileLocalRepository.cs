@@ -11,7 +11,7 @@ namespace DataAccess
     {
         private SqlContext db;
 
-        public FileLocalRepository()//TODO: Ctor to create a DIFERENT database
+        public FileLocalRepository()//TODO: Ctor to create a DIFERENT database, and use dependency injector
         {
             db = new SqlContext();
         }
@@ -34,6 +34,16 @@ namespace DataAccess
         }
 
         int Repository.update<T>(int id, T t)
+        {
+            throw new NotImplementedException(); //TODO
+        }
+
+        T[] Repository.getAll<T>()
+        {
+            throw new NotImplementedException(); //TODO
+        }
+
+        T Repository.remove<T>(int id)
         {
             throw new NotImplementedException(); //TODO
         }

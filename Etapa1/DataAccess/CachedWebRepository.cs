@@ -1,15 +1,11 @@
 ﻿using Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess
 {
-    public class CachedWebRepository : Repository
+    public class CachedWebRepository : Repository //TODO: this whole class
     {
-        private Cache _cache;
+        private Cache _cache;//TODO: dependency injector
 
         Int32 Repository.setT<T>(T t)
         {
@@ -30,6 +26,16 @@ namespace DataAccess
         }
 
         int Repository.update<T>(int id, T t)
+        {
+            throw new NotImplementedException();
+        }
+
+        T[] Repository.getAll<T>()
+        {
+            throw new NotImplementedException();
+        }
+
+        T Repository.remove<T>(int id)
         {
             throw new NotImplementedException();
         }

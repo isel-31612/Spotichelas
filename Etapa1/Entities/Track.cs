@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Entities
 {
@@ -10,6 +6,7 @@ namespace Entities
     {
         public String Name { get; set; }
         public uint Duration { get; set; } // in seconds, [0...]
+        //TODO: public Artist a; public Album a;
         public Track(String name, uint duration)
         {
             Name = name;

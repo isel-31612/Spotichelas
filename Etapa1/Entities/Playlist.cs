@@ -9,10 +9,6 @@ namespace Entities
         public String Description { get; set; }
         public virtual List<Track> Tracks {get; set;}
 
-        public Playlist() // for test. Delete ASAP
-        {
-        }
-
         public Playlist(string name, string description)
         {
             Name = name;

@@ -1,10 +1,7 @@
 ﻿using Entities;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess
 {
@@ -24,7 +21,7 @@ namespace DataAccess
             {
                 repoTables.Add(type, dList = new Dictionary<Int32, Object>());
             }
-            int highestIdx = dList.Max(x => { return x.Key; });//se calhar devia por aqui um lock xD
+            int highestIdx = dList.Max(x => { return x.Key; });
             t.id = highestIdx + 1;
             dList.Add(t.id, t);
             return t.id;
@@ -48,19 +45,28 @@ namespace DataAccess
             Queue<T> result = new Queue<T>();
             Dictionary<Int32, Object> dList;
             if (!repoTables.TryGetValue(type, out dList))
-                throw new InvalidOperationException(); //E preciso uma excepçao melhorzita
+                throw new InvalidOperationException(); //TODO: E preciso uma excepçao melhorzita
             foreach (var pair in dList)
             {
                 if (t.match(pair.Value))
                 {
                     result.Enqueue((T)pair.Value);
                 }
-
             }
             return result.ToArray();
         }
 
         int Repository.update<T>(int id, T t)
+        {
+            throw new NotImplementedException(); //TODO
+        }
+
+        T[] Repository.getAll<T>()
+        {
+            throw new NotImplementedException(); //TODO
+        }
+
+        T Repository.remove<T>(int id)
         {
             throw new NotImplementedException(); //TODO
         }

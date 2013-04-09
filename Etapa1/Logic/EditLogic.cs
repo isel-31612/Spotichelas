@@ -12,46 +12,52 @@ namespace BusinessRules
             repo = d;
         }
 
-        public void PlaylistTo(int id, Playlist p)          //TODO: mudar de argumentos para contentor de alteraPlaylist
+        public void PlaylistTo(EditPlaylist editPlaylist)
         {
+            int id = editPlaylist.Id;
             Playlist edit = repo.get<Playlist>(id);
             if ( edit!= null)
             {
-                if (p.Name != null)edit.Name = p.Name;
-                if (p.Description != null)edit.Description = p.Description;
-                if (p.Tracks.Count <= 0)edit.Tracks = p.Tracks;
+                if (editPlaylist.Name != null) edit.Name = editPlaylist.Name;
+                if (editPlaylist.Description != null) edit.Description = editPlaylist.Description;
+                if (editPlaylist.Tracks.Count <= 0) edit.Tracks = editPlaylist.Tracks;
                 repo.update(id,edit); // id == edit.id
             }
         }
 
-        public void AlbumTo(int id, Album a)                           //TODO: mudar de argumentos para contentor de alteraAlbum
+        public void AlbumTo(EditAlbum editAlbum)
         {
+            int id = editAlbum.Id;
+            uint year = uint.Parse(editAlbum.Year);
             Album edit = repo.get<Album>(id);
             if ( edit != null)
             {
-                if (a.Name != null) edit.Name = a.Name;
-                if (a.Year != 0) edit.Year = a.Year;
+                if (editAlbum.Name != null) edit.Name = editAlbum.Name;
+                if (year != 0) edit.Year = year;
                 repo.update(id, edit);
             }
         }
 
-        public void ArtistTo(int id,Artist a)                        //TODO: mudar de argumentos para contentor de alteraArtista
+        public void ArtistTo(EditArtist editArtist)
         {
+            int id = editArtist.Id;
             Artist edit = repo.get<Artist>(id);
             if (edit!= null)
             {
-                if (a.Name != null) edit.Name = a.Name;
+                if (editArtist.Name != null) edit.Name = editArtist.Name;
                 repo.update(id, edit);
             }
         }
 
-        public void TrackTo(int id,Track t)                          //TODO: mudar de argumentos para contentor de alteraTrack
+        public void TrackTo(EditTrack editTrack)
         {
+            int id = editTrack.Id;
+            uint duration = uint.Parse(editTrack.Duration);
             Track edit = repo.get<Track>(id);
             if (edit != null)
             {
-                if (t.Name != null) edit.Name = t.Name;
-                if (t.Duration != 0) edit.Duration = t.Duration;
+                if (editTrack.Name != null) edit.Name = editTrack.Name;
+                if (duration != 0) edit.Duration = duration;
                 repo.update(id, edit);
             }
         }

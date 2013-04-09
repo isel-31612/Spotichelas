@@ -22,7 +22,7 @@ namespace Controllers
         [HttpMethod("GET", "/track/{id}")]
         public HttpResponseMessage Get(int id)
         {
-            Track t;
+            Artist t;
             _rep.get(id, out t);
 
             return t == null ? new HttpResponseMessage(HttpStatusCode.NotFound) :

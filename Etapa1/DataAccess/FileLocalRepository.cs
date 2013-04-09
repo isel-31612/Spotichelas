@@ -23,10 +23,9 @@ namespace DataAccess
             return ret.id;
         }
 
-        T Repository.getT<T>(int id, out T t)
+        T Repository.getT<T>(int id)
         {
-            t = db.Set<T>().Where(x => x.id == id).First();
-            return t;
+            return db.Set<T>().Where(x => x.id == id).First();
         }
 
         T[] Repository.getAllLike<T>(T t)

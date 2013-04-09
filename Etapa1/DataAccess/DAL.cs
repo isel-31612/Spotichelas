@@ -31,22 +31,23 @@ namespace DataAccess
 
         private Repository repo;
 
-        public T get<T>(int idx, out T t) where T : Identity
+        public T get<T>(int idx) where T : Identity
         {
-            t = repo.getT(idx, out t);
-            return t;
+            return repo.getT<T>(idx);            
         }
 
-        public T[] getAll<T>(int[] idx, out T[] t) where T : Identity
+        public T[] getAll<T>(int[] idx) where T : Identity
         {
-            t = new T[idx.Length];
+            T[] t = new T[idx.Length];
             for (int i = 0; i < idx.Length; i++)
             {
-                T x;
-                get(idx[i], out x);
-                t[i] = x;
+                t[i] = get<T>(idx[i]);
             }
             return t;
+        }
+        public T[] getAll<T>() where T : Identity
+        {
+            return null; //TODO: create this->repo.getAll(); // in interface and implementing classes
         }
 
         public T[] getAll<T>(T t) where T : Identity
@@ -72,6 +73,11 @@ namespace DataAccess
         public int update<T>(int id, T t) where T : Identity
         {
             return repo.update(id, t);
+        }
+
+        public T remove<T>(int id) where T : Identity
+        {
+            throw new NotImplementedException(); //TODO: do it!
         }
     }
 }

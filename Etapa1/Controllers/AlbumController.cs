@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 using System.Net;
 using System.Net.Http;
 using DataAccess;
-using Entities;
+using BusinessRules;
 using Utils;
 using Views;
 using WebGarten2;
@@ -13,40 +13,35 @@ namespace Controllers
 {
     public class AlbumController
     {
-        private readonly DAL _rep;
+        private readonly Logic Rules;
         public AlbumController()
         {
-            _rep = DAL.Factory();
+            Rules = Logic.Factory(); //TODO: inject Logic or subclass
         }
 
         [HttpMethod("GET", "/album/{id}")]
         public HttpResponseMessage Get(int id)
         {
-            Album alb;
-            _rep.get(id,out alb);
+            var album = Rules.Find.Album(id);
 
-            return alb == null ? new HttpResponseMessage(HttpStatusCode.NotFound) :
+            return album == null ? new HttpResponseMessage(HttpStatusCode.NotFound) :
                 new HttpResponseMessage
                 {
-                    Content = new AlbumView(alb).AsHttpContent("text/html")
+                    Content = new AlbumView(album).AsHttpContent("text/html")
                 };
         }
 
         [HttpMethod("POST", "/album")]
         public HttpResponseMessage Post(NameValueCollection content)
         {
-
-            String name = content["name"];
-            uint year = UInt32.Parse(content["year"]);
-            if (name == "" || year == 0)
+            CreateAlbum ca = new CreateAlbum(content["name"],content["year"]);
+            var album = Rules.Create.Album(ca);
+            if (album == null)
             {
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
-
-            Album alb = new Album(name, year);
-            _rep.put(alb);
             var resp = new HttpResponseMessage(HttpStatusCode.Redirect);
-            resp.Headers.Location = new Uri(ResolveUri.For(alb));
+            resp.Headers.Location = new Uri(ResolveUri.For(album));
             return resp;
         }
     }

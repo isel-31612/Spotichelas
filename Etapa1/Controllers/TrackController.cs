@@ -3,50 +3,46 @@ using System.Collections.Specialized;
 using System.Net;
 using System.Net.Http;
 using DataAccess;
-using Entities;
 using Utils;
 using Views;
 using WebGarten2;
 using WebGarten2.Html;
+using BusinessRules;
 
 namespace Controllers
 {
     public class TrackController
     {
-        private readonly DAL _rep;
+        private readonly Logic Rules;
         public TrackController()
         {
-            _rep = DAL.Factory();
+            Rules = Logic.Factory(); //TODO: inject Logic or subclass
         }
 
         [HttpMethod("GET", "/track/{id}")]
         public HttpResponseMessage Get(int id)
         {
-            Artist t;
-            _rep.get(id, out t);
+            var t = Rules.Find.Track(id);
 
             return t == null ? new HttpResponseMessage(HttpStatusCode.NotFound) :
                 new HttpResponseMessage
                 {
-                    Content = new ArtistView(t).AsHttpContent("text/html")
+                   //TODO: create TrackView Content = new TrackView(t).AsHttpContent("text/html")
                 };
         }
 
         [HttpMethod("POST", "/track")]
         public HttpResponseMessage Post(NameValueCollection content)
         {
-
-            String name = content["name"];
-            UInt32 duration = UInt32.Parse(content["duration"]);
-            if (name == "" || duration == 0)
+            CreateTrack ct = new CreateTrack(content["name"], content["duration"]);
+            var track = Rules.Create.Track(ct);
+            if (track!=null)
             {
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
 
-            Track t = new Track(name, duration);
-            _rep.put(t);
             var resp = new HttpResponseMessage(HttpStatusCode.Redirect);
-            resp.Headers.Location = new Uri(ResolveUri.For(t));
+            resp.Headers.Location = new Uri(ResolveUri.For(track));
             return resp;
         }
     }

@@ -23,7 +23,7 @@ namespace SpotiChelas.Tests
 
                 //test
                 repo.put(p1);
-                repo.get(p1.id, out p2);
+                p2 = repo.get<Playlist>(p1.id);
 
                 //Assert
                 Assert.AreEqual(p1, p2);
@@ -38,7 +38,7 @@ namespace SpotiChelas.Tests
                 Identity v = new Unknow();
 				
                 //Assert
-                Assert.Throws<InvalidOperationException>(() => { repo.get(0, out v); });
+                Assert.Throws<InvalidOperationException>(() => { repo.get<Unknow>(0); });
                 Assert.Throws<InvalidOperationException>(() => { repo.put(v); });
             }
 

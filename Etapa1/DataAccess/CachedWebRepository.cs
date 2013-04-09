@@ -17,7 +17,7 @@ namespace DataAccess
             throw new NotImplementedException();
         }
 
-        T Repository.getT<T>(int id, out T t)
+        T Repository.getT<T>(int id)
         {
             if (_cache == null)
                 _cache = null;

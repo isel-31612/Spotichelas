@@ -30,18 +30,16 @@ namespace DataAccess
             return t.id;
         }
 
-        T Repository.getT<T>(int id, out T t)
+        T Repository.getT<T>(int id)
         {
             Type type = typeof(T);
             Dictionary<Int32, Object> dList;
             if (!repoTables.TryGetValue(type, out dList))
-                throw new InvalidOperationException(); //E preciso uma excepçao melhorzita
+                throw new InvalidOperationException(); //TODO: E preciso uma excepçao melhorzita
             Object obj;
-            t = default(T);
             if (!dList.TryGetValue(id, out obj))
-                return t;
-            t = obj as T;
-            return t;
+                return default(T);
+            return obj as T;
         }
 
         T[] Repository.getAllLike<T>(T t)

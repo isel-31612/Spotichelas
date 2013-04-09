@@ -7,8 +7,8 @@
     <ProjectGuid>{3554E605-C3D7-474D-BE7C-B13CA5F14C35}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Logic</RootNamespace>
-    <AssemblyName>Logic</AssemblyName>
+    <RootNamespace>BusinessRules</RootNamespace>
+    <AssemblyName>BusinessRules</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,9 +39,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Create.cs" />
+    <Compile Include="CreateAlbum.cs" />
+    <Compile Include="CreateArtist.cs" />
+    <Compile Include="CreateLogic.cs" />
+    <Compile Include="CreatePlaylist.cs" />
+    <Compile Include="CreateTrack.cs" />
+    <Compile Include="FindAllLogic.cs" />
+    <Compile Include="FindLogic.cs" />
+    <Compile Include="Logic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Edit.cs" />
+    <Compile Include="EditLogic.cs" />
+    <Compile Include="RemoveLogic.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">

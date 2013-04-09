@@ -56,6 +56,10 @@
       <Project>{da155d36-5a52-4d01-a70f-ffd6ff04ef8e}</Project>
       <Name>Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Logic\BusinessRules.csproj">
+      <Project>{3554e605-c3d7-474d-be7c-b13ca5f14c35}</Project>
+      <Name>BusinessRules</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utils\Utils.csproj">
       <Project>{88FAF17D-C105-427B-A1AF-58C60CB15CB1}</Project>
       <Name>Utils</Name>

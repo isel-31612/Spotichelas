@@ -3,27 +3,26 @@ using System.Collections.Specialized;
 using System.Net;
 using System.Net.Http;
 using DataAccess;
-using Entities;
 using Utils;
 using Views;
 using WebGarten2;
 using WebGarten2.Html;
+using BusinessRules;
 
 namespace Controllers
 {
     public class ArtistController
     {
-        private readonly DAL _rep;
+        private readonly Logic Rules;
         public ArtistController()
         {
-            _rep = DAL.Factory();
+            Rules = Logic.Factory(); //TODO: inject Logic or subclass
         }
 
         [HttpMethod("GET", "/artist/{id}")]
         public HttpResponseMessage Get(int id)
         {
-            Artist art;
-            _rep.get(id,out art);
+            var art = Rules.Find.Artist(id);
 
             return art == null ? new HttpResponseMessage(HttpStatusCode.NotFound) :
                 new HttpResponseMessage
@@ -35,17 +34,14 @@ namespace Controllers
         [HttpMethod("POST", "/artist")]
         public HttpResponseMessage Post(NameValueCollection content)
         {
-
-            String name = content["name"];
-            if (name == "")
+            CreateArtist ca = new CreateArtist(content["name"]);
+            var artist = Rules.Create.Artist(ca);
+            if (artist == null)
             {
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
-
-            Artist art = new Artist(name);
-            _rep.put(art);
             var resp = new HttpResponseMessage(HttpStatusCode.Redirect);
-            resp.Headers.Location = new Uri(ResolveUri.For(art));
+            resp.Headers.Location = new Uri(ResolveUri.For(artist));
             return resp;
         }
     }

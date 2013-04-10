@@ -1,6 +1,5 @@
 ﻿using System.Net.Http;
 using System.Net;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using WebGarten2;
 using BusinessRules;
@@ -39,15 +38,15 @@ namespace Controllers
         }
 
 
-        [HttpMethod("POST", "/playlist")]
+        [HttpMethod("POST", "/playlist/")]
         public HttpResponseMessage Post(NameValueCollection content)
         {
             CreatePlaylist cp = new CreatePlaylist(content["name"], content["desc"]);
             Rules.Create.Playlist(cp);
             //retornar resposta
-            return new HttpResponseMessage(HttpStatusCode.OK)
+            return new HttpResponseMessage(HttpStatusCode.Created)
             {
-                Content = new PlaylistListView(null).AsHttpContent("text/html")//TODO: nao devia ser um redirect?
+                Content = new PlaylistListView(null).AsHttpContent("text/html")
             };
         }
 
@@ -62,21 +61,35 @@ namespace Controllers
             };
         }
 
-        [HttpMethod("POST", "/playlist/{id}/remove")]
+        [HttpMethod("POST", "/playlist/remove/{id}")]
         public HttpResponseMessage Delete(int id)
         {
             Rules.Remove.Playlist(id);
             return new HttpResponseMessage(HttpStatusCode.OK)
             {
-                Content = new PlaylistListView(null).AsHttpContent("text/html") //TODO: nao devia ser um redirect?
+                Content = new PlaylistListView(null).AsHttpContent("text/html")
             };
         }
 
-        [HttpMethod("GET", "/playlist/{id}/edit")]
+        [HttpMethod("GET", "/playlist/edit/{id}")]
         public HttpResponseMessage Edit(int id)
         {
             //verificar
             var pl = Rules.Find.Playlist(id);
+
+            //retornar resposta
+            return new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new PlaylistNewView(pl).AsHttpContent("text/html")
+            };
+        }
+
+        [HttpMethod("POST", "/playlist/edit/{id}")]
+        public HttpResponseMessage Edit(int id, NameValueCollection content)
+        {
+            //verificar
+            EditPlaylist pl  = new EditPlaylist(id,content["name"], content["desc"], content["tracks"]);
+            Rules.Edit.PlaylistTo(pl);
 
             //retornar resposta
             return new HttpResponseMessage(HttpStatusCode.OK)

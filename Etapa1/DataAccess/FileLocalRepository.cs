@@ -1,5 +1,4 @@
-﻿using Entities;
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data.Entity;
@@ -9,11 +8,10 @@ namespace DataAccess
 {
     public class FileLocalRepository : Repository
     {
-        private SqlContext db;
-
-        public FileLocalRepository()//TODO: Ctor to create a DIFERENT database, and use dependency injector
+        private DbContext db;
+        public FileLocalRepository(string context = "Debug")
         {
-            db = new SqlContext();
+            db = new EFModel(context); //TODO: Use dependency injector
         }
 
         Int32 Repository.setT<T>(T t)
@@ -25,7 +23,7 @@ namespace DataAccess
 
         T Repository.getT<T>(int id)
         {
-            return db.Set<T>().Where(x => x.id == id).First();
+            return db.Set<T>().Where(x => x.id == id).FirstOrDefault();
         }
 
         T[] Repository.getAllLike<T>(T t)
@@ -33,27 +31,32 @@ namespace DataAccess
             return db.Set<T>().Where(x => x.match(t)).ToArray<T>();
         }
 
-        int Repository.update<T>(int id, T t)
+        T Repository.update<T>(int id, T newT) //TODO: Esta a ser removido A e inserido B. Logo o id nao fica o mesmo
         {
-            throw new NotImplementedException(); //TODO
+            var table = db.Set<T>();
+            T oldT = table.Where(x => x.id == id).FirstOrDefault(); //TODO: Nao e possivel chamar o remove?
+            if (oldT == default(T))
+                return oldT;
+            table.Remove(oldT);
+            table.Add(newT);
+            db.SaveChanges();
+            return oldT;
         }
 
         T[] Repository.getAll<T>()
         {
-            throw new NotImplementedException(); //TODO
+            return db.Set<T>().ToArray();
         }
 
         T Repository.remove<T>(int id)
         {
-            throw new NotImplementedException(); //TODO
-        }
-
-        private class SqlContext : DbContext
-        {
-            public DbSet<Playlist> Playlists { get; set; }
-            public DbSet<Track> Tracks { get; set; }
-            public DbSet<Album> Albums { get; set; }
-            public DbSet<Artist> Artists { get; set; }
+            var table = db.Set<T>();
+            T oldT = table.Where(x => x.id == id).FirstOrDefault(); //TODO: nao e possivel chamar o get?
+            if (oldT == default(T))
+                return oldT;
+            oldT = table.Remove(oldT);
+            db.SaveChanges();
+            return oldT;
         }
     }
 }

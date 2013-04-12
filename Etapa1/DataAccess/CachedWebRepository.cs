@@ -25,7 +25,7 @@ namespace DataAccess
             throw new NotImplementedException();
         }
 
-        int Repository.update<T>(int id, T t)
+        T Repository.update<T>(int id, T t)
         {
             throw new NotImplementedException();
         }

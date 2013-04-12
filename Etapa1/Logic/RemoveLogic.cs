@@ -13,7 +13,9 @@ namespace BusinessRules
 
         public Playlist Playlist(int id)
         {
-            //TODO: verificaçoes
+            Playlist p = repo.get<Playlist>(id);
+            if (p == null && p.Tracks.Count > 0)
+                return null;
             return repo.remove<Playlist>(id);
         }
     }

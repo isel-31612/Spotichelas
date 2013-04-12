@@ -5,13 +5,19 @@ namespace Entities
 {
     public class Artist : Identity
     {
-        public String Name { get; set; }
-        //TODO: public List<Album> Albuns { get; set; }
+        public string Name { get; set; }
+        public virtual List<Album> Albuns { get; set; }
 
-        public Artist(String name)
+        public Artist()
+        {
+            Name = null;
+            Albuns = new List<Album>();
+        }
+
+        public Artist(string name, List<Album> a=null)
         {
             Name = name;
-            //Albuns = new List<Album>();
+            Albuns = (a == null) ? new List<Album>() : a;
         }
 
         public override bool match(object o)
@@ -19,8 +25,8 @@ namespace Entities
             Artist ar = o as Artist;
             if (ar == null)
                 throw new InvalidCastException();
-            return ((ar.Name == null)    || ar.Name.Equals(Name))/* &&
-                    ((ar.Albuns.Count==0)|| (ar.Albuns.Equals(Albuns)))*/;
+            return ((ar.Name == null)   || ar.Name.Equals(Name))     &&
+                   ((ar.Albuns.Count==0)|| (ar.Albuns.Equals(Albuns)));
         }
     }
 }

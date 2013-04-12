@@ -9,7 +9,7 @@ namespace DataAccess
         T getT<T>(int id) where T : Identity;
         T[] getAll<T>() where T : Identity;
         T[] getAllLike<T>(T t) where T : Identity;
-        int update<T>(int id, T t) where T : Identity;
+        T update<T>(int id, T t) where T : Identity;
         T remove<T>(int id) where T : Identity;
     }
 }

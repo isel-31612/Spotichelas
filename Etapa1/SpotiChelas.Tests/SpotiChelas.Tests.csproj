@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>SpotiChelas.Tests.Test_Repository.testRepo</StartupObject>
+    <StartupObject>SpotiChelas.Tests.Debug</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework">
@@ -55,7 +55,9 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
+    <Reference Include="System.Data">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="WebActivator">
       <HintPath>..\packages\WebActivator.1.5.3\lib\net40\WebActivator.dll</HintPath>
@@ -82,6 +84,10 @@
     <ProjectReference Include="..\Entities\Entities.csproj">
       <Project>{da155d36-5a52-4d01-a70f-ffd6ff04ef8e}</Project>
       <Name>Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SpotifyBridge\SpotifyBridge.csproj">
+      <Project>{38052f46-34db-4561-89d0-1f9d72583249}</Project>
+      <Name>SpotifyBridge</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebGarten2\WebGarten2.csproj">
       <Project>{7cfc4bb7-9673-4082-9806-893f3efc5dfc}</Project>

@@ -65,7 +65,9 @@ namespace Controllers
         [HttpMethod("POST", "/playlist/{id}/remove")]
         public HttpResponseMessage Delete(int id)
         {
-            Rules.Remove.Playlist(id);
+            var p = Rules.Remove.Playlist(id);
+            if (p == null)
+                ;//TODO: O que acontece se nao for possivel remover a playlist?
             return new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new PlaylistListView(null).AsHttpContent("text/html") //TODO: nao devia ser um redirect?

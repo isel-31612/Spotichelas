@@ -2,7 +2,6 @@
 using System.Collections.Specialized;
 using System.Net;
 using System.Net.Http;
-using DataAccess;
 using BusinessRules;
 using Utils;
 using Views;
@@ -17,6 +16,15 @@ namespace Controllers
         public AlbumController()
         {
             Rules = Logic.Factory(); //TODO: inject Logic or subclass
+        }
+
+        [HttpMethod("GET", "/album/new")]
+        public HttpResponseMessage New()
+        {
+            return new HttpResponseMessage
+            {
+                Content = new PlaylistNewView(null).AsHttpContent("text/html")
+            };
         }
 
         [HttpMethod("GET", "/album/{id}")]
@@ -40,7 +48,7 @@ namespace Controllers
             {
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
-            var resp = new HttpResponseMessage(HttpStatusCode.Redirect);
+            var resp = new HttpResponseMessage(HttpStatusCode.SeeOther);
             resp.Headers.Location = new Uri(ResolveUri.For(album));
             return resp;
         }

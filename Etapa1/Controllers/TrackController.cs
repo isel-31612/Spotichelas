@@ -19,6 +19,15 @@ namespace Controllers
             Rules = Logic.Factory(); //TODO: inject Logic or subclass
         }
 
+        [HttpMethod("GET", "/track/new")]
+        public HttpResponseMessage New()
+        {
+            return new HttpResponseMessage
+            {
+                Content = new PlaylistNewView(null).AsHttpContent("text/html")
+            };
+        }
+
         [HttpMethod("GET", "/track/{id}")]
         public HttpResponseMessage Get(int id)
         {
@@ -41,7 +50,7 @@ namespace Controllers
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
 
-            var resp = new HttpResponseMessage(HttpStatusCode.Redirect);
+            var resp = new HttpResponseMessage(HttpStatusCode.SeeOther);
             resp.Headers.Location = new Uri(ResolveUri.For(track));
             return resp;
         }

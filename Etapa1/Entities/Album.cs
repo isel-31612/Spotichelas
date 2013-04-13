@@ -7,6 +7,7 @@ namespace Entities
     {
         public string Name { get; set; }        
         public uint Year { get; set; }
+        public string Link { get; set; }
         public virtual Artist Artist { get; set; }
         public virtual List<Track> Tracks  { get; set; }
 
@@ -17,12 +18,13 @@ namespace Entities
             Artist = null;
             Tracks = new List<Track>();
         }
-        public Album(string name, uint year, List<Track> t=null, Artist a=null)
+        public Album(string name, uint year, List<Track> t=null, Artist a=null,string link = null)
         {
             Name = name;
             Year = year;
             Artist = a;
             Tracks = (t == null) ? new List<Track>() : t;
+            Link = link;
         }
 
         public override bool match(Object o)

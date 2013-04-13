@@ -14,7 +14,7 @@ namespace SpotifyBridge
     {
         public Track Track(string id)
         {
-            var json = LookInto(id,"track");
+            var json = LookInto(id);
             var obj = JSONParser<Reply>(json).track;
             string name = obj.Name;
             uint duration = (uint)obj.Duration;
@@ -25,7 +25,7 @@ namespace SpotifyBridge
 
         public Artist Artist(string id)
         {
-            var json = LookInto(id,"artist","album");
+            var json = LookInto(id,"album");
             var obj = JSONParser<Reply>(json).artist;
             string name = obj.Name;
             IEnumerable<Album> a = obj.Albuns.Select(x => new Album(x.Album.Name, (uint)x.Album.Year));
@@ -34,7 +34,7 @@ namespace SpotifyBridge
 
         public Album Album(string id)
         {
-            var json = LookInto(id,"album","track");
+            var json = LookInto(id,"track");
             var obj = JSONParser<Reply>(json).album;
             string name = obj.Name;
             uint year = (uint)obj.Year;
@@ -43,14 +43,13 @@ namespace SpotifyBridge
             return new Album(name, year, t.ToList(), a);
         }
 
-        protected virtual string LookInto(string id,string type,string detail=null)
+        protected virtual string LookInto(string id,string detail=null)
         {
-            string request = "http://ws.spotify.com/lookup/1/{0}?uri=spotify:{1}:{2}{3}";
+            string request = "http://ws.spotify.com/lookup/1/{0}?uri={1}{2}";
             string requestType = ".json";
-            string requestObj = type;
             string requestId = id;
             string requestExtras = detail!=null?string.Format("&extras={0}",detail):"";
-            string requestUri = string.Format(request,requestType,requestObj,requestId,requestExtras);
+            string requestUri = string.Format(request,requestType,requestId,requestExtras);
 
             WebRequest wr = WebRequest.Create(new Uri(requestUri));
             wr.Method = "GET";

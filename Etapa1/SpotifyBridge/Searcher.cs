@@ -1,40 +1,55 @@
 ﻿using Entities;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Linq;
+using System.Xml.Linq;
 
 namespace SpotifyBridge
 {
     public class Searcher
     {
-        public List<string> Track(Track t)
+        public List<Track> Track(string Name)
         {
-            string query = t.Name.Replace(' ', '+');
-            return getHref("track", query);
+            string query = Name.Replace(' ', '+');
+            List<JsonTrack> list;
+            try { list = getHref("track", query).tracks; }
+            catch { return new List<Track>(); }
+            
+            return list.Select((x) => new Track(x.Name, (uint)x.Duration,null,null,x.Link)).ToList(); //TODO: melhorar. Preencher com mais dados
         }
 
-        public List<string> Album(Album a)
+        public List<Album> Album(string Name)
         {
-            string query = a.Name.Replace(' ', '+');
-            return getHref("album", query);
+            string query = Name.Replace(' ', '+');
+            List<JsonAlbum> list;
+            try { list = getHref("album", query).albums; }
+            catch { return new List<Album>(); }
+
+            return list.Select((x) => new Album(x.Name, (uint)x.Year, null, null, x.Link)).ToList();  //TODO: melhorar. Preencher com mais dados
         }
 
-        public List<string> Artist(Artist a)
+        public List<Artist> Artist(string Name)
         {
-            string query = a.Name.Replace(' ', '+');
-            return getHref("artist", query);
+            string query = Name.Replace(' ', '+');
+            List<JsonArtist> list;
+            try { list = getHref("artist", query).artists; }
+            catch { return new List<Artist>(); }
+
+            return list.Select((x) => new Artist(x.Name, null, x.Link)).ToList();  //TODO: melhorar. Preencher com mais dados
         }
 
-        protected virtual List<string> getHref(string type,string query)
+        protected virtual Result getHref(string type,string query)
         {
             var request = PrepareRequest(type, query);
             var response = (HttpWebResponse)request.GetResponse();
             var json = ReadResponse(response);
 
-            return JsonConvert.DeserializeObject<Result>(json).List;
+            return JsonConvert.DeserializeObject<Result>(json);
         }
 
         private WebRequest PrepareRequest(string type, string query)
@@ -42,7 +57,7 @@ namespace SpotifyBridge
             string request = "http://ws.spotify.com/search/1/{0}{1}?q={2}";
             string requestType = ".json";
             string requestObj = type;
-            string requestUri = string.Format(request, requestType, requestObj);
+            string requestUri = string.Format(request, requestObj, requestType, query);
 
             WebRequest wr = WebRequest.Create(new Uri(requestUri));
             wr.Method = "GET";
@@ -70,9 +85,13 @@ namespace SpotifyBridge
 
         public class Result
         {
-            public List<string> List { get; set; }
-            public string Info;
-
+            [JsonProperty("albums",ItemIsReference=true)]
+            public List<JsonAlbum> albums;
+            [JsonProperty("artists", ItemIsReference = true)]
+            public List<JsonArtist> artists;
+            [JsonProperty("tracks", ItemIsReference = true)]
+            public List<JsonTrack> tracks;
+            
             public Result()
             {
             }

@@ -1,11 +1,14 @@
 ﻿using Entities;
 using System;
+using System.Collections.Generic;
+using Utils;
 
 namespace DataAccess
 {
     public class DAL
     {
         private static DAL singleton = null;
+        private SearcherDAL searcher = null;
 
         public static DAL Factory()
         {
@@ -21,6 +24,7 @@ namespace DataAccess
 
         private DAL()
         {
+            searcher = new SearcherDAL();       //TODO: dependency injector
             repo = new MemoryLocalRepository(); //TODO: dependency injector
         }
 
@@ -30,11 +34,6 @@ namespace DataAccess
         }
 
         private Repository repo;
-
-        public T get<T>(int idx) where T : Identity
-        {
-            return repo.getT<T>(idx);            
-        }
 
         public T[] getAll<T>(int[] idx) where T : Identity
         {
@@ -78,6 +77,16 @@ namespace DataAccess
         public T remove<T>(int id) where T : Identity
         {
             return repo.remove<T>(id);
+        }
+
+        public T get<T>(int idx) where T : Identity
+        {
+            return repo.getT<T>(idx);
+        }
+
+        public List<Track> getTracks(string Name)
+        {
+            return searcher.getTracks(Name);
         }
     }
 }

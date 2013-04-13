@@ -62,14 +62,34 @@ namespace SpotiChelas.Tests
             LookUp snatch = new LookUp();
 
             //Test
-            //Artist ar = snatch.Artist(artistId);
+            Artist ar = snatch.Artist(artistId);
             Album al = snatch.Album(albumID);
             Track t = snatch.Track(trackID);
 
             //Assert
-            //Assert.NotNull(ar);
-            //Assert.NotNull(al);
+            Assert.NotNull(ar);
+            Assert.NotNull(al);
+            Assert.NotNull(t);
+        }
+        [Test]
+        public void Test_Searcher()
+        {
+            //Setup
+            Searcher spy = new Searcher();
+            string AlName = "30 Seconds to Mars";
+            string ArName = "30 Seconds to Mars";
+            string TName = "30 Seconds to Mars";
             
+            //Test
+            var list1 = spy.Album(AlName);
+            var list2 = spy.Artist(ArName);
+            var list3 = spy.Track(TName);
+
+            //Assert
+            Assert.IsTrue(list1 != null && list1.Count != 0);
+            Assert.IsTrue(list2 != null && list2.Count != 0);
+            Assert.IsTrue(list3 != null && list3.Count != 0);
+
         }
     }
 
@@ -77,7 +97,7 @@ namespace SpotiChelas.Tests
     {
         public static void Main()
         {
-            new SpotifyBridge().Test_Lookup();
+            new SpotifyBridge().Test_Searcher();
         }
     }
 }

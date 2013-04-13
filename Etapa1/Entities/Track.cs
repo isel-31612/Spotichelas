@@ -6,6 +6,7 @@ namespace Entities
     {
         public string Name { get; set; }
         public uint Duration { get; set; } // in seconds, [0...]
+        public string Link { get; set; }
         public virtual Artist Artist { get; set;}
         public virtual Album Album { get; set; }
 
@@ -16,12 +17,13 @@ namespace Entities
             Artist = null;
             Album = null;
         }
-        public Track(string name, uint duration, Artist ar=null, Album al = null)
+        public Track(string name, uint duration, Artist ar=null, Album al = null, string link=null)
         {
             Name = name;
             Duration = duration;
             Artist = ar;
             Album = al;
+            Link = link;
         }
 
         public override bool match(Object o)

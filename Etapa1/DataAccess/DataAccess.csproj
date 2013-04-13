@@ -44,11 +44,16 @@
     <Compile Include="MemoryLocalRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />
+    <Compile Include="SearcherDAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entities\Entities.csproj">
       <Project>{da155d36-5a52-4d01-a70f-ffd6ff04ef8e}</Project>
       <Name>Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SpotifyBridge\SpotifyBridge.csproj">
+      <Project>{38052f46-34db-4561-89d0-1f9d72583249}</Project>
+      <Name>SpotifyBridge</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

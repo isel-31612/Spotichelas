@@ -6,6 +6,7 @@ namespace Entities
     public class Artist : Identity
     {
         public string Name { get; set; }
+        public string Link { get; set; }
         public virtual List<Album> Albuns { get; set; }
 
         public Artist()
@@ -14,10 +15,11 @@ namespace Entities
             Albuns = new List<Album>();
         }
 
-        public Artist(string name, List<Album> a=null)
+        public Artist(string name, List<Album> a=null,string link =null)
         {
             Name = name;
             Albuns = (a == null) ? new List<Album>() : a;
+            Link = link;
         }
 
         public override bool match(object o)

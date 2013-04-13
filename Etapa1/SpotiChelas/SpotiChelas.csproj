@@ -36,13 +36,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
@@ -56,10 +49,6 @@
     <ProjectReference Include="..\Controllers\Controllers.csproj">
       <Project>{86889e8d-3b96-4ae5-8820-63c338cb34c9}</Project>
       <Name>Controllers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Entities\Entities.csproj">
-      <Project>{da155d36-5a52-4d01-a70f-ffd6ff04ef8e}</Project>
-      <Name>Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebGarten2\WebGarten2.csproj">
       <Project>{7cfc4bb7-9673-4082-9806-893f3efc5dfc}</Project>

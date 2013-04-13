@@ -78,9 +78,7 @@ namespace SpotifyBridge
 
         protected virtual T JSONParser<T>(string json)
         {
-            Console.WriteLine(json);
-            T obj = JsonConvert.DeserializeObject<T>(json);
-            return obj;
+            return JsonConvert.DeserializeObject<T>(json);
         }
     }
 

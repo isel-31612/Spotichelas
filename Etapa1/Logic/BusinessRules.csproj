@@ -31,23 +31,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Create\CreateAlbum.cs" />
-    <Compile Include="Create\CreateArtist.cs" />
     <Compile Include="CreateLogic.cs" />
-    <Compile Include="Create\CreatePlaylist.cs" />
-    <Compile Include="Create\CreateTrack.cs" />
-    <Compile Include="Edit\EditAlbum.cs" />
-    <Compile Include="Edit\EditArtist.cs" />
-    <Compile Include="Edit\EditPlaylist.cs" />
-    <Compile Include="Edit\EditTrack.cs" />
     <Compile Include="FindAllLogic.cs" />
     <Compile Include="FindLogic.cs" />
     <Compile Include="Logic.cs" />
@@ -63,6 +49,10 @@
     <ProjectReference Include="..\Entities\Entities.csproj">
       <Project>{da155d36-5a52-4d01-a70f-ffd6ff04ef8e}</Project>
       <Name>Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{88faf17d-c105-427b-a1af-58c60cb15cb1}</Project>
+      <Name>Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

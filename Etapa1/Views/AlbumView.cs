@@ -1,5 +1,4 @@
-﻿using Entities;
-using Utils;
+﻿using Utils;
 using WebGarten2.Html;
 
 namespace Views
@@ -7,7 +6,7 @@ namespace Views
     //TODO: rever tipo e retorno de content(evitar cópia)
     public class AlbumView : HtmlDoc
     {
-        public AlbumView(Album alb)
+        public AlbumView(ViewAlbum alb)
             : base("Home SpotiChelas",
                 H1(Text("Home")),
                 Ul(

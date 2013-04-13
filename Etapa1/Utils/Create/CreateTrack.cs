@@ -1,4 +1,4 @@
-﻿namespace BusinessRules
+﻿namespace Utils
 {
     public class CreateTrack
     {

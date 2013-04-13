@@ -1,9 +1,10 @@
 ﻿using DataAccess;
 using Entities;
+using Utils;
 
 namespace BusinessRules
 {
-    public class EditLogic //TODO: Mudar para usando linguagem fluente adicionar parametros de procura(id, etc)
+    public class EditLogic
     {
         private DAL repo;
 
@@ -12,7 +13,7 @@ namespace BusinessRules
             repo = d;
         }
 
-        public void PlaylistTo(EditPlaylist editPlaylist)
+        public ViewPlaylist PlaylistTo(EditPlaylist editPlaylist)
         {
             int id = editPlaylist.Id;
             Playlist edit = repo.get<Playlist>(id);
@@ -20,15 +21,16 @@ namespace BusinessRules
             {
                 if (editPlaylist.Name != null) edit.Name = editPlaylist.Name;
                 if (editPlaylist.Description != null) edit.Description = editPlaylist.Description;
-                if (editPlaylist.Tracks.Count <= 0) edit.Tracks = editPlaylist.Tracks;
+                if (editPlaylist.Tracks.Count <= 0) edit.Tracks = null;//TODO: get all tracks editPlaylist.Tracks;
                 repo.update(id,edit); // id == edit.id
             }
+            return new ViewPlaylist(id, editPlaylist.Name, editPlaylist.Description, editPlaylist.Tracks);
         }
 
-        public void AlbumTo(EditAlbum editAlbum)
+        public ViewAlbum AlbumTo(EditAlbum editAlbum)
         {
             int id = editAlbum.Id;
-            uint year = uint.Parse(editAlbum.Year);
+            uint year = (uint)editAlbum.Year;
             Album edit = repo.get<Album>(id);
             if ( edit != null)
             {
@@ -36,9 +38,10 @@ namespace BusinessRules
                 if (year != 0) edit.Year = year;
                 repo.update(id, edit);
             }
+            return new ViewAlbum(id, editAlbum.Name, editAlbum.Year, editAlbum.Artist, editAlbum.Tracks);
         }
 
-        public void ArtistTo(EditArtist editArtist)
+        public ViewArtist ArtistTo(EditArtist editArtist)
         {
             int id = editArtist.Id;
             Artist edit = repo.get<Artist>(id);
@@ -47,12 +50,13 @@ namespace BusinessRules
                 if (editArtist.Name != null) edit.Name = editArtist.Name;
                 repo.update(id, edit);
             }
+            return new ViewArtist(id,editArtist.Name,editArtist.Albuns);
         }
 
-        public void TrackTo(EditTrack editTrack)
+        public ViewTrack TrackTo(EditTrack editTrack)
         {
             int id = editTrack.Id;
-            uint duration = uint.Parse(editTrack.Duration);
+            uint duration = (uint)editTrack.Duration;
             Track edit = repo.get<Track>(id);
             if (edit != null)
             {
@@ -60,6 +64,7 @@ namespace BusinessRules
                 if (duration != 0) edit.Duration = duration;
                 repo.update(id, edit);
             }
+            return new ViewTrack(id,editTrack.Name,editTrack.Duration,editTrack.Artist,editTrack.Album);
         }
     }
 }

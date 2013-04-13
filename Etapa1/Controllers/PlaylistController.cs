@@ -5,6 +5,7 @@ using WebGarten2;
 using BusinessRules;
 using Views;
 using WebGarten2.Html;
+using Utils;
 
 
 namespace Controllers
@@ -90,13 +91,14 @@ namespace Controllers
         public HttpResponseMessage Edit(int id, NameValueCollection content)
         {
             //verificar
-            EditPlaylist pl  = new EditPlaylist(id,content["name"], content["desc"], content["tracks"]);
-            Rules.Edit.PlaylistTo(pl);
+            var tracks = content["tracks"]; //TODO: Unused
+            var pl  = new EditPlaylist(id,content["name"], content["desc"]);
+            var p = Rules.Edit.PlaylistTo(pl);
 
             //retornar resposta
             return new HttpResponseMessage(HttpStatusCode.OK)
             {
-                Content = new PlaylistNewView(pl).AsHttpContent("text/html")
+                Content = new PlaylistNewView(p).AsHttpContent("text/html")
             };
         }
     }

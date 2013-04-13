@@ -48,7 +48,7 @@ namespace DataAccess
             return result.ToArray();
         }
 
-        T Repository.update<T>(int id, T t)
+        T Repository.update<T>(int id, T t) //TODO: criar teste e remover conteudo. A alteracao do 
         {
             var dList = getTable<T>();
             Object obj;

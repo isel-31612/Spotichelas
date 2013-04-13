@@ -31,16 +31,10 @@ namespace DataAccess
             return db.Set<T>().Where(x => x.match(t)).ToArray<T>();
         }
 
-        T Repository.update<T>(int id, T newT) //TODO: Esta a ser removido A e inserido B. Logo o id nao fica o mesmo
+        T Repository.update<T>(int id, T newT)
         {
-            var table = db.Set<T>();
-            T oldT = table.Where(x => x.id == id).FirstOrDefault(); //TODO: Nao e possivel chamar o remove?
-            if (oldT == default(T))
-                return oldT;
-            table.Remove(oldT);
-            table.Add(newT);
             db.SaveChanges();
-            return oldT;
+            return newT; //A alteraçao de um objecto é automaticamente registado pela base de dados
         }
 
         T[] Repository.getAll<T>()

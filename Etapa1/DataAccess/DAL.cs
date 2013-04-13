@@ -83,10 +83,5 @@ namespace DataAccess
         {
             return repo.getT<T>(idx);
         }
-
-        public List<Track> getTracks(string Name)
-        {
-            return searcher.getTracks(Name);
-        }
     }
 }

@@ -39,7 +39,7 @@ namespace DataAccess
             return Find.Album(name);
         }
 
-        public Album getAlbuns(string Link)
+        public Album getAlbum(string Link)
         {
             return Request.Album(Link);
         }

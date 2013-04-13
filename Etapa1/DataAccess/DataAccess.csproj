@@ -55,6 +55,10 @@
       <Project>{38052f46-34db-4561-89d0-1f9d72583249}</Project>
       <Name>SpotifyBridge</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{88faf17d-c105-427b-a1af-58c60cb15cb1}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

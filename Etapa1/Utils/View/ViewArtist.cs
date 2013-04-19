@@ -4,15 +4,15 @@ namespace Utils
 {
     public class ViewArtist
     {
-        public int Id { get; set; }
+        public string Href { get; set; }
         public string Name { get; set; }
-        public List<string> Albuns { get; set; }
+        public Dictionary<string, string> Albuns { get; set; }
 
-        public ViewArtist(int id, string name, List<string> albuns=null)
+        public ViewArtist(string href, string name, Dictionary<string, string> albuns = null)
         {
-            Id = id;
+            Href = href;
             Name = name;
-            Albuns = albuns;
+            Albuns = albuns!=null?albuns:new Dictionary<string,string>();
         }
     }
 }

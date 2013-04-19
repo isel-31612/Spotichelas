@@ -18,18 +18,17 @@ namespace SpotifyBridge
             var obj = JSONParser<Reply>(json).track;
             string name = obj.Name;
             uint duration = (uint)obj.Duration;
-            Album al = new Album(obj.Album.Name,(uint)obj.Album.Year);
-            Artist ar = new Artist(obj.Name);
-            return new Track(name, duration, ar, al);
+            Album al = new Album(obj.Album.Name,(uint)obj.Album.Year,null,null,obj.Album.Link);
+            List<Artist> ar = obj.Artist.Select( x => new Artist(x.Name,null,x.Link)).ToList();
+            return new Track(name, duration, ar, al,obj.Link);
         }
 
         public Artist Artist(string id)
         {
             var json = LookInto(id,"album");
             var obj = JSONParser<Reply>(json).artist;
-            string name = obj.Name;
-            IEnumerable<Album> a = obj.Albuns.Select(x => new Album(x.Album.Name, (uint)x.Album.Year));
-            return new Artist(name,a.ToList());
+            IEnumerable<Album> a = obj.Albuns.Select(x => new Album(x.Album.Name, (uint)x.Album.Year,null,null,x.Album.Link));
+            return new Artist(obj.Name,a.ToList(),obj.Link);
         }
 
         public Album Album(string id)
@@ -38,9 +37,9 @@ namespace SpotifyBridge
             var obj = JSONParser<Reply>(json).album;
             string name = obj.Name;
             uint year = (uint)obj.Year;
-            IEnumerable<Track> t = obj.Tracks.Select(x => new Track(x.Name,(uint)x.Duration));
-            Artist a = new Artist(obj.ArtistName);
-            return new Album(name, year, t.ToList(), a);
+            IEnumerable<Track> t = obj.Tracks.Select(x => new Track(x.Name,(uint)x.Duration,null,null,x.Link));
+            Artist a = new Artist(obj.ArtistName,null,obj.ArtistId);
+            return new Album(name, year, t.ToList(), a,obj.Link);
         }
 
         protected virtual string LookInto(string id,string detail=null)
@@ -57,7 +56,7 @@ namespace SpotifyBridge
             string response = null;
             try
             {
-                reply = (HttpWebResponse)wr.GetResponse();
+                reply = (HttpWebResponse)wr.GetResponse(); //TODO: deve haver um erro aqui algures
                 Stream stream = reply.GetResponseStream();
                 byte[] array = new byte[4096];
                 StringBuilder sb = new StringBuilder();
@@ -68,6 +67,7 @@ namespace SpotifyBridge
                     bytesRead += readCount;
                     string s = System.Text.Encoding.UTF8.GetString(array);// TODO: usar contenttype e escolher o encoding correcto
                     sb.Append(s,0,readCount);
+                    Console.WriteLine(s);
                 }while(readCount==array.Length);
                 response = sb.ToString();
             }

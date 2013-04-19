@@ -31,7 +31,8 @@ namespace Controllers
         [HttpMethod("GET", "/track/{id}")]
         public HttpResponseMessage Get(int id)
         {
-            var t = Rules.Find.Track(id);
+            string link = id + ""; //TODO: receber o link do artist e nao o id
+            var t = Rules.Find.Track(link); 
 
             return t == null ? new HttpResponseMessage(HttpStatusCode.NotFound) :
                 new HttpResponseMessage
@@ -40,7 +41,8 @@ namespace Controllers
                 };
         }
 
-        [HttpMethod("POST", "/track")]
+        //TODO: delete! nao existe metodo para criar tracks
+        /*[HttpMethod("POST", "/track")]
         public HttpResponseMessage Post(NameValueCollection content)
         {
             CreateTrack ct = new CreateTrack(content["name"], content["duration"]);
@@ -53,6 +55,6 @@ namespace Controllers
             var resp = new HttpResponseMessage(HttpStatusCode.SeeOther);
             resp.Headers.Location = new Uri(ResolveUri.For(track));
             return resp;
-        }
+        }*/
     }
 }

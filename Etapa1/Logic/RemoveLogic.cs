@@ -20,7 +20,7 @@ namespace BusinessRules
             var old = repo.remove<Playlist>(id);
             var removed = new ViewPlaylist(old.id, old.Name, old.Description);
             foreach( var track in old.Tracks)
-                removed.Tracks.Add(track.Name);
+                removed.Tracks.Add(track.Key,track.Value);
             return removed;
         }
     }

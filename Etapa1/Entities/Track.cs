@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Entities
 {
@@ -7,7 +8,7 @@ namespace Entities
         public string Name { get; set; }
         public uint Duration { get; set; } // in seconds, [0...]
         public string Link { get; set; }
-        public virtual Artist Artist { get; set;}
+        public virtual List<Artist> Artist { get; set;}
         public virtual Album Album { get; set; }
 
         public Track()
@@ -17,7 +18,7 @@ namespace Entities
             Artist = null;
             Album = null;
         }
-        public Track(string name, uint duration, Artist ar=null, Album al = null, string link=null)
+        public Track(string name, uint duration, List<Artist> ar=null, Album al = null, string link=null)//shift link to 1st and remove default
         {
             Name = name;
             Duration = duration;

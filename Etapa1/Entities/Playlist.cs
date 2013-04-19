@@ -7,19 +7,19 @@ namespace Entities
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public virtual List<Track> Tracks {get; set;}
+        public virtual Dictionary<string,string> Tracks {get; set;}
 
         public Playlist()
         {
             Name = null;
             Description = null;
-            Tracks = new List<Track>();
+            Tracks = new Dictionary<string, string>();
         }
         public Playlist(string name, string description)
         {
             Name = name;
             Description = description;
-            Tracks = new List<Track>();
+            Tracks = new Dictionary<string, string>();
         }
 
         public override bool match(object o)

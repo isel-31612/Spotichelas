@@ -85,9 +85,17 @@
       <Project>{da155d36-5a52-4d01-a70f-ffd6ff04ef8e}</Project>
       <Name>Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Logic\BusinessRules.csproj">
+      <Project>{3554e605-c3d7-474d-be7c-b13ca5f14c35}</Project>
+      <Name>BusinessRules</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SpotifyBridge\SpotifyBridge.csproj">
       <Project>{38052f46-34db-4561-89d0-1f9d72583249}</Project>
       <Name>SpotifyBridge</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{88faf17d-c105-427b-a1af-58c60cb15cb1}</Project>
+      <Name>Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebGarten2\WebGarten2.csproj">
       <Project>{7cfc4bb7-9673-4082-9806-893f3efc5dfc}</Project>

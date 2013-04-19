@@ -30,7 +30,8 @@ namespace Controllers
         [HttpMethod("GET", "/album/{id}")]
         public HttpResponseMessage Get(int id)
         {
-            var album = Rules.Find.Album(id);
+            string link = id + ""; //TODO: receber o link do artist e nao o id
+            var album = Rules.Find.Album(link);
 
             return album == null ? new HttpResponseMessage(HttpStatusCode.NotFound) :
                 new HttpResponseMessage
@@ -39,7 +40,8 @@ namespace Controllers
                 };
         }
 
-        [HttpMethod("POST", "/album")]
+        //TODO: delete! nao existe metodo para criar albuns
+        /*[HttpMethod("POST", "/album")]
         public HttpResponseMessage Post(NameValueCollection content)
         {
             CreateAlbum ca = new CreateAlbum(content["name"],content["year"]);
@@ -51,6 +53,6 @@ namespace Controllers
             var resp = new HttpResponseMessage(HttpStatusCode.SeeOther);
             resp.Headers.Location = new Uri(ResolveUri.For(album));
             return resp;
-        }
+        }*/
     }
 }

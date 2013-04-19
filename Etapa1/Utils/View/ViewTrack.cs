@@ -1,20 +1,21 @@
-﻿namespace Utils
+﻿using System.Collections.Generic;
+namespace Utils
 {
     public class ViewTrack
     {
-        public int Id { get; set; }
+        public string Href { get; set; }
         public string Name { get; set; }
         public int Duration { get; set; }
-        public string Artist { get; set; }
-        public string Album { get; set; }
+        public Dictionary<string,string> Artists { get; set; }
+        public KeyValuePair<string,string> Album { get; set; }
 
-        public ViewTrack(int id, string name, int duration, string artist, string album)
+        public ViewTrack(string href, string name, int duration, Dictionary<string,string> artists, string album, string albumHref)
         {
-            Id = id;
+            Href = href;
             Name = name;
             Duration = duration;
-            Artist = artist;
-            Album = album;
+            Artists = artists != null ? artists : new Dictionary<string, string>();
+            Album = new KeyValuePair<string, string>(album, albumHref);
         }
     }
 }

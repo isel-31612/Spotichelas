@@ -1,6 +1,8 @@
 ﻿using DataAccess;
 using Entities;
+using System.Collections.Generic;
 using Utils;
+using System.Linq;
 
 namespace BusinessRules
 {
@@ -16,33 +18,30 @@ namespace BusinessRules
         public ViewPlaylist Playlist(int id)
         {
             var pl = repo.get<Playlist>(id);
-            var vpl = new ViewPlaylist(pl.id,pl.Name,pl.Description);
-            foreach (var track in pl.Tracks)
-                vpl.Tracks.Add(track.Name);
-            return vpl;
+            return new ViewPlaylist(pl.id,pl.Name,pl.Description,pl.Tracks);
         }
 
-        public ViewArtist Artist(int id)
+        public ViewArtist Artist(string link)
         {
-            var ar = repo.get<Artist>(id);
-            var vAr = new ViewArtist(ar.id,ar.Name);
+            var ar = repo.getArtist(link);
+            var vAr = new ViewArtist(ar.Link,ar.Name);
             foreach (var album in ar.Albuns)
-                vAr.Albuns.Add(album.Name);
+                vAr.Albuns.Add(album.Link, album.Name);
             return vAr;
         }
-        public ViewAlbum Album(int id)
+        public ViewAlbum Album(string link)
         {
-            var al = repo.get<Album>(id);
-            var val = new ViewAlbum(al.id,al.Name,(int)al.Year,al.Artist.Name,null);
+            var al = repo.getAlbum(link);
+            var val = new ViewAlbum(al.Link,al.Name,(int)al.Year,al.Artist.Name,al.Artist.Link);
             foreach (var track in al.Tracks)
-                val.Tracks.Add(track.Name);
-            val.Artist = al.Artist.Name;
+                val.Tracks.Add(track.Link,track.Name);
             return val;
         }
-        public ViewTrack Track(int id)
+        public ViewTrack Track(string link)
         {
-            var t = repo.get<Track>(id);
-            var vt = new ViewTrack(t.id,t.Name,(int)t.Duration,t.Artist.Name,t.Album.Name);
+            var t = repo.getTrack(link);
+            var artists = t.Artist.Select(x => new { Key = x.Link, Value = x.Name }).ToDictionary(x => x.Key, x=> x.Value);
+            var vt = new ViewTrack(t.Link,t.Name,(int)t.Duration,artists,t.Album.Name,t.Album.Link);
             return vt;
         }
     }

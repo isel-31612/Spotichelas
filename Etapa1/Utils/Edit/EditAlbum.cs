@@ -6,16 +6,16 @@ namespace Utils
         public string Name { get; set; }
         public int Year { get; set; }
         public int Id { get; set; }
-        public string Artist { get; set; }
-        public List<string> Tracks { get; set; }
+        public KeyValuePair<string,string> Artist { get; set; }
+        public Dictionary<string, string> Tracks { get; set; }
 
-        public EditAlbum(int id, string name, int year, string artist,List<string> tracks = null)
+        public EditAlbum(int id, string name, int year, string artistName, string artistLink, Dictionary<string, string> tracks = null)
         {
             Id = id;
             Name = name;
             Year = year;
-            Artist = artist;
-            Tracks = tracks;
+            Artist = new KeyValuePair<string, string>(artistName,artistLink);
+            Tracks = tracks != null ? tracks : new Dictionary<string, string>();
         }
     }
 }

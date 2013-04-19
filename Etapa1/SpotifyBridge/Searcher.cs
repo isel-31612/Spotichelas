@@ -19,8 +19,14 @@ namespace SpotifyBridge
             List<JsonTrack> list;
             try { list = getHref("track", query).tracks; }
             catch { return new List<Track>(); }
-            
-            return list.Select((x) => new Track(x.Name, (uint)x.Duration,null,null,x.Link)).ToList(); //TODO: melhorar. Preencher com mais dados
+            List<Track> ret = new List<Track>();
+            foreach (var track in list)
+            {
+                var artist = track.Artist.Select( x => new Artist(x.Name,null,x.Link)).ToList();
+                var album = new Album(track.Album.Name,0,null,null,track.Link);
+                ret.Add(new Track(track.Name,(uint)track.Duration,artist,album,track.Link));
+            }
+            return ret;
         }
 
         public List<Album> Album(string Name)
@@ -29,8 +35,14 @@ namespace SpotifyBridge
             List<JsonAlbum> list;
             try { list = getHref("album", query).albums; }
             catch { return new List<Album>(); }
-
-            return list.Select((x) => new Album(x.Name, (uint)x.Year, null, null, x.Link)).ToList();  //TODO: melhorar. Preencher com mais dados
+            List<Album> ret = new List<Album>();
+            foreach (var album in list)
+            {
+                List<Artist> alist = new List<Artist>(); //TODO: I have to receive multiple artists
+                alist.Add(new Artist(album.Name,null,album.Link));
+                ret.Add(new Album(album.Name,(uint)album.Year,null,alist.First(),album.Link));
+            }
+            return ret;
         }
 
         public List<Artist> Artist(string Name)
@@ -39,8 +51,12 @@ namespace SpotifyBridge
             List<JsonArtist> list;
             try { list = getHref("artist", query).artists; }
             catch { return new List<Artist>(); }
-
-            return list.Select((x) => new Artist(x.Name, null, x.Link)).ToList();  //TODO: melhorar. Preencher com mais dados
+            List<Artist> ret = new List<Artist>();
+            foreach (var artist in list)
+            {
+                ret.Add(new Artist(artist.Name, null, artist.Link));
+            }
+            return ret;
         }
 
         protected virtual Result getHref(string type,string query)

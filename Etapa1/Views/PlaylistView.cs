@@ -43,7 +43,7 @@ namespace Views
                 H3(Text("Description: "+p.Description)),
                 H3(Text("Track List")),
                 Ul(
-                    p.Tracks.Select(track => Li(Text(track))).ToArray()
+                    p.Tracks.Select(track => Li(Text(track.Key))).ToArray()
                 ),
                 Form("post", ResolveUri.ForPlaylistRemove(p), P(InputSubmit("Delete"))),
                 Form("get", ResolveUri.ForPlaylistEdit(p), P(InputSubmit("Edit")))

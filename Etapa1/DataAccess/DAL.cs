@@ -83,5 +83,30 @@ namespace DataAccess
         {
             return repo.getT<T>(idx);
         }
+
+        public Album getAlbum(string link)
+        {
+            return searcher.getAlbum(link);
+        }
+        public Artist getArtist(string link)
+        {
+            return searcher.getArtist(link);
+        }
+        public Track getTrack(string link)
+        {
+            return searcher.getTrack(link);
+        }
+        public List<Album> getAllAlbum(string query)
+        {
+            return searcher.getAlbuns(query);
+        }
+        public List<Artist> getAllArtists(string query)
+        {
+            return searcher.getArtists(query);
+        }
+        public List<Track> getAllTracks(string query)
+        {
+            return searcher.getTracks(query);
+        }
     }
 }

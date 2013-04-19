@@ -67,7 +67,7 @@ namespace Controllers
         {
             var p = Rules.Remove.Playlist(id);
             if (p == null)
-                ;//TODO: O que acontece se nao for possivel remover a playlist?
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
             return new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new PlaylistListView(null).AsHttpContent("text/html")

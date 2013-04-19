@@ -17,7 +17,7 @@ namespace DataAccess
         {
             Type type = t.GetType();
             Dictionary<Int32,Object> dList;
-            if (repoTables.TryGetValue(type, out dList))
+            if (!repoTables.TryGetValue(type, out dList))
             {
                 repoTables.Add(type, dList = new Dictionary<Int32, Object>());
             }
@@ -48,15 +48,24 @@ namespace DataAccess
             return result.ToArray();
         }
 
-        T Repository.update<T>(int id, T t) //TODO: criar teste e remover conteudo. A alteracao do 
+        T Repository.update<T>(int id, T t)
         {
-            var dList = getTable<T>();
+            if(t is Playlist)
+                update(id,t as Playlist);
+            throw new InvalidOperationException();
+        }
+
+        Playlist update(int id, Playlist p)
+        {
+            var dList = getTable<Playlist>();
             Object obj;
-            if (!dList.TryGetValue(id, out obj))
+            if (p==null || !dList.TryGetValue(id, out obj))
                 return null;
-            dList.Remove(id);
-            AddTo(dList, t);
-            return (T)obj;
+            Playlist ret = (Playlist) obj;
+            if (p.Name != null) ret.Name = p.Name;
+            if (p.Description != null) ret.Description = p.Description;
+            if (p.Tracks.Count > 0) ret.Tracks = p.Tracks;
+            return ret;
         }
 
         T[] Repository.getAll<T>()
@@ -91,7 +100,9 @@ namespace DataAccess
 
         private void AddTo<T>(Dictionary<Int32,Object> dList,T t) where T : Identity
         {
-            int highestIdx = dList.Max(x => { return x.Key; });
+            int highestIdx=0;
+            if(dList.Count>0)
+                highestIdx = dList.Max(x => { return x.Key; });
             t.id = highestIdx + 1;
             dList.Add(t.id, t);
         }

@@ -5,13 +5,13 @@ namespace Utils
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<string> Albuns { get; set; }
+        public Dictionary<string, string> Albuns { get; set; }
 
-        public EditArtist(int id, string name,List<string> albuns = null)
+        public EditArtist(int id, string name, Dictionary<string, string> albuns = null)
         {
             Id = id;
             Name = name;
-            Albuns = albuns;
+            Albuns = albuns != null ? albuns : new Dictionary<string, string>();
         }
     }
 }

@@ -31,7 +31,8 @@ namespace Controllers
         [HttpMethod("GET", "/artist/{id}")]
         public HttpResponseMessage Get(int id)
         {
-            var art = Rules.Find.Artist(id);
+            string link = id + ""; //TODO: receber o link do artist e nao o id
+            var art = Rules.Find.Artist(link);
 
             return art == null ? new HttpResponseMessage(HttpStatusCode.NotFound) :
                 new HttpResponseMessage
@@ -40,7 +41,8 @@ namespace Controllers
                 };
         }
 
-        [HttpMethod("POST", "/artist")]
+        //TODO: delete! nao existe metodo para criar artists
+        /*[HttpMethod("POST", "/artist")]
         public HttpResponseMessage Post(NameValueCollection content)
         {
             CreateArtist ca = new CreateArtist(content["name"]);
@@ -52,6 +54,6 @@ namespace Controllers
             var resp = new HttpResponseMessage(HttpStatusCode.SeeOther);
             resp.Headers.Location = new Uri(ResolveUri.For(artist));
             return resp;
-        }
+        }*/
     }
 }

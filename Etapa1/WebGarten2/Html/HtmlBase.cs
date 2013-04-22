@@ -38,6 +38,35 @@ namespace WebGarten2.Html
                 .WithAttr("name", name)
                 .WithAttr("value", value);
         }
+
+        public static IWritable TrackPlayer(string track)
+        {
+            return new HtmlElem("iframe")
+                .WithAttr("src",string.Format("https://embed.spotify.com/?uri=spotify:track:{0}",track))
+                .WithAttr("width","300")
+                .WithAttr("height","380")
+                .WithAttr("frameborder","0")
+                .WithAttr("allowtransparency","true");
+        }
+
+        public static IWritable PlaylistPlayer(string name,string[] tracks)
+        {
+            StringBuilder sb = new StringBuilder();
+            int i=0;
+            for (;i<tracks.Length-1;i++)
+            {
+                sb.Append(tracks[i]);
+                sb.Append(",");
+            }
+            sb.Append(tracks[i]);
+            string trackset = sb.ToString();
+            return new HtmlElem("iframe")
+                .WithAttr("src", string.Format("https://embed.spotify.com/?uri=spotify:trackset:{0}:{1}", name,trackset))
+                .WithAttr("width", "300")
+                .WithAttr("height", "380")
+                .WithAttr("frameborder", "0")
+                .WithAttr("allowtransparency", "true");
+        }
         // *********************************************
         public static IWritable InputSubmit(String value)
         {

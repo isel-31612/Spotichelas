@@ -26,9 +26,9 @@ namespace Views
             : base("Search Results",
                 H1(Text("Results")),
                 H2(Text("Artists")),
-                Ul(
-                    artists.Select(art => Li(Text(art.Name),A(ResolveUri.For(art), "View"))).ToArray()
-                ),
+                artists.Count>0
+                ? Ul(artists.Select(art => Li(Text(art.Name), A(ResolveUri.For(art), "View"))).ToArray())
+                : Text("No results found"),
                 Ul(
                     Li(A(ResolveUri.ForHome(), "Home")),
                     Li(A(ResolveUri.ForPlaylist(), "Playlists"))
@@ -40,9 +40,11 @@ namespace Views
             : base("Search Results",
                 H1(Text("Results")),
                 H2(Text("Albuns")),
-                Ul(
+                albuns.Count>0
+                ? Ul(
                     albuns.Select( alb => Li(Text(alb.Name),A(ResolveUri.For(alb),"View"))).ToArray()
-                ),
+                )
+                : Text("No results found"),
                 Ul(
                     Li(A(ResolveUri.ForHome(), "Home")),
                     Li(A(ResolveUri.ForPlaylist(), "Playlists"))
@@ -54,9 +56,11 @@ namespace Views
             : base("Search Results",
                 H1(Text("Results")),
                 H2(Text("Tracks")),
-                Ul(
+                tracks.Count>0
+                ? Ul(
                     tracks.Select( trc => Li(Text(trc.Name), A(ResolveUri.For(trc),trc.Name))).ToArray()
-                ),
+                )
+                : Text("No results found"),
                 Ul(
                     Li(A(ResolveUri.ForHome(), "Home")),
                     Li(A(ResolveUri.ForPlaylist(), "Playlists"))

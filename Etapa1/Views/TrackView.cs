@@ -17,7 +17,9 @@ namespace Views
                 Ul(
                     track.Artists.Select(art => Li(A(ResolveUri.ForArtist(art.Key), art.Value))).ToArray()
                 ),
+                TrackPlayer(track.Href),
                 Ul(
+                    Li(A(ResolveUri.ForAddTrack(track.Href), "Adicionar")),
                     Li(A(ResolveUri.ForPlaylist(), "Playlists")),
                     Li(A(ResolveUri.ForSearch(), "Search"))
                 )

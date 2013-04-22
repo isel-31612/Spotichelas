@@ -15,5 +15,7 @@
         public static string ForTrack(string href) { return "/track/" + href; }
         public static string ForPlaylistRemove(ViewPlaylist p) { return "/playlist/" + p.Id + "/remove"; }
         public static string ForPlaylistEdit(ViewPlaylist p) { return "/playlist/" + p.Id + "/edit"; }
+        public static string ForAddTrack(string href) { return string.Format("/track/add/{0}",href); }
+        public static string ForAddAlbum(string href) { return string.Format("/album/add/{0}", href); }
     }
 }

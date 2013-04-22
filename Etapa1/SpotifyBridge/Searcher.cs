@@ -38,7 +38,7 @@ namespace SpotifyBridge
             {
                 List<Artist> alist = new List<Artist>(); //TODO: I have to receive multiple artists
                 alist.Add(new Artist(album.Name,null,album.Link));
-                ret.Add(new Album(album.Name,(uint)album.Year,null,alist.First(),album.Link));
+                ret.Add(new Album(album.Name,(uint)album.Year,null,alist.First(),album.Link));//album.Year vem a null
             }
             return ret;
         }

@@ -14,7 +14,7 @@ namespace SpotifyBridge
         public string ArtistId;
         [JsonProperty("artist")]
         public string ArtistName;
-        [JsonProperty("release")]
+        [JsonProperty("released")]
         public int Year;
         [JsonProperty("tracks", ItemIsReference = true)]
         public List<JsonTrack> Tracks;

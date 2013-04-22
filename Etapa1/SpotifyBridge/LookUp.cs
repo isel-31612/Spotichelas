@@ -61,10 +61,10 @@ namespace SpotifyBridge
                 byte[] array = new byte[4096];
                 StringBuilder sb = new StringBuilder();
                 int readCount=0;
-                int bytesRead=0;
+                //long bytesRead=0;
                 do{
                     readCount = stream.Read(array, 0,array.Length);
-                    bytesRead += readCount;
+                    //bytesRead += readCount;
                     string s = System.Text.Encoding.UTF8.GetString(array);// TODO: usar contenttype e escolher o encoding correcto
                     sb.Append(s,0,readCount);
                     Console.WriteLine(s);

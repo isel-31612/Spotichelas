@@ -5,7 +5,7 @@ namespace Utils
     {
         public string Href { get; set; }
         public string Name { get; set; }
-        public int Duration { get; set; }
+        public string Duration { get; set; }
         public Dictionary<string,string> Artists { get; set; }
         public KeyValuePair<string,string> Album { get; set; }
 
@@ -13,9 +13,9 @@ namespace Utils
         {
             Href = href;
             Name = name;
-            Duration = duration;
+            Duration = duration+"";
             Artists = artists != null ? artists : new Dictionary<string, string>();
-            Album = new KeyValuePair<string, string>(album, albumHref);
+            Album = new KeyValuePair<string, string>(albumHref, album);
         }
     }
 }

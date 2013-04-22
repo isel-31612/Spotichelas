@@ -2,26 +2,26 @@
 using System.Linq;
 using Utils;
 using WebGarten2.Html;
-using Entities;
 
 namespace Views
 {
-    //TODO: rever metodos de acesso as propriedades do modelo de dados
-    //talvez colocar propriedades (playlist._name => playlist.Name)
     public class TrackView : HtmlDoc
     {
-
-    }
-
-
-    public class TrackNewView : HtmlDoc
-    {
-
-    }
-
-
-    public class TrackDetailView : HtmlDoc
-    {
-       
+        public TrackView(ViewTrack track)
+            : base(track.Name,
+                H1(Text(string.Format("Album : {0}", track.Name))),
+                P(Label("name", "Name"), Text(track.Name)),
+                P(Label("duration", "Duration"), Text(track.Duration)),
+                P(Label("album", "Album"), Text(track.Album.Value), A(ResolveUri.ForAlbum(track.Album.Key),"View")),
+                H2(Text("Artists")),
+                Ul(
+                    track.Artists.Select(art => Li(A(ResolveUri.ForArtist(art.Key), art.Value))).ToArray()
+                ),
+                Ul(
+                    Li(A(ResolveUri.ForPlaylist(), "Playlists")),
+                    Li(A(ResolveUri.ForSearch(), "Search"))
+                )
+            )
+        { }
     }
 }

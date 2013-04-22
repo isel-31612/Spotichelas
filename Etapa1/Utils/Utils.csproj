@@ -45,6 +45,7 @@
     <Compile Include="ResolveUri.cs" />
     <Compile Include="View\ViewAlbum.cs" />
     <Compile Include="View\ViewArtist.cs" />
+    <Compile Include="View\ViewObj.cs" />
     <Compile Include="View\ViewPlaylist.cs" />
     <Compile Include="View\ViewTrack.cs" />
   </ItemGroup>

@@ -29,32 +29,16 @@ namespace Controllers
         }
 
         [HttpMethod("GET", "/track/{id}")]
-        public HttpResponseMessage Get(int id)
+        public HttpResponseMessage Get(string id)
         {
-            string link = id + ""; //TODO: receber o link do artist e nao o id
+            string link = string.Format("spotify:track:{0}", id);
             var t = Rules.Find.Track(link); 
 
             return t == null ? new HttpResponseMessage(HttpStatusCode.NotFound) :
                 new HttpResponseMessage
                 {
-                   //TODO: create TrackView Content = new TrackView(t).AsHttpContent("text/html")
+                   Content = new TrackView(t).AsHttpContent("text/html")
                 };
         }
-
-        //TODO: delete! nao existe metodo para criar tracks
-        /*[HttpMethod("POST", "/track")]
-        public HttpResponseMessage Post(NameValueCollection content)
-        {
-            CreateTrack ct = new CreateTrack(content["name"], content["duration"]);
-            var track = Rules.Create.Track(ct);
-            if (track!=null)
-            {
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
-            }
-
-            var resp = new HttpResponseMessage(HttpStatusCode.SeeOther);
-            resp.Headers.Location = new Uri(ResolveUri.For(track));
-            return resp;
-        }*/
     }
 }

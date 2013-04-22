@@ -4,7 +4,6 @@ using WebGarten2.Html;
 
 namespace Views
 {
-    //TODO: rever tipo e retorno de content(evitar cópia)
     public class HomeView : HtmlDoc
     {
         public HomeView()

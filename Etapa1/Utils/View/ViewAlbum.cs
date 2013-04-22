@@ -6,7 +6,7 @@ namespace Utils
     {
         public string Href { get; set; }
         public string Name { get; set; }
-        public int Year { get; set; }
+        public string Year { get; set; }
         public KeyValuePair<string, string> Artist { get; set; }
         public Dictionary<string, string> Tracks { get; set; }
 
@@ -14,8 +14,8 @@ namespace Utils
         {
             Href = href;
             Name = name;
-            Year = year;
-            Artist = new KeyValuePair<string, string>(artistName,artistLink);
+            Year = year+"";
+            Artist = new KeyValuePair<string, string>(artistLink,artistName);
             Tracks = tracks!=null?tracks:new Dictionary<string, string>();
         }
     }

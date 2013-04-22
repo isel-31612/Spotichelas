@@ -80,7 +80,7 @@ namespace SpotiChelas.Tests
         public void Test_Lookup_Usage()
         {
             //Setup
-            string artistQuery = "30 Seconds to Mars";//"Adema";
+            string artistQuery = "Best of";
             Logic logic = Logic.Factory();
             string artistId = logic.FindAll.Artists(artistQuery).First().Href;
 

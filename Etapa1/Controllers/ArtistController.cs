@@ -29,9 +29,9 @@ namespace Controllers
         }
 
         [HttpMethod("GET", "/artist/{id}")]
-        public HttpResponseMessage Get(int id)
+        public HttpResponseMessage Get(string id)
         {
-            string link = id + ""; //TODO: receber o link do artist e nao o id
+            string link = string.Format("spotify:artist:{0}",id); //TODO: receber o link do artist e nao o id
             var art = Rules.Find.Artist(link);
 
             return art == null ? new HttpResponseMessage(HttpStatusCode.NotFound) :
@@ -40,20 +40,5 @@ namespace Controllers
                     Content = new ArtistView(art).AsHttpContent("text/html")
                 };
         }
-
-        //TODO: delete! nao existe metodo para criar artists
-        /*[HttpMethod("POST", "/artist")]
-        public HttpResponseMessage Post(NameValueCollection content)
-        {
-            CreateArtist ca = new CreateArtist(content["name"]);
-            var artist = Rules.Create.Artist(ca);
-            if (artist == null)
-            {
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
-            }
-            var resp = new HttpResponseMessage(HttpStatusCode.SeeOther);
-            resp.Headers.Location = new Uri(ResolveUri.For(artist));
-            return resp;
-        }*/
     }
 }

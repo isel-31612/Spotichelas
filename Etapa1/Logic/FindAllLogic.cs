@@ -31,7 +31,7 @@ namespace BusinessRules
             var ret = new List<ViewAlbum>();
             foreach (var album in al)
             {
-                ret.Add(new ViewAlbum(album.Link, album.Name, (int)album.Year, album.Artist.Name,album.Artist.Link));
+                ret.Add(new ViewAlbum(simpleHref(album.Link), album.Name, (int)album.Year, album.Artist.Name, simpleHref(album.Artist.Link)));
             }
             return ret;
         }
@@ -42,9 +42,9 @@ namespace BusinessRules
             var ret = new List<ViewArtist>();
             foreach (var artist in al)
             {
-                var va = new ViewArtist(artist.Link,artist.Name);
+                var va = new ViewArtist(simpleHref(artist.Link), artist.Name);
                 foreach (var album in artist.Albuns)
-                    va.Albuns.Add(album.Link, album.Name);
+                    va.Albuns.Add(simpleHref(album.Link), album.Name);
                 ret.Add(va);
             }
             return ret;
@@ -59,13 +59,19 @@ namespace BusinessRules
                 var artists = new Dictionary<string, string>();
                 foreach (var a in track.Artist)
                 {
-                    artists.Add(a.Link, a.Name);
+                    artists.Add(simpleHref(a.Link), a.Name);
                 }
                 var album = track.Album;
-                var vt = new ViewTrack(track.Link, track.Name, (int)track.Duration, artists, track.Album.Name, track.Album.Link); 
+                var vt = new ViewTrack(simpleHref(track.Link), track.Name, (int)track.Duration, artists, track.Album.Name, simpleHref(track.Album.Link)); 
                 ret.Add(vt);
             }
             return ret;
+        }
+
+        private string simpleHref(string href)
+        {
+            var array = href.Split(':');
+            return array.Last();
         }
     }
 }

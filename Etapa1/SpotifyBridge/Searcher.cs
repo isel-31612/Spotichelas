@@ -17,8 +17,7 @@ namespace SpotifyBridge
         {
             string query = Name.Replace(' ', '+');
             List<JsonTrack> list;
-            try { list = getHref("track", query).tracks; }
-            catch { return new List<Track>(); }
+            list = getHref("track", query).tracks;
             List<Track> ret = new List<Track>();
             foreach (var track in list)
             {
@@ -33,8 +32,7 @@ namespace SpotifyBridge
         {
             string query = Name.Replace(' ', '+');
             List<JsonAlbum> list;
-            try { list = getHref("album", query).albums; }
-            catch { return new List<Album>(); }
+            list = getHref("album", query).albums;
             List<Album> ret = new List<Album>();
             foreach (var album in list)
             {
@@ -49,8 +47,7 @@ namespace SpotifyBridge
         {
             string query = Name.Replace(' ', '+');
             List<JsonArtist> list;
-            try { list = getHref("artist", query).artists; }
-            catch { return new List<Artist>(); }
+            list = getHref("artist", query).artists;
             List<Artist> ret = new List<Artist>();
             foreach (var artist in list)
             {
@@ -93,6 +90,7 @@ namespace SpotifyBridge
                     bytesRead += readCount;
                     string s = System.Text.Encoding.UTF8.GetString(array);// TODO: usar contenttype e escolher o encoding correcto
                     sb.Append(s, 0, readCount);
+                    Console.WriteLine(s);
                 } while (readCount == array.Length);
                 response = sb.ToString();
             }finally { reply.Close(); }

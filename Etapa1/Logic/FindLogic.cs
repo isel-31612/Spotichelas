@@ -24,25 +24,31 @@ namespace BusinessRules
         public ViewArtist Artist(string link)
         {
             var ar = repo.getArtist(link);
-            var vAr = new ViewArtist(ar.Link,ar.Name);
+            var vAr = new ViewArtist(simpleHref(ar.Link), ar.Name);
             foreach (var album in ar.Albuns)
-                vAr.Albuns.Add(album.Link, album.Name);
+                vAr.Albuns.Add(simpleHref(album.Link), album.Name);
             return vAr;
         }
         public ViewAlbum Album(string link)
         {
             var al = repo.getAlbum(link);
-            var val = new ViewAlbum(al.Link,al.Name,(int)al.Year,al.Artist.Name,al.Artist.Link);
+            var val = new ViewAlbum(simpleHref(al.Link), al.Name, (int)al.Year, al.Artist.Name, simpleHref(al.Artist.Link));
             foreach (var track in al.Tracks)
-                val.Tracks.Add(track.Link,track.Name);
+                val.Tracks.Add(simpleHref(track.Link), track.Name);
             return val;
         }
         public ViewTrack Track(string link)
         {
             var t = repo.getTrack(link);
-            var artists = t.Artist.Select(x => new { Key = x.Link, Value = x.Name }).ToDictionary(x => x.Key, x=> x.Value);
-            var vt = new ViewTrack(t.Link,t.Name,(int)t.Duration,artists,t.Album.Name,t.Album.Link);
+            var artists = t.Artist.Select(x => new { Key = simpleHref(x.Link), Value = x.Name }).ToDictionary(x => x.Key, x => x.Value);
+            var vt = new ViewTrack(simpleHref(t.Link), t.Name, (int)t.Duration, artists, t.Album.Name, simpleHref(t.Album.Link));
             return vt;
+        }
+
+        private string simpleHref(string href)
+        {
+            var array = href.Split(':');
+            return array.Last();
         }
     }
 }

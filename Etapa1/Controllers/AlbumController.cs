@@ -30,8 +30,7 @@ namespace Controllers
         [HttpMethod("GET", "/album/{id}")]
         public HttpResponseMessage Get(string id)
         {
-            string link = string.Format("spotify:album:{0}", id);
-            var album = Rules.Find.Album(link);
+            var album = Rules.Find.Album(id);
 
             return album == null ? new HttpResponseMessage(HttpStatusCode.NotFound) :
                 new HttpResponseMessage

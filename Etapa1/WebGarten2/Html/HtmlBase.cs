@@ -67,6 +67,18 @@ namespace WebGarten2.Html
                 .WithAttr("frameborder", "0")
                 .WithAttr("allowtransparency", "true");
         }
+
+        public static IWritable InputBox(string name,params IWritable[] c)
+        {
+            return new HtmlElem("select", c)
+                .WithAttr("name",name);
+        }
+
+        public static IWritable Option(string name, string text)
+        {
+            return new HtmlElem("option",Text(text))
+                .WithAttr("value",name);
+        }
         // *********************************************
         public static IWritable InputSubmit(String value)
         {

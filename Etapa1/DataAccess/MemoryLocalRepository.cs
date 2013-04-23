@@ -89,13 +89,15 @@ namespace DataAccess
             return (T)obj;
         }
 
-        private Dictionary<Int32, Object> getTable<T>()
+        private Dictionary<int, Object> getTable<T>()
         {
             Type type = typeof(T);
-            Dictionary<Int32, Object> dList;
-            if (!repoTables.TryGetValue(type, out dList))
-                throw new InvalidOperationException();
-            return dList;
+            Dictionary<int, Object> dList;
+            if (repoTables.TryGetValue(type, out dList))
+                return dList;
+            dList = new Dictionary<int,Object>();
+            repoTables.Add(type, dList);
+            return dList;            
         }
 
         private void AddTo<T>(Dictionary<Int32,Object> dList,T t) where T : Identity

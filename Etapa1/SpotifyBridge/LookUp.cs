@@ -14,7 +14,8 @@ namespace SpotifyBridge
     {
         public Track Track(string id)
         {
-            var json = LookInto(id);
+            string link = string.Format("spotify:track:{0}", id);
+            var json = LookInto(link);
             var obj = JSONParser<Reply>(json).track;
             string name = obj.Name;
             uint duration = (uint)obj.Duration;
@@ -25,7 +26,8 @@ namespace SpotifyBridge
 
         public Artist Artist(string id)
         {
-            var json = LookInto(id,"album");
+            string link = string.Format("spotify:artist:{0}", id);
+            var json = LookInto(link,"album");
             var obj = JSONParser<Reply>(json).artist;
             IEnumerable<Album> a = obj.Albuns.Select(x => new Album(x.Album.Name, (uint)x.Album.Year,null,null,x.Album.Link));
             return new Artist(obj.Name,a.ToList(),obj.Link);
@@ -33,7 +35,8 @@ namespace SpotifyBridge
 
         public Album Album(string id)
         {
-            var json = LookInto(id,"track");
+            string link = string.Format("spotify:album:{0}", id);
+            var json = LookInto(link,"track");
             var obj = JSONParser<Reply>(json).album;
             string name = obj.Name;
             uint year = (uint)obj.Year;

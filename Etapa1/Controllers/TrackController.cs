@@ -31,14 +31,23 @@ namespace Controllers
         [HttpMethod("GET", "/track/{id}")]
         public HttpResponseMessage Get(string id)
         {
-            string link = string.Format("spotify:track:{0}", id);
-            var t = Rules.Find.Track(link); 
+            var t = Rules.Find.Track(id); 
 
             return t == null ? new HttpResponseMessage(HttpStatusCode.NotFound) :
                 new HttpResponseMessage
                 {
                    Content = new TrackView(t).AsHttpContent("text/html")
                 };
+        }
+
+        [HttpMethod("GET", "/track/{href}/add")]
+        public HttpResponseMessage GetAdd(string href)
+        {
+            var playlists = Rules.FindAll.Playlists();
+            return new HttpResponseMessage
+            {
+                Content = new AddTrackView(href, playlists).AsHttpContent("text/html")
+            };
         }
     }
 }

@@ -31,8 +31,7 @@ namespace Controllers
         [HttpMethod("GET", "/artist/{id}")]
         public HttpResponseMessage Get(string id)
         {
-            string link = string.Format("spotify:artist:{0}",id); //TODO: receber o link do artist e nao o id
-            var art = Rules.Find.Artist(link);
+            var art = Rules.Find.Artist(id);
 
             return art == null ? new HttpResponseMessage(HttpStatusCode.NotFound) :
                 new HttpResponseMessage

@@ -9,7 +9,7 @@ namespace Views
     {
         public TrackView(ViewTrack track)
             : base(track.Name,
-                H1(Text(string.Format("Album : {0}", track.Name))),
+                H1(Text(string.Format("Track : {0}", track.Name))),
                 P(Label("name", "Name"), Text(track.Name)),
                 P(Label("duration", "Duration"), Text(track.Duration)),
                 P(Label("album", "Album"), Text(track.Album.Value), A(ResolveUri.ForAlbum(track.Album.Key),"View")),
@@ -22,6 +22,22 @@ namespace Views
                     Li(A(ResolveUri.ForAddTrack(track.Href), "Adicionar")),
                     Li(A(ResolveUri.ForPlaylist(), "Playlists")),
                     Li(A(ResolveUri.ForSearch(), "Search"))
+                )
+            )
+        { }
+    }
+
+    public class AddTrackView : HtmlDoc
+    {
+        public AddTrackView(string href, ViewPlaylist[] playlists)
+            :base("Add Track",
+                H1(Text("Add Track")),
+                Label("select","Playlists"),
+                Form("POST",ResolveUri.ForAddTrackTo(href),
+                    InputBox("playlist",
+                        playlists.Select( p => Option( p.Id+"",p.Name)).ToArray()
+                    ),
+                    InputSubmit("Choose")
                 )
             )
         { }

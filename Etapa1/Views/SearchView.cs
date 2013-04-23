@@ -12,7 +12,11 @@ namespace Views
                 H1(Text("Search")),
                 Form("POST","/search",
                     InputText("search","Search Query"),
-                    InputText("type","artists, albuns or tracks"),
+                    InputBox("type",
+                        Option("artists","Artists"),
+                        Option("albuns","Albuns"),
+                        Option("tracks","Tracks")
+                    ),
                     InputSubmit("Search")
                 ),
                 Ul(

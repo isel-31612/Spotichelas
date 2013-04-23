@@ -18,7 +18,6 @@ namespace Views
                 ),
                 PlaylistPlayer(album.Name,album.Tracks.Select(track => track.Key).ToArray()),
                 Ul(
-                    Li(A(ResolveUri.ForAddAlbum(album.Href), "Adicionar")),
                     Li(A(ResolveUri.ForPlaylist(), "Playlists")),
                     Li(A(ResolveUri.ForSearch(), "Search"))
                 )

@@ -5,8 +5,6 @@ using WebGarten2.Html;
 
 namespace Views
 {
-    //TODO: rever metodos de acesso as propriedades do modelo de dados
-    //talvez colocar propriedades (playlist._name => playlist.Name)
     public class PlaylistListView : HtmlDoc
     {
         public PlaylistListView(IEnumerable<ViewPlaylist> p) 
@@ -43,10 +41,15 @@ namespace Views
                 H3(Text("Description: "+p.Description)),
                 H3(Text("Track List")),
                 Ul(
-                    p.Tracks.Select(track => Li(A(ResolveUri.ForTrack(track.Key), track.Value))).ToArray()
+                    p.Tracks.Select(track => Li(
+                                                A(ResolveUri.ForTrack(track.Key), track.Value),
+                                                Form("POST", ResolveUri.ForRemoveTrack(p, track.Key),P(InputSubmit("Remove")))
+                                             )).ToArray()
                 ),
-                Form("post", ResolveUri.ForPlaylistRemove(p), P(InputSubmit("Delete"))),
-                Form("get", ResolveUri.ForPlaylistEdit(p), P(InputSubmit("Edit")))
+                Form("POST", ResolveUri.ForPlaylistRemove(p), P(InputSubmit("Delete"))),
+                Form("GET", ResolveUri.ForPlaylistEdit(p), P(InputSubmit("Edit"))),
+                P(A(ResolveUri.ForHome(),"Home")),
+                P(A(ResolveUri.ForSearch(),"Search"))
             ) { }
     }
 }

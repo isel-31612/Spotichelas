@@ -18,11 +18,11 @@ namespace Entities
             Artist = null;
             Album = null;
         }
-        public Track(string name, uint duration, List<Artist> ar=null, Album al = null, string link=null)//shift link to 1st and remove default
+        public Track(string name, string link, double duration, List<Artist> ar = null, Album al = null)
         {
             Name = name;
-            Duration = duration;
-            Artist = ar;
+            Duration = (uint)duration;
+            Artist = ar != null ? ar : new List<Artist>();
             Album = al;
             Link = link;
         }

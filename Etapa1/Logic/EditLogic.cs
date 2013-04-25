@@ -25,5 +25,23 @@ namespace BusinessRules
             }
             return null;
         }
+
+        public bool AddTrack(ViewPlaylist p,ViewTrack t)
+        {
+            var playlist = repo.get<Playlist>(p.Id);
+            if(playlist == null || playlist.Tracks.ContainsKey(t.Href))
+                return false;
+            playlist.Tracks.Add(t.Href, t.Name);
+            return true;
+        }
+
+        public bool RemoveTrack(ViewPlaylist p, ViewTrack t)
+        {
+            var playlist = repo.get<Playlist>(p.Id);
+            if (playlist == null || !playlist.Tracks.ContainsKey(t.Href))
+                return false;
+            playlist.Tracks.Remove(t.Href);
+            return true;
+        }
     }
 }

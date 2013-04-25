@@ -96,17 +96,17 @@ namespace DataAccess
         {
             return searcher.getTrack(link);
         }
-        public List<Album> getAllAlbum(string query)
+        public List<Album> getAllAlbum(string query, out SearchInfo info)
         {
-            return searcher.getAlbuns(query);
+            return searcher.getAlbuns(query, out info);
         }
-        public List<Artist> getAllArtists(string query)
+        public List<Artist> getAllArtists(string query, out SearchInfo info)
         {
-            return searcher.getArtists(query);
+            return searcher.getArtists(query, out info);
         }
-        public List<Track> getAllTracks(string query)
+        public List<Track> getAllTracks(string query, out SearchInfo info)
         {
-            return searcher.getTracks(query);
+            return searcher.getTracks(query, out info);
         }
     }
 }

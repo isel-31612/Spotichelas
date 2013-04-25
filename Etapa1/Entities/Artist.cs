@@ -15,10 +15,10 @@ namespace Entities
             Albuns = new List<Album>();
         }
 
-        public Artist(string name, List<Album> a=null,string link =null)
+        public Artist(string name, string link, List<Album> a = null)
         {
             Name = name;
-            Albuns = (a == null) ? new List<Album>() : a;
+            Albuns = a != null ? a : new List<Album>();
             Link = link;
         }
 

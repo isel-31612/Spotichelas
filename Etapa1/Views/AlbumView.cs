@@ -11,7 +11,10 @@ namespace Views
                 H1(Text(string.Format("Album : {0}",album.Name))),
                 P(Label("name", "Name"), Text(album.Name)),
                 P(Label("year","Release"),Text(album.Year)),
-                P(Label("artist", "Artist"), Text(album.Artist.Value),A(ResolveUri.ForArtist(album.Artist.Key),"View")),
+                H2(Text("Artists")),
+                Ul(
+                    album.Artist.Select( a => Li(A(ResolveUri.ForArtist(a.Key),a.Value))).ToArray()
+                ),
                 H2(Text("Tracks")),
                 Ul(
                     album.Tracks.Select(trc => Li( A(ResolveUri.ForTrack(trc.Key), trc.Value))).ToArray()

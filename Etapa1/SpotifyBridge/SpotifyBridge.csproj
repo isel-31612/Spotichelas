@@ -42,17 +42,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JsonAlbum.cs" />
-    <Compile Include="JsonArtist.cs" />
-    <Compile Include="JsonTrack.cs" />
+    <Compile Include="JsonLookAlbum.cs" />
+    <Compile Include="JsonLookArtist.cs" />
+    <Compile Include="JsonSearchAlbum.cs" />
+    <Compile Include="JsonSearchArtist.cs" />
+    <Compile Include="JsonSearchTrack.cs" />
+    <Compile Include="JsonLookTrack.cs" />
     <Compile Include="LookUp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Searcher.cs" />
+    <Compile Include="SpotifyInterpreter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entities\Entities.csproj">
       <Project>{da155d36-5a52-4d01-a70f-ffd6ff04ef8e}</Project>
       <Name>Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{88faf17d-c105-427b-a1af-58c60cb15cb1}</Project>
+      <Name>Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -6,13 +6,13 @@ namespace Utils
     {
         public string Href { get; set; }
         public string Name { get; set; }
-        public Dictionary<string, string> Albuns { get; set; }
+        public List<KeyValuePair<string, string>> Albuns { get; set; }
 
-        public ViewArtist(string href, string name, Dictionary<string, string> albuns = null)
+        public ViewArtist(string href, string name, List<KeyValuePair<string, string>> albuns = null)
         {
             Href = href;
             Name = name;
-            Albuns = albuns!=null?albuns:new Dictionary<string,string>();
+            Albuns = albuns != null ? albuns : new List<KeyValuePair<string, string>>();
         }
     }
 }

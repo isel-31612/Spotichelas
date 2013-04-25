@@ -42,9 +42,10 @@ namespace Controllers
 
         public HtmlDoc Method(string searchQuery, string type)
         {
-            if (type.Equals("artists")) return new SearchView(Rules.FindAll.Artists(searchQuery));
-            if (type.Equals("albuns"))  return new SearchView(Rules.FindAll.Albuns(searchQuery));
-            if (type.Equals("tracks"))  return new SearchView(Rules.FindAll.Tracks(searchQuery));
+            SearchInfo info;
+            if (type.Equals("artists")) return new SearchView(Rules.FindAll.Artists(searchQuery,out info),info);
+            if (type.Equals("albuns")) return new SearchView(Rules.FindAll.Albuns(searchQuery, out info), info);
+            if (type.Equals("tracks")) return new SearchView(Rules.FindAll.Tracks(searchQuery, out info), info);
             return null;
         }
     }

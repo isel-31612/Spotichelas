@@ -46,8 +46,8 @@ namespace Controllers
             CreatePlaylist cp = new CreatePlaylist(content["name"], content["desc"]);
             var playlist = Rules.Create.Playlist(cp);
             //retornar resposta
-            var response = new HttpResponseMessage(HttpStatusCode.SeeOther);//TODO: .Created); would make more sense, but it doesnt redirect...
-            response.Headers.Location = new Uri(string.Format("http://localhost:8080/{0}", ResolveUri.For(playlist)));
+            var response = new HttpResponseMessage(HttpStatusCode.SeeOther);
+            response.Headers.Location = new Uri(string.Format("http://localhost:8080{0}", ResolveUri.For(playlist)));
             return response;
         }
 
@@ -104,7 +104,9 @@ namespace Controllers
         {
             //verificar
             var playlist = Rules.Find.Playlist(id);
-            playlist.Tracks.Remove(href); //TODO: what if it does not exist? Use Rules...
+            var track = Rules.Find.Track(href);
+            if (playlist == null || !Rules.Edit.RemoveTrack(playlist, track))
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
 
             //retornar resposta
             var response = new HttpResponseMessage(HttpStatusCode.SeeOther);
@@ -119,7 +121,9 @@ namespace Controllers
             int id = int.Parse(playlistId);
             var playlist = Rules.Find.Playlist(id);
             var track = Rules.Find.Track(href);
-            playlist.Tracks.Add(track.Href, track.Name);//TODO: what if it does already exist? Use Rules...
+            if (playlist == null || !Rules.Edit.AddTrack(playlist, track))
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+
             var response = new HttpResponseMessage(HttpStatusCode.SeeOther);
             response.Headers.Location = new Uri(string.Format("http://localhost:8080{0}", ResolveUri.For(playlist)));
             return response;

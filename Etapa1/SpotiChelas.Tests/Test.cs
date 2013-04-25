@@ -8,6 +8,7 @@ using System.Linq;
 using System.Data.SqlClient;
 using SpotifyBridge;
 using BusinessRules;
+using Utils;
 
 namespace SpotiChelas.Tests
 {
@@ -82,7 +83,8 @@ namespace SpotiChelas.Tests
             //Setup
             string artistQuery = "Best of";
             Logic logic = Logic.Factory();
-            string artistId = logic.FindAll.Artists(artistQuery).First().Href;
+            SearchInfo info;
+            string artistId = logic.FindAll.Artists(artistQuery, out info).First().Href;
 
             //Test
             var va = logic.Find.Artist(artistId);
@@ -104,9 +106,10 @@ namespace SpotiChelas.Tests
             string TName = "Resolution";
             
             //Test
-            var list1 = logic.FindAll.Albuns(AlName);
-            var list2 = logic.FindAll.Artists(ArName);
-            var list3 = logic.FindAll.Tracks(TName);
+            SearchInfo info;
+            var list1 = logic.FindAll.Albuns(AlName, out info);
+            var list2 = logic.FindAll.Artists(ArName, out info);
+            var list3 = logic.FindAll.Tracks(TName, out info);
 
             //Assert
             Assert.IsTrue(list1 != null && list1.Count != 0);

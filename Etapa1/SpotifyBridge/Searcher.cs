@@ -7,108 +7,90 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Linq;
-using System.Xml.Linq;
+using Utils;
 
 namespace SpotifyBridge
 {
     public class Searcher
     {
-        public List<Track> Track(string Name)
+        public SpotifyInterpreter interpreter;
+        public Searcher()
+        {
+            interpreter = new SpotifyInterpreter();
+        }
+        public List<Track> Track(string Name, out SearchInfo info)
         {
             string query = Name.Replace(' ', '+');
-            List<JsonTrack> list;
-            list = getHref("track", query).tracks;
+            var json = interpreter.search("track", query);
+            var search = JsonConvert.DeserializeObject<JsonSearchResult>(json);
+            var list = search.tracks;
             List<Track> ret = new List<Track>();
+            info = new SearchInfo(search.Info.Count, search.Info.Max, search.Info.Offset, search.Info.Query, search.Info.Type, search.Info.Page);
             foreach (var track in list)
             {
-                var artist = track.Artist.Select( x => new Artist(x.Name,null,x.Link)).ToList();
-                var album = new Album(track.Album.Name,0,null,null,track.Link);
-                ret.Add(new Track(track.Name,(uint)track.Duration,artist,album,track.Link));
+                var artist = track.Artists.Select( x => new Artist(x.Name,x.Link)).ToList();
+                var album = new Album(track.Album.Name, track.Album.Link);
+                ret.Add(new Track(track.Name, track.Link, track.Duration, artist, album));
             }
             return ret;
         }
 
-        public List<Album> Album(string Name)
+        public List<Album> Album(string Name, out SearchInfo info)
         {
             string query = Name.Replace(' ', '+');
-            List<JsonAlbum> list;
-            list = getHref("album", query).albums;
+            var json = interpreter.search("album", query);
+            var search = JsonConvert.DeserializeObject<JsonSearchResult>(json);
+            var list = search.albums;
+            info = new SearchInfo(search.Info.Count, search.Info.Max, search.Info.Offset, search.Info.Query, search.Info.Type, search.Info.Page);
             List<Album> ret = new List<Album>();
             foreach (var album in list)
             {
-                List<Artist> alist = new List<Artist>(); //TODO: I have to receive multiple artists
-                alist.Add(new Artist(album.Name,null,album.Link));
-                ret.Add(new Album(album.Name,(uint)album.Year,null,alist.First(),album.Link));//album.Year vem a null
+                List<Artist> alist = album.Artists.Select(a => new Artist(a.Name,a.Link)).ToList();
+                ret.Add(new Album(album.Name,album.Link,0,alist));
             }
             return ret;
         }
 
-        public List<Artist> Artist(string Name)
+        public List<Artist> Artist(string Name, out SearchInfo info)
         {
             string query = Name.Replace(' ', '+');
-            List<JsonArtist> list;
-            list = getHref("artist", query).artists;
-            List<Artist> ret = new List<Artist>();
-            foreach (var artist in list)
-            {
-                ret.Add(new Artist(artist.Name, null, artist.Link));
-            }
+            var json = interpreter.search("artist", query);
+            var search = JsonConvert.DeserializeObject<JsonSearchResult>(json);
+            var list = search.artists;
+            info = new SearchInfo(search.Info.Count, search.Info.Max, search.Info.Offset, search.Info.Query, search.Info.Type, search.Info.Page);
+            List<Artist> ret = list.Select(a => new Artist(a.Name, a.Link)).ToList();
             return ret;
         }
+    }
+    public class JsonSearchResult
+    {
+        [JsonProperty("info", ItemIsReference = true)]
+        public JsonSearchInfo Info;
+        [JsonProperty("albums", ItemIsReference = true)]
+        public List<JsonSearchAlbum> albums;
+        [JsonProperty("artists", ItemIsReference = true)]
+        public List<JsonSearchArtist> artists;
+        [JsonProperty("tracks", ItemIsReference = true)]
+        public List<JsonSearchTrack> tracks;
 
-        protected virtual Result getHref(string type,string query)
+        public JsonSearchResult()
         {
-            var request = PrepareRequest(type, query);
-            var response = (HttpWebResponse)request.GetResponse();
-            var json = ReadResponse(response);
+        } 
 
-            return JsonConvert.DeserializeObject<Result>(json);
-        }
-
-        private WebRequest PrepareRequest(string type, string query)
+        public class JsonSearchInfo
         {
-            string request = "http://ws.spotify.com/search/1/{0}{1}?q={2}";
-            string requestType = ".json";
-            string requestObj = type;
-            string requestUri = string.Format(request, requestObj, requestType, query);
-
-            WebRequest wr = WebRequest.Create(new Uri(requestUri));
-            wr.Method = "GET";
-            return wr;
-        }
-
-        private string ReadResponse(HttpWebResponse reply)
-        {           
-            Stream stream = reply.GetResponseStream();
-            string response = null;
-            byte[] array = new byte[4096];
-            StringBuilder sb = new StringBuilder();
-            int readCount = 0, bytesRead = 0;
-            try{
-                do{
-                    readCount = stream.Read(array, 0, array.Length);
-                    bytesRead += readCount;
-                    string s = System.Text.Encoding.UTF8.GetString(array);// TODO: usar contenttype e escolher o encoding correcto
-                    sb.Append(s, 0, readCount);
-                    Console.WriteLine(s);
-                } while (readCount == array.Length);
-                response = sb.ToString();
-            }finally { reply.Close(); }
-            return response;
-        }
-
-        public class Result
-        {
-            [JsonProperty("albums",ItemIsReference=true)]
-            public List<JsonAlbum> albums;
-            [JsonProperty("artists", ItemIsReference = true)]
-            public List<JsonArtist> artists;
-            [JsonProperty("tracks", ItemIsReference = true)]
-            public List<JsonTrack> tracks;
-            
-            public Result()
-            {
-            }
+            [JsonProperty("num_results")]
+            public int Count;
+            [JsonProperty("limit")]
+            public int Max;
+            [JsonProperty("offset")]
+            public int Offset;
+            [JsonProperty("query")]
+            public string Query;
+            [JsonProperty("type")]
+            public string Type;
+            [JsonProperty("page")]
+            public int Page;
         }
     }
 }

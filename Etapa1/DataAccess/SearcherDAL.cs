@@ -2,6 +2,7 @@
 using SpotifyBridge;
 using Entities;
 using System.Collections.Generic;
+using Utils;
 
 namespace DataAccess
 {
@@ -14,9 +15,9 @@ namespace DataAccess
             Find = new Searcher(); //TODO: dependency Injector
             Request = new LookUp(); //TODO: dependency Injector
         }
-        public List<Track> getTracks(string name)
+        public List<Track> getTracks(string name, out SearchInfo info)
         {
-            return Find.Track(name);
+            return Find.Track(name, out info);
         }
 
         public Track getTrack(string Link)
@@ -24,9 +25,9 @@ namespace DataAccess
             return Request.Track(Link);
         }
 
-        public List<Artist> getArtists(string name)
+        public List<Artist> getArtists(string name, out SearchInfo info)
         {
-            return Find.Artist(name);
+            return Find.Artist(name, out info);
         }
 
         public Artist getArtist(string Link)
@@ -34,9 +35,9 @@ namespace DataAccess
             return Request.Artist(Link);
         }
 
-        public List<Album> getAlbuns(string name)
+        public List<Album> getAlbuns(string name, out SearchInfo info)
         {
-            return Find.Album(name);
+            return Find.Album(name, out info);
         }
 
         public Album getAlbum(string Link)

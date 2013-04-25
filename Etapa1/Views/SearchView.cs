@@ -26,7 +26,7 @@ namespace Views
             )
         { }
 
-        public SearchView(List<ViewArtist> artists)
+        public SearchView(List<ViewArtist> artists, SearchInfo info)
             : base("Search Results",
                 H1(Text("Results")),
                 H2(Text("Artists")),
@@ -40,7 +40,7 @@ namespace Views
             )
         { }
 
-        public SearchView(List<ViewAlbum> albuns)
+        public SearchView(List<ViewAlbum> albuns, SearchInfo info)
             : base("Search Results",
                 H1(Text("Results")),
                 H2(Text("Albuns")),
@@ -56,7 +56,7 @@ namespace Views
             )
         { }
 
-        public SearchView(List<ViewTrack> tracks)
+        public SearchView(List<ViewTrack> tracks, SearchInfo info)
             : base("Search Results",
                 H1(Text("Results")),
                 H2(Text("Tracks")),

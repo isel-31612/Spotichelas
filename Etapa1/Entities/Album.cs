@@ -8,22 +8,22 @@ namespace Entities
         public string Name { get; set; }        
         public uint Year { get; set; }
         public string Link { get; set; }
-        public virtual Artist Artist { get; set; }
+        public virtual List<Artist> Artists { get; set; }
         public virtual List<Track> Tracks  { get; set; }
 
         public Album()
         {
             Name = null;
             Year = 0;
-            Artist = null;
+            Artists = new List<Artist>();
             Tracks = new List<Track>();
         }
-        public Album(string name, uint year, List<Track> t=null, Artist a=null,string link = null)
+        public Album(string name, string link, int year = 0, List<Artist> a = null, List<Track> t = null)
         {
             Name = name;
-            Year = year;
-            Artist = a;
-            Tracks = (t == null) ? new List<Track>() : t;
+            Year = (uint)year;
+            Artists = a;
+            Tracks = (t != null) ? t : new List<Track>();
             Link = link;
         }
 
@@ -35,7 +35,7 @@ namespace Entities
             return (al.Name==null      || al.Name.Equals(Name))          &&
                    (al.Year==0         || al.Year.Equals(Year))          &&
                    (al.Tracks.Count==0 || al.Tracks.Equals(this.Tracks)) &&
-                   (al.Artist==null    || al.Artist.Equals(Artist));
+                   (al.Artists==null    || al.Artists.Equals(Artists));
         }
     }
 }

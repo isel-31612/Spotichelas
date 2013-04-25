@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 namespace SpotifyBridge
 {
-    public class JsonTrack
+    public class JsonLookTrack
     {
         [JsonProperty("href")]
         public string Link;
         [JsonProperty("name")]
         public string Name;
         [JsonProperty("artists", ItemIsReference = true)]
-        public List<JsonArtist> Artist;
+        public List<JsonLookArtist> Artist;
         [JsonProperty("album", ItemIsReference = true)]
-        public JsonAlbum Album;
+        public JsonLookAlbum Album;
         [JsonProperty("available")]
         public bool Available;
         [JsonProperty("track-number")]
@@ -21,7 +21,7 @@ namespace SpotifyBridge
         [JsonProperty("popularity")]
         public double Popularity;
 
-        public JsonTrack()
+        public JsonLookTrack()
         {
         }
     }

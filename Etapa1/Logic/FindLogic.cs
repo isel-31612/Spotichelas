@@ -24,23 +24,22 @@ namespace BusinessRules
         public ViewArtist Artist(string link)
         {
             var ar = repo.getArtist(link);
-            var vAr = new ViewArtist(simpleHref(ar.Link), ar.Name);
-            foreach (var album in ar.Albuns)
-                vAr.Albuns.Add(simpleHref(album.Link), album.Name);
+            List<KeyValuePair<string, string>> albuns = ar.Albuns.Select(a => new KeyValuePair<string, string>(simpleHref(a.Link), a.Name)).ToList();
+            var vAr = new ViewArtist(simpleHref(ar.Link), ar.Name,albuns);
             return vAr;
         }
         public ViewAlbum Album(string link)
         {
             var al = repo.getAlbum(link);
-            var val = new ViewAlbum(simpleHref(al.Link), al.Name, (int)al.Year, al.Artist.Name, simpleHref(al.Artist.Link));
-            foreach (var track in al.Tracks)
-                val.Tracks.Add(simpleHref(track.Link), track.Name);
+            List<KeyValuePair<string, string>> artists = al.Artists.Select(a => new KeyValuePair<string, string>(simpleHref(a.Link), a.Name)).ToList();
+            List<KeyValuePair<string, string>> tracks = al.Tracks.Select(t => new KeyValuePair<string, string>(simpleHref(t.Link), t.Name)).ToList();
+            var val = new ViewAlbum(simpleHref(al.Link), al.Name, (int)al.Year, artists,tracks);
             return val;
         }
         public ViewTrack Track(string link)
         {
             var t = repo.getTrack(link);
-            var artists = t.Artist.Select(x => new { Key = simpleHref(x.Link), Value = x.Name }).ToDictionary(x => x.Key, x => x.Value);
+            List<KeyValuePair<string, string>> artists = t.Artist.Select(x => new KeyValuePair<string, string>(simpleHref(x.Link), x.Name)).ToList();
             var vt = new ViewTrack(simpleHref(t.Link), t.Name, (int)t.Duration, artists, t.Album.Name, simpleHref(t.Album.Link));
             return vt;
         }

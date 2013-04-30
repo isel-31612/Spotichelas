@@ -1,5 +1,6 @@
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
 [Oo]bj/
+[Bb]in/
 
 # mstest test results
 TestResults
@@ -78,7 +79,7 @@ publish
 *.Publish.xml
 
 # NuGet Packages Directory
-# packages
+# packages - Removed since they are needed for AppHarbor to locate 3rd party librarys
 
 # Windows Azure Build Output
 csx

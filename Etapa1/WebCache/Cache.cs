@@ -36,13 +36,13 @@ namespace WebCache
             map.Add(uri, value);
         }
 
-        private class CacheValue<T>
+        private class CacheValue<E> where E : T
         {
-            readonly KeyValuePair<T, DateTime> value;
+            readonly KeyValuePair<E, DateTime> value;
 
-            public CacheValue(T t, DateTime dt)
+            public CacheValue(E e, DateTime dt)
             {
-                value = new KeyValuePair<T, DateTime>(t,dt);
+                value = new KeyValuePair<E, DateTime>(e,dt);
             }
 
             public bool Expired()
@@ -50,7 +50,7 @@ namespace WebCache
                 return DateTime.Compare(DateTime.Now, value.Value) < 0;
             }
 
-            public T Get()
+            public E Get()
             {
                 return value.Key;
             }

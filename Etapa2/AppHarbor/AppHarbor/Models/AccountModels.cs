@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Web.Mvc;
 using System.Web.Security;
 
-namespace SpotiChelasWebApp.Models
+namespace AppHarbor.Models
 {
 
     public class ChangePasswordModel

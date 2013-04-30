@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SpotiChelasWebApp")]
+[assembly: AssemblyTitle("AppHarbor")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SpotiChelasWebApp")]
+[assembly: AssemblyProduct("AppHarbor")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("9bd4b212-eecd-4e02-8b1c-ded619a69fee")]
+[assembly: Guid("452b2bf0-af4a-4901-baf4-6c442320f71c")]
 
 // Version information for an assembly consists of the following four values:
 //

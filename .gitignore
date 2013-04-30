@@ -79,7 +79,8 @@ publish
 *.Publish.xml
 
 # NuGet Packages Directory
-# packages - Removed since they are needed for AppHarbor to locate 3rd party librarys
+packages 
+#- Removed since they are needed for AppHarbor to locate 3rd party librarys
 
 # Windows Azure Build Output
 csx

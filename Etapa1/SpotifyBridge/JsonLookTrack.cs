@@ -9,9 +9,9 @@ namespace SpotifyBridge
         [JsonProperty("name")]
         public string Name;
         [JsonProperty("artists", ItemIsReference = true)]
-        public List<JsonLookArtist> Artist;
+        public List<JsonArtist> Artist;
         [JsonProperty("album", ItemIsReference = true)]
-        public JsonLookAlbum Album;
+        public JsonAlbum Album;
         [JsonProperty("available")]
         public bool Available;
         [JsonProperty("track-number")]
@@ -23,6 +23,30 @@ namespace SpotifyBridge
 
         public JsonLookTrack()
         {
+        }
+
+        public class JsonAlbum
+        {
+            [JsonProperty("released")]
+            public int Released;
+            [JsonProperty("href")]
+            public string Link;
+            [JsonProperty("name")]
+            public string Name;
+
+            public JsonAlbum()
+            { }
+        }
+
+        public class JsonArtist
+        {
+            [JsonProperty("href")]
+            public string Link;
+            [JsonProperty("name")]
+            public string Name;
+
+            public JsonArtist()
+            { }
         }
     }
 }

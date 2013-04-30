@@ -33,6 +33,7 @@ namespace Views
                 artists.Count>0
                 ? Ul(artists.Select(art => Li(Text(art.Name), A(ResolveUri.For(art), "View"))).ToArray())
                 : Text("No results found"),
+                //SearchFrame(info),
                 Ul(
                     Li(A(ResolveUri.ForHome(), "Home")),
                     Li(A(ResolveUri.ForPlaylist(), "Playlists"))
@@ -49,6 +50,7 @@ namespace Views
                     albuns.Select( alb => Li(Text(alb.Name),A(ResolveUri.For(alb),"View"))).ToArray()
                 )
                 : Text("No results found"),
+                //SearchFrame(info),
                 Ul(
                     Li(A(ResolveUri.ForHome(), "Home")),
                     Li(A(ResolveUri.ForPlaylist(), "Playlists"))
@@ -65,11 +67,28 @@ namespace Views
                     tracks.Select( trc => Li(Text(trc.Name), A(ResolveUri.For(trc),trc.Name))).ToArray()
                 )
                 : Text("No results found"),
+                //SearchFrame(info),
                 Ul(
                     Li(A(ResolveUri.ForHome(), "Home")),
                     Li(A(ResolveUri.ForPlaylist(), "Playlists"))
                 )
             )
         { }
+
+        public static IWritable SearchFrame(SearchInfo info)
+        {
+            int lastPage = info.Count/info.Max;
+            lastPage += info.Count % info.Max == 0 ? 0 : 1;
+            int prevPage = info.Page == 1 ? 1 : info.Page - 1;
+            string firsHref = string.Format("/search/{0}/{1}&page={2}", info.Type, info.Query, 1);
+            string prevHref = string.Format("/search/{0}/{1}&page={2}", info.Type, info.Query, prevPage);
+            string nextHref = string.Format("/search/{0}/{1}&page={2}", info.Type, info.Query, info.Page + 1);
+            string lastHref = string.Format("/search/{0}/{1}&page={2}", info.Type, info.Query, lastPage);
+            return P(   Form("GET",firsHref,InputSubmit("First")),
+                        Form("GET",prevHref,InputSubmit("Prev")),
+                        Form("GET",nextHref,InputSubmit("Next")),
+                        Form("GET",lastHref,InputSubmit("Last"))
+                );
+        }
     }
 }

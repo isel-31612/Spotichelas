@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Entities;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace SpotifyBridge
 {
@@ -10,5 +12,7 @@ namespace SpotifyBridge
         public string Name;
         [JsonProperty("popularity")]
         public string Relevance;
+
+        public JsonSearchArtist() { }
     }
 }

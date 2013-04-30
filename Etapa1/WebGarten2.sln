@@ -40,6 +40,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6AB1D2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyBridge", "SpotifyBridge\SpotifyBridge.csproj", "{38052F46-34DB-4561-89D0-1F9D72583249}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCache", "WebCache\WebCache.csproj", "{EA9C78D7-FF76-4A61-BC2D-32506DBBC164}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -192,6 +194,16 @@ Global
 		{38052F46-34DB-4561-89D0-1F9D72583249}.Release|ARM.ActiveCfg = Release|Any CPU
 		{38052F46-34DB-4561-89D0-1F9D72583249}.Release|x64.ActiveCfg = Release|Any CPU
 		{38052F46-34DB-4561-89D0-1F9D72583249}.Release|x86.ActiveCfg = Release|Any CPU
+		{EA9C78D7-FF76-4A61-BC2D-32506DBBC164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA9C78D7-FF76-4A61-BC2D-32506DBBC164}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA9C78D7-FF76-4A61-BC2D-32506DBBC164}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{EA9C78D7-FF76-4A61-BC2D-32506DBBC164}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EA9C78D7-FF76-4A61-BC2D-32506DBBC164}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EA9C78D7-FF76-4A61-BC2D-32506DBBC164}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA9C78D7-FF76-4A61-BC2D-32506DBBC164}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA9C78D7-FF76-4A61-BC2D-32506DBBC164}.Release|ARM.ActiveCfg = Release|Any CPU
+		{EA9C78D7-FF76-4A61-BC2D-32506DBBC164}.Release|x64.ActiveCfg = Release|Any CPU
+		{EA9C78D7-FF76-4A61-BC2D-32506DBBC164}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

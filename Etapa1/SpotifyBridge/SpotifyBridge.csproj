@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.5.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -42,10 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JsonExtensions.cs" />
     <Compile Include="JsonLookAlbum.cs" />
     <Compile Include="JsonLookArtist.cs" />
     <Compile Include="JsonSearchAlbum.cs" />
     <Compile Include="JsonSearchArtist.cs" />
+    <Compile Include="JsonSearchInfo.cs" />
     <Compile Include="JsonSearchTrack.cs" />
     <Compile Include="JsonLookTrack.cs" />
     <Compile Include="LookUp.cs" />
@@ -61,6 +64,10 @@
     <ProjectReference Include="..\Utils\Utils.csproj">
       <Project>{88faf17d-c105-427b-a1af-58c60cb15cb1}</Project>
       <Name>Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebCache\WebCache.csproj">
+      <Project>{ea9c78d7-ff76-4a61-bc2d-32506dbbc164}</Project>
+      <Name>WebCache</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

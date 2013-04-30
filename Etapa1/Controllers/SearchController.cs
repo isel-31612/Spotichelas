@@ -7,6 +7,7 @@ using WebGarten2;
 using WebGarten2.Html;
 using Utils;
 using System.Net;
+using System;
 
 namespace Controllers
 {
@@ -34,10 +35,11 @@ namespace Controllers
             string searchType = content["type"];
             string searchQuery = content["search"];
             if (searchQuery == null) return new HttpResponseMessage(HttpStatusCode.BadRequest);//TODO: reshow page with errors
-            return new HttpResponseMessage
+            var resp = new HttpResponseMessage
             {
                 Content = Method(searchQuery,searchType).AsHttpContent("text/html")
             };
+            return resp;
         }
 
         public HtmlDoc Method(string searchQuery, string type)

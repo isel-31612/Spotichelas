@@ -1,15 +1,18 @@
 ﻿using System;
 using System.IO;
-
 using System.Net;
 using System.Text;
+
+using WebCache;
 
 namespace SpotifyBridge
 {
     public class SpotifyInterpreter
     {
+        Cache<string> cache;
         public SpotifyInterpreter()
         {
+            cache = new Cache<string>();
         }
 
         public string search(string type, string query)
@@ -34,6 +37,10 @@ namespace SpotifyBridge
 
         private string ProcessRequest(string requestUri)
         {
+            string cachedResult;                //TODO: É o sitio certo para a cache? Nao e melhor fazer cache dum JsonResult?
+            if (cache.Get(requestUri, out cachedResult))
+                return cachedResult;
+
             WebRequest wr = WebRequest.Create(new Uri(requestUri));
             wr.Method = "GET";
             HttpWebResponse reply = null;
@@ -54,17 +61,14 @@ namespace SpotifyBridge
 
         private string ProcessReply(HttpWebResponse reply)
         {
-                var encoder = getEncoding(reply.ContentType);
-                Stream stream = reply.GetResponseStream();
-                byte[] array = new byte[reply.ContentLength];
-                long readCount = stream.Read(array, 0, array.Length);
-                String sb = encoder.Invoke(array);
-                return sb;
+                var encode = getEncoding(reply.ContentType);
+                StreamReader stream = new StreamReader(reply.GetResponseStream(), encode);
+                return stream.ReadToEnd();
         }
 
-        private Func<byte[],string> getEncoding(string encoding)
+        private Encoding getEncoding(string encoding)
         {
-            if (encoding.Contains("utf-8")) return System.Text.Encoding.UTF8.GetString;
+            if (encoding.Contains("utf-8")) return System.Text.Encoding.GetEncoding("utf-8");
             throw new EncoderFallbackException();
         }
     }

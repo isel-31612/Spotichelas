@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessRules;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,6 @@ namespace AppHarbor.Controllers
         public ActionResult Index()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
-
             return View();
         }
 

@@ -8,49 +8,58 @@ using System.Net;
 using System.Text;
 using System.Linq;
 using Utils;
-using WebCache;
+using WebManager;
 
 namespace SpotifyBridge
 {
     public class Searcher
     {
-        public SpotifyInterpreter interpreter;
+        public HttpInterpreter interpreter;
         public Searcher()
         {
-            interpreter = new SpotifyInterpreter(new Cache<string,string>());
+            interpreter = new SpotifyInterpreter();
         }
 
         public List<Track> Track(string Name, out SearchInfo info)
         {
             string query = Name.Replace(' ', '+');
-            var json = interpreter.search("track", query);
-            var search = JsonConvert.DeserializeObject<JsonSearchResult>(json);
-            var list = search.tracks.ToEntityList();
+            var json = search("track", query);
+            var results = JsonConvert.DeserializeObject<JsonSearchResult>(json);
+            var list = results.tracks.ToEntityList();
 
-            info = search.ExtractSearchInfo();
+            info = results.ExtractSearchInfo();
             return list;
         }
 
         public List<Album> Album(string Name, out SearchInfo info)
         {
             string query = Name.Replace(' ', '+');
-            var json = interpreter.search("album", query);
-            var search = JsonConvert.DeserializeObject<JsonSearchResult>(json);
-            var list = search.albums.ToEntityList();
+            var json = search("album", query);
+            var results = JsonConvert.DeserializeObject<JsonSearchResult>(json);
+            var list = results.albums.ToEntityList();
 
-            info = search.ExtractSearchInfo();
+            info = results.ExtractSearchInfo();
             return list;
         }
 
         public List<Artist> Artist(string Name, out SearchInfo info)
         {
             string query = Name.Replace(' ', '+');
-            var json = interpreter.search("artist", query);
-            var search = JsonConvert.DeserializeObject<JsonSearchResult>(json);
-            var list = search.artists.ToEntityList();
+            var json = search("artist", query);
+            var results = JsonConvert.DeserializeObject<JsonSearchResult>(json);
+            var list = results.artists.ToEntityList();
 
-            info = search.ExtractSearchInfo();
+            info = results.ExtractSearchInfo();
             return list;
+        }
+
+        public string search(string type, string query)
+        {
+            string request = "http://ws.spotify.com/search/1/{0}{1}?q={2}";
+            string requestType = ".json";
+            string requestObj = type;
+            string requestUri = string.Format(request, requestObj, requestType, query);
+            return interpreter.GetResponse(requestUri);
         }
     }
     public class JsonSearchResult

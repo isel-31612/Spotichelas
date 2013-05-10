@@ -46,6 +46,7 @@
     <Compile Include="Edit\EditArtist.cs" />
     <Compile Include="Edit\EditPlaylist.cs" />
     <Compile Include="Edit\EditTrack.cs" />
+    <Compile Include="GravatarTransformer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResolveUri.cs" />
     <Compile Include="SearchInfo.cs" />

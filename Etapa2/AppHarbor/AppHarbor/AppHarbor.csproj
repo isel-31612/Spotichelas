@@ -207,13 +207,9 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Logic\BusinessRules.csproj">
+    <ProjectReference Include="..\Logic\BusinessRules.csproj">
       <Project>{3554e605-c3d7-474d-be7c-b13ca5f14c35}</Project>
       <Name>BusinessRules</Name>
-    </ProjectReference>
-    <ProjectReference Include="Utils\Utils.csproj">
-      <Project>{88faf17d-c105-427b-a1af-58c60cb15cb1}</Project>
-      <Name>Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

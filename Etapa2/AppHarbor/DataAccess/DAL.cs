@@ -1,4 +1,5 @@
 ﻿using Entities;
+using SpotifyBridge;
 using System;
 using System.Collections.Generic;
 using Utils;
@@ -91,17 +92,17 @@ namespace DataAccess
         {
             return searcher.getTrack(link);
         }
-        public List<Album> getAllAlbum(string query, out SearchInfo info)
+        public SearchResult<Album> getAllAlbum(string query)
         {
-            return searcher.getAlbuns(query, out info);
+            return searcher.getAlbuns(query);
         }
-        public List<Artist> getAllArtists(string query, out SearchInfo info)
+        public SearchResult<Artist> getAllArtists(string query)
         {
-            return searcher.getArtists(query, out info);
+            return searcher.getArtists(query);
         }
-        public List<Track> getAllTracks(string query, out SearchInfo info)
+        public SearchResult<Track> getAllTracks(string query)
         {
-            return searcher.getTracks(query, out info);
+            return searcher.getTracks(query);
         }
     }
 }

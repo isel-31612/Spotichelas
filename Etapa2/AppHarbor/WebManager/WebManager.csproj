@@ -46,7 +46,7 @@
     <Compile Include="SpotifyInterpreter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AppHarbor\WebCache\WebCache.csproj">
+    <ProjectReference Include="..\WebCache\WebCache.csproj">
       <Project>{ea9c78d7-ff76-4a61-bc2d-32506dbbc164}</Project>
       <Name>WebCache</Name>
     </ProjectReference>

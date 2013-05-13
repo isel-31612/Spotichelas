@@ -1,8 +1,10 @@
-﻿using DataAccess;
+﻿using System.Linq;
+using System.Collections.Generic;
+
+using DataAccess;
 using Entities;
 using Utils;
-using System.Linq;
-using System.Collections.Generic;
+
 namespace BusinessRules
 {
     public class EditLogic

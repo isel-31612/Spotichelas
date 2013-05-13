@@ -1,14 +1,16 @@
-﻿using Entities;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Linq;
+
 using Utils;
 using WebManager;
+using Entities;
+
+using Newtonsoft.Json;
 
 namespace SpotifyBridge
 {
@@ -20,37 +22,37 @@ namespace SpotifyBridge
             interpreter = new SpotifyInterpreter();
         }
 
-        public List<Track> Track(string Name, out SearchInfo info)
+        public SearchResult<Track> Track(string Name)
         {
             string query = Name.Replace(' ', '+');
             var json = search("track", query);
             var results = JsonConvert.DeserializeObject<JsonSearchResult>(json);
             var list = results.tracks.ToEntityList();
 
-            info = results.ExtractSearchInfo();
-            return list;
+            SearchInfo info = results.ExtractSearchInfo();
+            return new SearchResult<Track>(list,info);
         }
 
-        public List<Album> Album(string Name, out SearchInfo info)
+        public SearchResult<Album> Album(string Name)
         {
             string query = Name.Replace(' ', '+');
             var json = search("album", query);
             var results = JsonConvert.DeserializeObject<JsonSearchResult>(json);
             var list = results.albums.ToEntityList();
 
-            info = results.ExtractSearchInfo();
-            return list;
+            SearchInfo info = results.ExtractSearchInfo();
+            return new SearchResult<Album>(list,info);
         }
 
-        public List<Artist> Artist(string Name, out SearchInfo info)
+        public SearchResult<Artist> Artist(string Name)
         {
             string query = Name.Replace(' ', '+');
             var json = search("artist", query);
             var results = JsonConvert.DeserializeObject<JsonSearchResult>(json);
             var list = results.artists.ToEntityList();
 
-            info = results.ExtractSearchInfo();
-            return list;
+            SearchInfo info = results.ExtractSearchInfo();
+            return new SearchResult<Artist>(list,info);
         }
 
         public string search(string type, string query)
@@ -76,5 +78,17 @@ namespace SpotifyBridge
         public JsonSearchResult()
         {
         } 
+    }
+
+    public class SearchResult<T>
+    {
+        public List<T> Results;
+        public SearchInfo Info;
+
+        public SearchResult(List<T> items, SearchInfo info)
+        {
+            Results = items;
+            Info = info;
+        }
     }
 }

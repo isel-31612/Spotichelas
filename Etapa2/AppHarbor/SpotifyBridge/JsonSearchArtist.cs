@@ -1,6 +1,8 @@
-﻿using Entities;
+﻿using System.Collections.Generic;
+
+using Entities;
+
 using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace SpotifyBridge
 {

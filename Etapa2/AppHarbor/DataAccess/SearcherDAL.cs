@@ -15,9 +15,9 @@ namespace DataAccess
             Find = new Searcher(); //TODO: dependency Injector
             Request = new LookUp(); //TODO: dependency Injector
         }
-        public List<Track> getTracks(string name, out SearchInfo info)
+        public SearchResult<Track> getTracks(string name)
         {
-            return Find.Track(name, out info);
+            return Find.Track(name);
         }
 
         public Track getTrack(string Link)
@@ -25,9 +25,9 @@ namespace DataAccess
             return Request.Track(Link);
         }
 
-        public List<Artist> getArtists(string name, out SearchInfo info)
+        public SearchResult<Artist> getArtists(string name)
         {
-            return Find.Artist(name, out info);
+            return Find.Artist(name);
         }
 
         public Artist getArtist(string Link)
@@ -35,9 +35,9 @@ namespace DataAccess
             return Request.Artist(Link);
         }
 
-        public List<Album> getAlbuns(string name, out SearchInfo info)
+        public SearchResult<Album> getAlbuns(string name)
         {
-            return Find.Album(name, out info);
+            return Find.Album(name);
         }
 
         public Album getAlbum(string Link)

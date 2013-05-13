@@ -1,7 +1,8 @@
-﻿using DataAccess;
-using Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
+
+using DataAccess;
+using Entities;
 using Utils;
 
 namespace BusinessRules

@@ -7,10 +7,7 @@ namespace WebManager
 {
     public class SpotifyInterpreter : HttpCachedInterpreter
     {
-        public SpotifyInterpreter() : base(new Cache<string,string>())
-        {
-        }
-
+        public SpotifyInterpreter() : base(new Cache<string,string>()){}
 
         protected override string GetCachedValue(HttpClient client, out DateTime date)
         {

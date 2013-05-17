@@ -79,7 +79,8 @@ namespace AppHarbor.Controllers
             {
                 // Attempt to register the user
                 MembershipCreateStatus createStatus;
-                Membership.CreateUser(model.UserName, model.Password, model.Email, null, null, true, null, out createStatus);
+                Membership.CreateUser(model.UserName, model.Password, model.Email, model.SecurityQuestion, model.SecurityAnswer
+                                        , true, out createStatus);
 
                 if (createStatus == MembershipCreateStatus.Success)
                 {

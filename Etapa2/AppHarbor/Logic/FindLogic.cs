@@ -20,7 +20,7 @@ namespace BusinessRules
         {
             var pl = repo.get<Playlist>(id);
             Entities.Permission p;
-            if(pl.Owner.Equals(user) || (pl.Shared.TryGetValue(user, out p) && p.CanRead))
+            if(pl!=null && (pl.Owner.Equals(user) || (pl.Shared.TryGetValue(user, out p) && p.CanRead)))
                 return new ViewPlaylist(pl.id,pl.Name,pl.Description,pl.Owner, pl.Tracks);
             return null;
         }
@@ -35,7 +35,7 @@ namespace BusinessRules
         public ViewAlbum Album(string link)
         {
             var al = repo.getAlbum(link);
-            List<KeyValuePair<string, string>> artists = al.Artists.Select(a => new KeyValuePair<string, string>(simpleHref(a.Link), a.Name)).ToList();
+            List<KeyValuePair<string, string>> artists = al.Artists.Select(a => new KeyValuePair<string, string>(a.Link!=null?simpleHref(a.Link):null, a.Name)).ToList();
             List<KeyValuePair<string, string>> tracks = al.Tracks.Select(t => new KeyValuePair<string, string>(simpleHref(t.Link), t.Name)).ToList();
             var val = new ViewAlbum(simpleHref(al.Link), al.Name, (int)al.Year, artists,tracks);
             return val;
@@ -43,7 +43,7 @@ namespace BusinessRules
         public ViewTrack Track(string link)
         {
             var t = repo.getTrack(link);
-            List<KeyValuePair<string, string>> artists = t.Artist.Select(x => new KeyValuePair<string, string>(simpleHref(x.Link), x.Name)).ToList();
+            List<KeyValuePair<string, string>> artists = t.Artist.Select(x => new KeyValuePair<string, string>(x.Link!=null?simpleHref(x.Link):null, x.Name)).ToList();
             var vt = new ViewTrack(simpleHref(t.Link), t.Name, (int)t.Duration, artists, t.Album.Name, simpleHref(t.Album.Link));
             return vt;
         }

@@ -57,7 +57,7 @@ namespace BusinessRules
             var ret = new List<ViewTrack>();
             foreach (var track in result.Results)
             {
-                List<KeyValuePair<string, string>> artists = track.Artist.Select(a => new KeyValuePair<string, string>(simpleHref(a.Link), a.Name)).ToList();
+                List<KeyValuePair<string, string>> artists = track.Artist.Select(a => new KeyValuePair<string, string>(a.Link!=null?simpleHref(a.Link):null, a.Name)).ToList();
                 var album = track.Album;
                 ret.Add( new ViewTrack(simpleHref(track.Link), track.Name, (int)track.Duration, artists, track.Album.Name, simpleHref(track.Album.Link))); 
             }

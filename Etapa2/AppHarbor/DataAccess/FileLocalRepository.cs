@@ -10,7 +10,7 @@ namespace DataAccess
     public class FileLocalRepository : Repository
     {
         private DbContext db;
-        public FileLocalRepository(string context = "Debug")
+        public FileLocalRepository(string context = "DefaultConnection")
         {
             db = new EFModel(context); //TODO: Use dependency injector
         }
@@ -24,7 +24,8 @@ namespace DataAccess
 
         T Repository.getT<T>(int id)
         {
-            return db.Set<T>().Where(x => x.id == id).FirstOrDefault();
+            var result = db.Set<T>();
+            return result.Where(x => x.id == id).FirstOrDefault();
         }
 
         T[] Repository.getAllLike<T>(T t)

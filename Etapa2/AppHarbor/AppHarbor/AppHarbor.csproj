@@ -58,6 +58,10 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Providers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Providers.Core.1.1\lib\net40\System.Web.Providers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -99,6 +103,8 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PlaylistController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -199,6 +205,20 @@
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
+    <Content Include="Views\Playlist\Details.cshtml" />
+    <Content Include="Views\Playlist\List.cshtml" />
+    <Content Include="Views\Playlist\Edit.cshtml" />
+    <Content Include="Views\Playlist\Create.cshtml" />
+    <Content Include="Views\Playlist\Delete.cshtml" />
+    <Content Include="Views\Playlist\Permission.cshtml" />
+    <Content Include="Views\Search\Query.cshtml" />
+    <Content Include="Views\Search\Result.cshtml" />
+    <Content Include="Views\Search\Track.cshtml" />
+    <Content Include="Views\Search\Album.cshtml" />
+    <Content Include="Views\Search\Artist.cshtml" />
+    <Content Include="Views\Search\TrackList.cshtml" />
+    <Content Include="Views\Search\AlbumList.cshtml" />
+    <Content Include="Views\Search\ArtistList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -210,6 +230,10 @@
     <ProjectReference Include="..\Logic\BusinessRules.csproj">
       <Project>{3554e605-c3d7-474d-be7c-b13ca5f14c35}</Project>
       <Name>BusinessRules</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{88faf17d-c105-427b-a1af-58c60cb15cb1}</Project>
+      <Name>Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -16,7 +16,7 @@ namespace BusinessRules
             repo = d;
         }
 
-        public ViewPlaylist PlaylistTo(EditPlaylist editPlaylist, string user)
+        public ViewPlaylist PlaylistTo(ViewPlaylist editPlaylist, string user)
         {
             int id = editPlaylist.Id;
             var oldP = repo.get<Playlist>(id);

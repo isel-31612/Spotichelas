@@ -12,10 +12,10 @@ namespace BusinessRules
             repo = d;
         }
 
-        public ViewPlaylist Playlist(int id)
+        public ViewPlaylist Playlist(int id, string user) //TODO: check user
         {
             Playlist p = repo.get<Playlist>(id);
-            if (p == null && p.Tracks.Count > 0)
+            if (p == null || p.Tracks.Count > 0 || !p.Owner.Equals(user))
                 return null;
             var old = repo.remove<Playlist>(id);
             var removed = new ViewPlaylist(old.id, old.Name, old.Description,old.Owner);

@@ -1,0 +1,28 @@
+﻿@model Utils.ViewArtist
+
+@{
+    ViewBag.Title = "Artists";
+}
+
+<h2>Artists</h2>
+
+<fieldset>
+    <legend>ViewArtist</legend>
+
+    <div class="display-label">Name</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">Artists</div>
+    <div class="display-field">
+        <ul>
+            @foreach(var album in Model.Albuns){
+                <li> @(album.Key!=null?Html.ActionLink(album.Value,"Album",new { href=album.Key}):Html.Label("",album.Value)) </li>
+            }
+        </ul>
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Back to Search", "Query")
+</p>

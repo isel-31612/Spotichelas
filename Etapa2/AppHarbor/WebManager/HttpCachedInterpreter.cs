@@ -16,6 +16,7 @@ namespace WebManager
         {
             Uri requestUri = CreateUri(uri);
             HttpClient client = CreateRequest();
+            client.BaseAddress = requestUri;
             DateTime dt;
             var value = GetCachedValue(client, out dt);
             if (value != null)

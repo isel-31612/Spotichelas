@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Utils.ViewTrack>
+
+@{
+    ViewBag.Title = "TrackList";
+}
+
+<h2>TrackList</h2>
+
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Duration
+        </th>
+        <th>
+            Artist
+        </th>
+        <th>
+            Album
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Duration)
+        </td>
+        <td>
+            @item.Artists.First().Value
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Album.Value)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Track", new { href = item.Href })
+        </td>
+    </tr>
+}
+</table>
+
+<p> @Html.ActionLink("Back to Search","Query")</p>

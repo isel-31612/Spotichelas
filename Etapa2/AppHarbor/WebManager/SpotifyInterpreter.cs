@@ -31,7 +31,7 @@ namespace WebManager
         protected override void CacheResult(HttpResponseMessage response, string value)
         {
             string uri = response.RequestMessage.RequestUri.PathAndQuery;
-            DateTime expires = response.Content.Headers.Expires.Value.Date;
+            DateTime expires = response.Content.Headers.Expires==null? DateTime.Now.AddDays(1):response.Content.Headers.Expires.Value.Date;
             DateTime date = response.Headers.Date.Value.Date;
             webCache.Add(uri, value, date, expires);
         }

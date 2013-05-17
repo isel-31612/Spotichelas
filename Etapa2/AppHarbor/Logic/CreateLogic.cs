@@ -23,7 +23,7 @@ namespace BusinessRules
             if (name.Equals("") || desc.Equals(""))
                 return null;
             Playlist p = new Playlist(name, desc, user);
-            Playlist[] matchingPlaylists = repo.getAll(p);
+            Playlist[] matchingPlaylists = new Playlist[0];//TODO: repo.getAll(p); stupid error...
             if (matchingPlaylists.Length <= 0)
             {
                 int id = repo.put(p);

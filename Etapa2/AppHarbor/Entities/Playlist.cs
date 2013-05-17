@@ -11,6 +11,15 @@ namespace Entities
         public virtual Dictionary<string, Permission> Shared { get; set; }
         public virtual Dictionary<string, string> Tracks {get; set;}
 
+        public Playlist()
+        {
+            Name = null;
+            Description = null;
+            Owner = null;
+            Tracks = new Dictionary<string, string>();
+            Shared = new Dictionary<string, Permission>();
+        }
+
         public Playlist(string name, string description, string user)
         {
             Name = name;

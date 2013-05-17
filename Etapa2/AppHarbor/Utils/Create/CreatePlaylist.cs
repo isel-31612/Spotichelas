@@ -5,10 +5,9 @@
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public CreatePlaylist(string name,string description)
+        public CreatePlaylist()
         {
-            Name = name;
-            Description = description;
+
         }
     }
 }

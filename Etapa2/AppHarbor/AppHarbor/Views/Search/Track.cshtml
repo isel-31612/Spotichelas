@@ -1,0 +1,38 @@
+﻿@model Utils.ViewTrack
+
+@{
+    ViewBag.Title = "Track";
+}
+
+<h2>Track</h2>
+
+<fieldset>
+    <legend>ViewTrack</legend>
+
+    <div class="display-label">Name</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">Duration</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Duration)
+    </div>
+
+    <div class="display-label">Artists</div>
+    <div class="display-field">
+    <ul>
+        @foreach(var artist in Model.Artists){
+                <li> @(artist.Key!=null?Html.ActionLink(artist.Value,"Artist",new { href=artist.Key}):Html.Label("",artist.Value)) </li>
+        }
+    </ul>
+    </div>
+
+    <div class="display-label">Album</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Album.Value)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Back to Search", "Query")
+</p>

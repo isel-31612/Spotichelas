@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Query";
+}
+
+<h2>Query</h2>
+
+@using (Html.BeginForm("Result","Search",FormMethod.Get))
+{
+    string[] modes = { "Track", "Artist", "Album" };
+    
+    @Html.TextBox("query")
+            
+    @Html.DropDownList("mode",modes.Select( c => new SelectListItem { Value = c.ToLower(), Text = c }))
+
+    <input class="button" id="submit" type="submit" value="Search"/>
+}
+

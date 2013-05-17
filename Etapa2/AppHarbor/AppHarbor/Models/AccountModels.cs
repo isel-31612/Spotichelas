@@ -63,5 +63,17 @@ namespace AppHarbor.Models
         [Display(Name = "Confirm password")]
         [System.Web.Mvc.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Security Question")]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        public string SecurityQuestion { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Security Answer")]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        public string SecurityAnswer { get; set; }
     }
 }

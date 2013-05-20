@@ -7,9 +7,11 @@ using System.Web.Security;
 
 using Utils;
 using BusinessRules;
+using System.Collections;
 
 namespace AppHarbor.Controllers
 {
+    [Authorize]
     public class PlaylistController : Controller
     {
         Logic Rules = Logic.Factory();
@@ -115,29 +117,30 @@ namespace AppHarbor.Controllers
             return View("Remove");
         }
 
-        //GET: root/playlist/{id}/Permission
+        //GET: root/playlist/Permission/{id}
         [HttpGet, ActionName("Permission")]
         public ActionResult PermissionGet(int id)
         {
-            string[] users = { "Andre" };
-            ViewBag.Users = users;
+            ViewBag.Users = from MembershipUser u in Membership.GetAllUsers()
+                        select new SelectListItem { Text = u.UserName, Value = u.UserName.ToLower() };
+            
             var playlist = Rules.Find.Playlist(id, GetCurrentUserName());
             return View(playlist);
         }
 
-        //POST: root/playlist/{id}/Permission/{name}
+        //POST: root/playlist/Permission/{id}&{name}&{write}&{read}
         [HttpPost, ActionName("Permission")]
-        public ActionResult PermissionPost(int id, string name)
+        public ActionResult PermissionPost(int id, string name, bool writePermission, bool readPermission)
         {
             var playlist = Rules.Find.Playlist(id, GetCurrentUserName());
-            if (Rules.Edit.RemoveUser(playlist, name))
+            if(Rules.Edit.AddUser(playlist, name, readPermission, writePermission))
                 return RedirectToAction("Details", new { id = playlist.Id });
-            return View("Exclude");
+            return View("Permission");
         }
         
         private string GetCurrentUserName()
         {
-            return "Andre"; //Membership.GetUser().UserName; TODO: Error!!!!1111
+            return Membership.GetUser().UserName;
         }
     }
 }

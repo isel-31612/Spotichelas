@@ -2,12 +2,13 @@
 
 @{
     ViewBag.Title = "Track";
+    IEnumerable<SelectListItem> playlists = ViewBag.Playlists;
 }
 
 <h2>Track</h2>
 
 <fieldset>
-    <legend>ViewTrack</legend>
+    <legend>Track Details</legend>
 
     <div class="display-label">Name</div>
     <div class="display-field">
@@ -30,9 +31,17 @@
 
     <div class="display-label">Album</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Album.Value)
+        @(Model.Album.Key!=null?Html.ActionLink(Model.Album.Value,"Artist",new { href=Model.Album.Key}):Html.Label("",Model.Album.Value))
     </div>
 </fieldset>
+    
+    @Html.TrackPlayer(Model.Href)
+    <!-- TODO: wouldnt be a bad idea to place this in a partial-->
+    @using (Html.BeginForm()){
+        @Html.Hidden("href", new { href=Model.Href });
+        @Html.ListBox("id",playlists)
+        <input class="button" id="Add" type="submit" value="Add to Playlist"/>
+    }
 <p>
     @Html.ActionLink("Back to Search", "Query")
 </p>

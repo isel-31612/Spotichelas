@@ -24,6 +24,8 @@
         @Html.DisplayFor(model => model.Owner)
     </div>
 </fieldset>
+
+    @Html.PlaylistPlayer(Model.Name, Model.Tracks.Select(x=>x.Value).ToArray())
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
     @Html.ActionLink("Back to List", "Index")

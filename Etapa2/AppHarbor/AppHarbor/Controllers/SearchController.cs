@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Utils;
+using System.Web.Security;
 
 namespace AppHarbor.Controllers
 {
@@ -39,9 +40,12 @@ namespace AppHarbor.Controllers
         }
 
         //GET: root/search/track/{href}
-        [HttpGet, ActionName("Track")]
+        [HttpGet, ActionName("Track"),Authorize]
         public ActionResult TrackGet(string href)
         {
+            ViewBag.Playlists = from ViewPlaylist p in Rules.FindAll.Playlists(Membership.GetUser().UserName)
+                                select new SelectListItem { Text = p.Name, Value = p.Id+"" };
+                
             var track = Rules.Find.Track(href);
             return View(track);
         }

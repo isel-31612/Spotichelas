@@ -7,14 +7,14 @@
 <h2>Artists</h2>
 
 <fieldset>
-    <legend>ViewArtist</legend>
+    <legend>Artist Details</legend>
 
     <div class="display-label">Name</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Name)
     </div>
 
-    <div class="display-label">Artists</div>
+    <div class="display-label">Albuns</div>
     <div class="display-field">
         <ul>
             @foreach(var album in Model.Albuns){

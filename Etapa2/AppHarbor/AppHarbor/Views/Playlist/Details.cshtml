@@ -23,9 +23,23 @@
     <div class="display-field">
         @Html.DisplayFor(model => model.Owner)
     </div>
+
+    <table>
+        <thead>
+            <tr>
+                <td>Track Name</td>
+                <td>Remove</td>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var track in Model.Tracks){
+            <tr> <td>@track.Value</td> <td> @Html.ActionLink("Remove Track","Remove",new {id=Model.Id,href=track.Key}) </td></tr>
+        }
+        </tbody>
+    </table>
 </fieldset>
 
-    @Html.PlaylistPlayer(Model.Name, Model.Tracks.Select(x=>x.Value).ToArray())
+    @Html.PlaylistPlayer(Model.Name, Model.Tracks.Select(x=>x.Key).ToArray())
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
     @Html.ActionLink("Back to List", "Index")

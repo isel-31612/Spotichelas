@@ -29,7 +29,7 @@ namespace AppHarbor.Controllers
         [HttpGet, ActionName("Result")]
         public ActionResult ResultsGet(string query,string mode)
         {
-            SearchInfo sf;
+            SearchInfo sf; 
             if (mode.Equals("track"))
                 return View("TrackList",Rules.FindAll.Tracks(query, out sf));
             if(mode.Equals("album"))

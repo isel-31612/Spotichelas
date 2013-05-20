@@ -37,9 +37,10 @@
     
     @Html.TrackPlayer(Model.Href)
     <!-- TODO: wouldnt be a bad idea to place this in a partial-->
-    @using (Html.BeginForm()){
+    @using (Html.BeginForm("Add","Playlist",FormMethod.Post)){
         @Html.Hidden("href", new { href=Model.Href });
-        @Html.ListBox("id",playlists)
+        <!-- TODO: change multiple, to single selection -->
+        @Html.ListBox("id", playlists)
         <input class="button" id="Add" type="submit" value="Add to Playlist"/>
     }
 <p>

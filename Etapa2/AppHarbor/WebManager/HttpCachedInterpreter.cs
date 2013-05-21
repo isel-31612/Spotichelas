@@ -12,7 +12,7 @@ namespace WebManager
         {
             webCache = cache;
         }
-        public override string GetResponse(string uri)
+        protected override string Execute(string uri)
         {
             Uri requestUri = CreateUri(uri);
             HttpClient client = CreateRequest();

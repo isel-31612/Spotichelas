@@ -33,8 +33,12 @@ namespace AppHarbor.Controllers
         [HttpPost, ActionName("New")]
         public ActionResult NewPost(CreatePlaylist pl)
         {
-            var playlist = Rules.Create.Playlist(pl, GetCurrentUserName());
-            return RedirectToAction("Details", new { id = playlist.Id });
+            if (ModelState.IsValid)
+            {
+                var playlist = Rules.Create.Playlist(pl, GetCurrentUserName());
+                return RedirectToAction("Details", new { id = playlist.Id });
+            }
+            return View("New");
         }
 
         //GET: root/playlist/{id}
@@ -67,14 +71,23 @@ namespace AppHarbor.Controllers
         [HttpPost, ActionName("Edit")]
         public ActionResult EditPost(int id)
         {
-            var playlist = Rules.Find.Playlist(id, GetCurrentUserName());
-            if (TryUpdateModel<ViewPlaylist>(playlist))
+            if (ModelState.IsValid)
             {
-                Rules.Edit.PlaylistTo(playlist, GetCurrentUserName());
-                return RedirectToAction("Details", new { id = playlist.Id });
+                var playlist = Rules.Find.Playlist(id, GetCurrentUserName());
+                if (TryUpdateModel<ViewPlaylist>(playlist))
+                {
+                    Rules.Edit.PlaylistTo(playlist, GetCurrentUserName());
+                    return RedirectToAction("Details", new { id = playlist.Id });
+                }
+                else
+                {
+                    return View("Edit");//TODO: suposedly should display edit form with erros.
+                }
             }
             else
-                return View("Edit");//TODO: suposedly should display edit form with erros. Test it
+            {
+                return View("Edit");//TODO: suposedly should display edit form with erros.
+            }
         }
 
         //GET: root/playlist/{id}/delete
@@ -103,18 +116,17 @@ namespace AppHarbor.Controllers
             var track = Rules.Find.Track(href);
             if (Rules.Edit.AddTrack(playlist, track))
                 return RedirectToAction("Details", new { id = playlist.Id });
-            return View("Add");//TODO: i didnt come from here
+            return View("Track");
         }
 
-        //GET: root/playlist/{id}/remove/{href}
+        //POST: root/playlist/{id}/remove/{href}
         [HttpPost, ActionName("Remove")]
-        public ActionResult Remove(int id, string href)
+        public ActionResult RemovePost(int id, string href)
         {
             var playlist = Rules.Find.Playlist(id, GetCurrentUserName());
-            var track = Rules.Find.Track(href);
-            if (Rules.Edit.RemoveTrack(playlist, track))
+            if (Rules.Edit.RemoveTrack(playlist, href))
                 return RedirectToAction("Details", new { id = playlist.Id });
-            return View("Remove");
+            return View("Details");//, new { id=id });
         }
 
         //GET: root/playlist/Permission/{id}

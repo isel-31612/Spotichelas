@@ -4,5 +4,10 @@
 
 <h2>@ViewBag.Message</h2>
 <p>
-    To learn more about ASP.NET MVC visit <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
+    @User.Identity.Name you have access to the following areas
 </p>
+<ul>
+    <li> Your Control Panel - in construction -</li>
+    <li> Your @Html.ActionLink("Playlists","List","Playlist")</li>
+    <li> Our @Html.ActionLink("Search Engine","Index","Search")</li>
+</ul>

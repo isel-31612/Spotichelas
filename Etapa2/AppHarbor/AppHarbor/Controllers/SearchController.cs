@@ -9,6 +9,7 @@ using System.Web.Security;
 
 namespace AppHarbor.Controllers
 {
+    [Authorize]
     public class SearchController : Controller
     {
 
@@ -40,7 +41,7 @@ namespace AppHarbor.Controllers
         }
 
         //GET: root/search/track/{href}
-        [HttpGet, ActionName("Track"),Authorize]
+        [HttpGet, ActionName("Track")]
         public ActionResult TrackGet(string href)
         {
             ViewBag.Playlists = from ViewPlaylist p in Rules.FindAll.Playlists(Membership.GetUser().UserName)

@@ -45,15 +45,15 @@ namespace BusinessRules
             return true;
         }
 
-        public bool RemoveTrack(ViewPlaylist p, ViewTrack t)
+        public bool RemoveTrack(ViewPlaylist p, string href)
         {
             var playlist = repo.get<Playlist>(p.Id);
             Permission per;
             if (!playlist.Owner.Equals(p.Owner) && (!playlist.Shared.TryGetValue(p.Owner, out per) || !per.CanWrite))
                 return false;
-            if (playlist == null || !playlist.Tracks.ContainsKey(t.Href))
+            if (playlist == null || !playlist.Tracks.ContainsKey(href))
                 return false;
-            playlist.Tracks.Remove(t.Href);
+            playlist.Tracks.Remove(href);
             repo.update<Playlist>(p.Id, playlist);
             return true;
         }

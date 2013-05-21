@@ -40,7 +40,7 @@
     @using (Html.BeginForm("Add","Playlist",FormMethod.Post)){
         @Html.Hidden("href", new { href=Model.Href });
         <!-- TODO: change multiple, to single selection -->
-        @Html.ListBox("id", playlists)
+        @Html.DropDownList("id", playlists)
         <input class="button" id="Add" type="submit" value="Add to Playlist"/>
     }
 <p>

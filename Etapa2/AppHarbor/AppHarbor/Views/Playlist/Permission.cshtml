@@ -11,35 +11,39 @@
     <div class="display-field">
         @Html.DisplayFor(model => model.Name)
     </div>
+
+    <div class="display-label">Existent Permissions</div>
 <table>
-    <tr>
-        <th>
-            User Name
-        </th>
-        <th>
-            Write
-        </th>
-        <th>
-            Read
-        </th>
-        <th>
-            Actions
-        </th>
-    </tr>
+    <thead>
+        <tr>
+            <td>
+                <div class="display-label">User Name</div>
+            </td>
+            <td>
+                <div class="display-label">Write</div>
+            </td>
+            <td>
+                <div class="display-label">Read</div>
+            </td>
+            <td>
+                <div class="display-label">Actions</div>
+            </td>
+        </tr>
+    </thead>
     @foreach( var item in Model.Shared){
         <tr>
             <td>
-                <div class="editor-label">
+                <div class="display-field">
                     @Html.DisplayFor(modelItem => item.Key)
                 </div>
             </td>
             <td>
-                <div class="editor-label">
+                <div class="display-field">
                     @Html.DisplayFor(modelItem => item.Value.Write)
                 </div>
             </td>
             <td>
-                <div class="editor-label">
+                <div class="display-field">
                     @Html.DisplayFor(modelItem => item.Value.Read)
                 </div>
             </td>
@@ -54,7 +58,7 @@
 </table>
 <br />
     <h3> Add new user</h3>
-    @using (Html.BeginForm()){
+    @using (Html.BeginForm("Permission","Playlist",FormMethod.Post)){
         @Html.Hidden("id", new { id = Model.Id });
         <table>
             <tr>
@@ -63,12 +67,12 @@
                 <th>Read Permissions</th>
             </tr>
             <tr>
-                <th>@Html.ListBox("newUser",users)</th>
+                <th>@Html.DropDownList("newUser",users)</th>
                 <th>@Html.Label("Grant") @Html.RadioButton("writePermission", "Grant", true) @Html.Label("Deny")@Html.RadioButton("writePermission", "Deny", false)</th>
                 <th>@Html.Label("Grant") @Html.RadioButton("readPermission", "Grant", true)  @Html.Label("Deny")@Html.RadioButton("readPermission", "Deny", false)</th>
             </tr>
         </table>
-        <input class="button" id="submit" type="submit" value="Permission"/>
+        <input class="button" id="Permission" type="submit" value="Save"/>
     }
 <p>
     @Html.ActionLink("Back to Details", "Details",new { id = Model.Id })

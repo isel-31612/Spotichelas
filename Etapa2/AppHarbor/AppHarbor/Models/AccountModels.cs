@@ -108,4 +108,15 @@ namespace AppHarbor.Models
         [Display(Name = "Public Name")]
         public string Nickname { get; set; }
     }
+
+    public class PromoteAccountModel
+    {
+        [Required]
+        [Display(Name = "User Name")]
+        public string Username { get; set; }
+
+        [Required]
+        [Display(Name = "New Role")]
+        public string Role { get; set; }
+    }
 }

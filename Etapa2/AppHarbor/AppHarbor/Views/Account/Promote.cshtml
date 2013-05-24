@@ -1,4 +1,5 @@
-﻿@{
+﻿@model AppHarbor.Models.PromoteAccountModel
+@{
     ViewBag.Title = "Promote";
     List<string> users = ViewBag.Users;
     List<string> roles = ViewBag.Roles;
@@ -11,16 +12,20 @@
 
     @using (Html.BeginForm("Promote","Account", FormMethod.Post)){
         @Html.ValidationSummary(true)
-        <div class="display-label">User to Promote</div>
+        <div class="display-label">
+            @Html.LabelFor(model => model.Username)
+        </div>
         <div class="editor-field">
-            @Html.TextBox("user")
-            @Html.ValidationMessage("user")
+            @Html.TextBoxFor(model=>model.Username)
+            @Html.ValidationMessageFor(model=>model.Username)
         </div>
         
-        <div class="display-label">Role to Promote</div>
+        <div class="display-label">
+            @Html.LabelFor(model => model.Role)
+        </div>
         <div class="editor-field">
-            @Html.TextBox("role")
-            @Html.ValidationMessage("role")
+            @Html.TextBoxFor(model => model.Role)
+            @Html.ValidationMessageFor(model => model.Role)
         </div>
 
         <p>

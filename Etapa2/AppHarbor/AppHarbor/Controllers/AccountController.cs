@@ -10,6 +10,8 @@ using System.Security.Cryptography;
 using System.Text;
 //using Postal;
 using Utils;
+using System.Net.Mail;
+using System.Configuration;
 
 namespace AppHarbor.Controllers
 {
@@ -243,26 +245,26 @@ namespace AppHarbor.Controllers
         //POST: /Account/Promote
         [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Promote")]
-        public ActionResult PromotePost(string user, string role)
+        public ActionResult PromotePost(PromoteAccountModel model)
         {
-            if (Membership.GetUser(user) != null)
-                if (Roles.RoleExists(role))
-                    if (!Roles.IsUserInRole(user, role))
+            if (Membership.GetUser(model.Username) != null)
+                if (Roles.RoleExists(model.Role))
+                    if (!Roles.IsUserInRole(model.Username, model.Role))
                     {
-                        Roles.AddUserToRole(user, role);
+                        Roles.AddUserToRole(model.Username, model.Role);
                         return RedirectToAction("UserCP");
                     }
                     else
                     {
-                        ModelState.AddModelError("user", "User is already in that role!");
+                        ModelState.AddModelError("Username", "User is already in that role!");
                     }
                 else
                 {
-                    ModelState.AddModelError("role", "Role doesnt exist");
+                    ModelState.AddModelError("Role", "Role doesnt exist");
                 }
             else
             {
-                ModelState.AddModelError("user", "User not found!");
+                ModelState.AddModelError("Usename", "User not found!");
             }
             return View("Promote");
         }
@@ -306,11 +308,15 @@ namespace AppHarbor.Controllers
 
         private void sendChallenge(string username, string emailAddress, string challenge)
         {
-  /*          dynamic email = new Email("Email");
-            email.To = emailAddress;
-            email.Name = username;
-            email.Challenge = challenge;
-            email.Send();*/
+            MailMessage mail = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+            mail.From = new MailAddress("ukrany@gmail.com");
+            mail.To.Add(emailAddress);
+            mail.Subject = "Account Validation!";
+            mail.Body = " Validation Code: "+ challenge;
+
+            SmtpServer.Send(mail);
         }
 
         #region Status Codes

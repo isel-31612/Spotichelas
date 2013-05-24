@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Validation";
+    string user = ViewBag.User;
+    string validationCode = ViewBag.Challenge;
+}
+
+	<div class="banner"></div>
+	<div class="mailBody">
+		Hello @user:<br/>
+		
+        Before you can login you must validate your account.
+        Please follow the link below and use this code to complete your registration:
+        @Html.ActionLink("ValidateAccount", "Validate", "Account")
+
+		Thank you.
+		--
+		The Team!
+	</div>

@@ -32,6 +32,7 @@
          </ul>
     </div>
 </fieldset>
+    @Html.PlaylistPlayer(Model.Name, Model.Tracks.Select(x=>x.Key).ToArray())
 <p>
     @Html.ActionLink("Back to Search", "Search")
 </p>

@@ -32,5 +32,19 @@ namespace System.Web.Mvc
             string elem = string.Format("<iframe src=\"https://embed.spotify.com/?uri=spotify:trackset:{0}:{1}\" width=\"300\" height=\"380\" frameborder=\"0\" allowtransparency=\"true\"></iframe>",name,trackset);
             return MvcHtmlString.Create(elem);
         }
+
+        public static MvcHtmlString InputButton(this HtmlHelper helper, string text)
+        {
+            if(text==null || text.Length==0)
+                return MvcHtmlString.Empty;
+            return MvcHtmlString.Create(string.Format("<input type=\"submit\" value=\"{0}\" />",text));
+        }
+
+        public static MvcHtmlString ImageFromUrl(this HtmlHelper helper, string url)
+        {
+            if(url==null || url.Length==0)
+                return MvcHtmlString.Empty;
+            return MvcHtmlString.Create(string.Format("<img src=\"{0}\"/>",url));
+        }
     }
 }

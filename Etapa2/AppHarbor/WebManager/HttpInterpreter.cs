@@ -31,7 +31,7 @@ namespace WebManager
         private string Retry(string uri, int maxTrys)
         {
             if (maxTrys <= 0)
-                throw new CannotCompleteRequestException(string.Format("Response was unacceptable {0} times.",nMaxRetrys));
+                return null;
             string ret = Execute(uri);
             return (ret!=null)? ret: Retry(uri,maxTrys);
         }

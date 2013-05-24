@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
+using System.Configuration;
 
 namespace AppHarbor
 {
@@ -36,17 +37,18 @@ namespace AppHarbor
         {
             AreaRegistration.RegisterAllAreas();
 
-            // Use LocalDB for Entity Framework by default
-            Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=EEEPC;Initial Catalog=Spotichelas;Integrated Security=True; MultipleActiveResultSets=True");
+            // Use LocalDB for Entity Framework by default - Use same connect string, allowing the appharbor injection
+            string defaultString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            Database.DefaultConnectionFactory = new SqlConnectionFactory(defaultString);
             
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
-            if (Membership.FindUsersByName("admin").Count == 0)
+            if (Membership.FindUsersByName("adminstrador").Count == 0)
             {
-                Membership.CreateUser("admin", "password4@DM1N");
+                Membership.CreateUser("adminstrador", "password4@DM1N");
                 if (!Roles.RoleExists("Admin"))
                     Roles.CreateRole("Admin");
-                Roles.AddUserToRole("admin", "Admin");
+                Roles.AddUserToRole("adminstrador", "Admin");
                 
             }
         }

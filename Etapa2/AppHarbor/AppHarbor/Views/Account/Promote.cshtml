@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Promote";
+    List<string> users = ViewBag.Users;
+    List<string> roles = ViewBag.Roles;
+}
+
+<h2>Promote</h2>
+
+<fieldset>
+    <legend>User Info</legend>
+
+    @using (Html.BeginForm("Promote","Account", FormMethod.Post)){
+        @Html.ValidationSummary(true)
+        <div class="display-label">User to Promote</div>
+        <div class="editor-field">
+            @Html.TextBox("user")
+            @Html.ValidationMessage("user")
+        </div>
+        
+        <div class="display-label">Role to Promote</div>
+        <div class="editor-field">
+            @Html.TextBox("role")
+            @Html.ValidationMessage("role")
+        </div>
+
+        <p>
+            @Html.InputButton("Promote")
+        </p>
+    }
+</fieldset>
+
+@Html.ActionLink("Back","Index","Home")

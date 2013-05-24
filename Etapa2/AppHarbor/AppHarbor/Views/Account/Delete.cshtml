@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Delete User";
+    List<string> users = ViewBag.Users;
+}
+
+<h2>Delete User</h2>
+
+
+<fieldset>
+    <legend>User Info</legend>
+
+    @using (Html.BeginForm("Kill","Account", FormMethod.Post)){
+        @Html.ValidationSummary(true)
+        <div class="display-label">User to Delete</div>
+        <div class="editor-field">
+            @Html.TextBox("user")
+            @Html.ValidationMessage("user")
+        </div>
+
+        <p>
+            @Html.InputButton("Delete")
+        </p>
+    }
+</fieldset>
+
+@Html.ActionLink("Back to CP","Index","Home")

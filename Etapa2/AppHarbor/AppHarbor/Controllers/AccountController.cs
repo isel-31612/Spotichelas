@@ -6,12 +6,15 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using AppHarbor.Models;
+using System.Security.Cryptography;
+using System.Text;
+//using Postal;
+using Utils;
 
 namespace AppHarbor.Controllers
 {
     public class AccountController : Controller
     {
-
         //
         // GET: /Account/LogOn
 
@@ -79,13 +82,14 @@ namespace AppHarbor.Controllers
             {
                 // Attempt to register the user
                 MembershipCreateStatus createStatus;
-                Membership.CreateUser(model.UserName, model.Password, model.Email, model.SecurityQuestion, model.SecurityAnswer
-                                        , true, out createStatus);
+                var user = Membership.CreateUser(model.UserName, model.Password, model.Email, model.SecurityQuestion, model.SecurityAnswer
+                                        , false, out createStatus);//isApproved=false user cannot log in
 
                 if (createStatus == MembershipCreateStatus.Success)
                 {
-                    FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
-                    return RedirectToAction("Index", "Home");
+                    user.Comment = ChallengeGenerator(string.Concat(model.UserName,model.Password,model.Email,model.SecurityQuestion,model.SecurityAnswer));
+                    sendChallenge(model.UserName,model.Email, user.Comment);
+                    return RedirectToAction("Validate");
                 }
                 else
                 {
@@ -149,6 +153,164 @@ namespace AppHarbor.Controllers
         public ActionResult ChangePasswordSuccess()
         {
             return View();
+        }
+
+        //GET: /Account/UserCP
+        [Authorize]
+        [HttpGet, ActionName("UserCP")]
+        public ActionResult UserCPGet()
+        {
+            ViewBag.Email = Membership.GetUser().Email;
+            return View("UserCP");
+        }
+
+        //GET: /Account/Validate
+        [HttpGet, ActionName("Validate")]
+        public ActionResult ValidateGet()
+        {
+            return View("Validate");
+        }
+
+        //POST: /Account/Validate
+        [HttpPost, ActionName("Validate")]
+        public ActionResult ValidatePost(ValidateAccountModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = Membership.GetUser(model.Username);
+                var count = from MembershipUser u in Membership.GetAllUsers()
+                            where u.Comment.Equals(model.Nickname)
+                            select u.Comment;
+                if (count.Count() == 0)
+                    if (user.Comment.Equals(model.Challenge))
+                    {
+                        user.IsApproved = true;
+                        user.Comment = model.Nickname;
+                        FormsAuthentication.SetAuthCookie(user.UserName, true /* createPersistentCookie */);
+                        return RedirectToAction("UserCP");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("challenge", "Invalid Challenge Code!");
+                    }
+                else
+                    ModelState.AddModelError("nickname", "Public name already taken!");
+            }
+            return View("Validate");
+            }
+
+        //GET: /Account/Edit
+        [Authorize]
+        [HttpGet, ActionName("Edit")]
+        public ActionResult EditGet()
+        {
+            return View("Edit");
+        }
+
+        //POST: /Account/Edit
+        [Authorize]
+        [HttpPost, ActionName("Edit")]
+        public ActionResult EditPost(EditAccountModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = Membership.GetUser();
+                //TODO: ...
+            }
+            return View("Edit",model);
+        }
+
+        //POST: /Account/Edit
+        [Authorize]
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeletePost() 
+        {
+            var user = Membership.GetUser();
+            Membership.DeleteUser(user.UserName, true);
+            return RedirectToAction("Index", "Home");
+        }
+
+        //GET: /Account/Promote
+        [Authorize(Roles="Admin")]
+        [HttpGet, ActionName("Promote")]
+        public ActionResult PromoteGet()
+        {
+            ViewBag.Users = (from MembershipUser user in Membership.GetAllUsers()
+                             select user.UserName).ToList();
+            return View("Promote");
+        }
+
+        //POST: /Account/Promote
+        [Authorize(Roles = "Admin")]
+        [HttpPost, ActionName("Promote")]
+        public ActionResult PromotePost(string user, string role)
+        {
+            if (Membership.GetUser(user) != null)
+                if (Roles.RoleExists(role))
+                    if (!Roles.IsUserInRole(user, role))
+                    {
+                        Roles.AddUserToRole(user, role);
+                        return RedirectToAction("UserCP");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("user", "User is already in that role!");
+                    }
+                else
+                {
+                    ModelState.AddModelError("role", "Role doesnt exist");
+                }
+            else
+            {
+                ModelState.AddModelError("user", "User not found!");
+            }
+            return View("Promote");
+        }
+
+        //GET: /Account/Delete
+        [Authorize(Roles = "Admin")]
+        [HttpGet, ActionName("Delete")]
+        public ActionResult DeleteGet()
+        {
+            ViewBag.Users = (from MembershipUser user in Membership.GetAllUsers()
+                                select user.UserName).ToList();
+            ViewBag.Roles = Roles.GetAllRoles();
+            return View("Delete");
+        }
+
+        //POST: /Account/Delete
+        [Authorize(Roles = "Admin")]
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeletePost(string user)
+        {
+            if (Membership.GetUser(user) != null)
+            {
+                Membership.DeleteUser(user, true);
+                return RedirectToAction("UserCP");
+            }
+            ModelState.AddModelError("user", "User not found!");
+            return View("Delete");
+        }
+
+        private string ChallengeGenerator(string random)
+        {
+            MD5 md5Hasher = MD5.Create();
+            byte[] data = md5Hasher.ComputeHash(Encoding.UTF8.GetBytes(random));
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < data.Length; i++)
+            {
+                builder.Append(data[i].ToString("x2"));
+            }
+            return builder.ToString();
+        }
+
+        private void sendChallenge(string username, string emailAddress, string challenge)
+        {
+  /*          dynamic email = new Email("Email");
+            email.To = emailAddress;
+            email.Name = username;
+            email.Challenge = challenge;
+            email.Send();*/
         }
 
         #region Status Codes

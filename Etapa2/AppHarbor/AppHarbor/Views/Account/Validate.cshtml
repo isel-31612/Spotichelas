@@ -1,0 +1,37 @@
+﻿@model AppHarbor.Models.ValidateAccountModel
+
+@{
+    ViewBag.Title = "Validate Account";
+}
+
+<h2>Validate Account</h2>
+
+    @using (Html.BeginForm()){
+        @Html.ValidationSummary(true)
+        <div class="display-label">
+            @Html.LabelFor( model => model.Username)</div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Username )
+            @Html.ValidationMessageFor(model => model.Username)
+        </div>
+        
+        <div class="display-label">
+            @Html.LabelFor( model => model.Challenge)</div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Challenge)
+            @Html.ValidationMessageFor(model => model.Challenge)
+        </div>
+        
+        <div class="display-label">
+            @Html.LabelFor(model => model.Nickname)</div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Nickname)
+            @Html.ValidationMessageFor(model => model.Nickname)
+        </div>
+
+        <p>
+            @Html.InputButton("Validate")
+        </p>
+    }
+
+

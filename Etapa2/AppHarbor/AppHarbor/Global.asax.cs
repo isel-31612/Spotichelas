@@ -43,13 +43,17 @@ namespace AppHarbor
             
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+
+            if (!Roles.RoleExists("User"))
+                Roles.CreateRole("User");
             if (Membership.FindUsersByName("adminstrador").Count == 0)
             {
-                Membership.CreateUser("adminstrador", "password4@DM1N");
+                MembershipUser user = Membership.CreateUser("adminstrador", "password4@DM1N");
                 if (!Roles.RoleExists("Admin"))
                     Roles.CreateRole("Admin");
                 Roles.AddUserToRole("adminstrador", "Admin");
-                
+                user.Comment = "MainAdmin";
+                Membership.UpdateUser(user);
             }
         }
     }

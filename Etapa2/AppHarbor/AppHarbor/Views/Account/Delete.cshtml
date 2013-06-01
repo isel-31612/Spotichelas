@@ -9,7 +9,7 @@
 <fieldset>
     <legend>User Info</legend>
 
-    @using (Html.BeginForm("Kill","Account", FormMethod.Post)){
+    @using (Html.BeginForm("Delete","Account", FormMethod.Post)){
         @Html.ValidationSummary(true)
         <div class="display-label">User to Delete</div>
         <div class="editor-field">

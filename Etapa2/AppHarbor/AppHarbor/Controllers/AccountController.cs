@@ -8,10 +8,11 @@ using System.Web.Security;
 using AppHarbor.Models;
 using System.Security.Cryptography;
 using System.Text;
-//using Postal;
+
 using Utils;
 using System.Net.Mail;
 using System.Configuration;
+using System.Net;
 
 namespace AppHarbor.Controllers
 {
@@ -48,7 +49,15 @@ namespace AppHarbor.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                    MembershipUser u = Membership.GetUser(model.UserName);
+                    if (u != null)
+                    {
+                        if (!u.IsApproved)
+                            ModelState.AddModelError("", "Account not yet validated, please validate your account before logging in.");
+                        if (u.IsLockedOut)
+                            ModelState.AddModelError("", "User was denied access. Contact an administrator to find out the reason.");
+                    }else
+                        ModelState.AddModelError("", "The user name or password provided is incorrect.");
                 }
             }
 
@@ -90,6 +99,7 @@ namespace AppHarbor.Controllers
                 if (createStatus == MembershipCreateStatus.Success)
                 {
                     user.Comment = ChallengeGenerator(string.Concat(model.UserName,model.Password,model.Email,model.SecurityQuestion,model.SecurityAnswer));
+                    Membership.UpdateUser(user);
                     sendChallenge(model.UserName,model.Email, user.Comment);
                     return RedirectToAction("Validate");
                 }
@@ -188,6 +198,8 @@ namespace AppHarbor.Controllers
                     {
                         user.IsApproved = true;
                         user.Comment = model.Nickname;
+                        Roles.AddUserToRole(user.UserName, "User");
+                        Membership.UpdateUser(user);
                         FormsAuthentication.SetAuthCookie(user.UserName, true /* createPersistentCookie */);
                         return RedirectToAction("UserCP");
                     }
@@ -222,14 +234,14 @@ namespace AppHarbor.Controllers
             return View("Edit",model);
         }
 
-        //POST: /Account/Edit
+        //POST: /Account/Erase
         [Authorize]
-        [HttpPost, ActionName("Delete")]
-        public ActionResult DeletePost() 
+        [HttpPost, ActionName("Erase")]
+        public ActionResult ErasePost() 
         {
             var user = Membership.GetUser();
             Membership.DeleteUser(user.UserName, true);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("LogOff", "Account");
         }
 
         //GET: /Account/Promote
@@ -309,14 +321,25 @@ namespace AppHarbor.Controllers
         private void sendChallenge(string username, string emailAddress, string challenge)
         {
             MailMessage mail = new MailMessage();
-            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+            using (SmtpClient SmtpServer = new SmtpClient())
+            {
 
-            mail.From = new MailAddress("ukrany@gmail.com");
-            mail.To.Add(emailAddress);
-            mail.Subject = "Account Validation!";
-            mail.Body = " Validation Code: "+ challenge;
+                SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
+                SmtpServer.UseDefaultCredentials = false;
+                SmtpServer.EnableSsl = true;
+                SmtpServer.Host = "smtp.gmail.com";
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new NetworkCredential("spotichelas@gmail.com", "pleasedontstealme");
+                // send the email
 
-            SmtpServer.Send(mail);
+                mail.From = new MailAddress("spotichelas@gmail.com");
+                mail.To.Add(emailAddress);
+                mail.Subject = "Account Validation!";
+                mail.Body = " Validation Code: " + challenge;
+
+                SmtpServer.Send(mail);
+            }
+
         }
 
         #region Status Codes

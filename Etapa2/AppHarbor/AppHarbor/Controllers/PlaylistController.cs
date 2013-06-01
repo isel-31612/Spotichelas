@@ -134,7 +134,7 @@ namespace AppHarbor.Controllers
         public ActionResult PermissionGet(int id)
         {
             ViewBag.Users = from MembershipUser u in Membership.GetAllUsers()
-                        select new SelectListItem { Text = u.UserName, Value = u.UserName.ToLower() };
+                        select new SelectListItem { Text = u.Comment, Value = u.Comment.ToLower() };
             
             var playlist = Rules.Find.Playlist(id, GetCurrentUserName());
             return View(playlist);
@@ -152,7 +152,7 @@ namespace AppHarbor.Controllers
         
         private string GetCurrentUserName()
         {
-            return Membership.GetUser().UserName;
+            return Membership.GetUser().Comment;
         }
     }
 }

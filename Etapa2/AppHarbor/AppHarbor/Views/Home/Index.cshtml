@@ -4,7 +4,7 @@
 
 <h2>@ViewBag.Message</h2>
 <p>
-    @User.Identity.Name role allows access of:
+    @User.Identity.Name role's allows access of:
 </p>
 <ul>
     <li> Your @Html.ActionLink("Control Panel","UserCP","Account")</li>
@@ -12,6 +12,6 @@
     <li> Our @Html.ActionLink("Search Engine","Index","Search")</li>
     @if(User.IsInRole("Admin")){
         <li> @Html.ActionLink("Promote Users","Promote","Account")</li>
-        <li> @Html.ActionLink("Remove Users","Kill","Account")</li>
+        <li> @Html.ActionLink("Remove Users","Delete","Account")</li>
     }
 </ul>

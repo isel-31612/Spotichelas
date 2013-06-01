@@ -1,5 +1,6 @@
 ﻿@if(Request.IsAuthenticated) {
-    <text>Welcome <strong>@User.Identity.Name</strong>!
+    var user = Membership.GetUser(User.Identity.Name);
+    <text>Welcome <strong>@((user!=null)?user.Comment:User.Identity.Name)</strong>!
     [ @Html.ActionLink("Log Off", "LogOff", "Account") ]</text>
 }
 else {

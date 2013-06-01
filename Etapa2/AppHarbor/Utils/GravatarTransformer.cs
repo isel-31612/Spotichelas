@@ -7,6 +7,8 @@ namespace Utils
     {
         public static string GetUserImageUrlFromEmail(string validEmail)
         {
+            if (validEmail == null || validEmail.Length == 0)
+                return "";//TODO: becuz
             string preparedEmail = validEmail.Trim().ToLower();
             MD5 md5Hasher = MD5.Create();
             byte[] data = md5Hasher.ComputeHash(Encoding.UTF8.GetBytes(preparedEmail));

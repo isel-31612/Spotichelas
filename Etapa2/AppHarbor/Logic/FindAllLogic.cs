@@ -19,9 +19,9 @@ namespace BusinessRules
         {
             var pl = repo.getAll<Playlist>();
             Permission per;
-            var list = pl.Where(p => p.Owner.Equals(user) || (p.Shared.TryGetValue(user, out per) && per.CanRead) )
-                         .Select(p => new ViewPlaylist(p.id, p.Name, p.Description,p.Owner, p.Tracks))
-                         .ToArray();
+            var listWhere = pl.Where(p => p.Owner.Equals(user) || (p.Shared.TryGetValue(user, out per) && per.CanRead) );
+            var listSelect = listWhere.Select(p => new ViewPlaylist(p.id, p.Name, p.Description, p.Owner, p.Tracks));
+            var list = listSelect.ToArray();
             return list;
         }
 

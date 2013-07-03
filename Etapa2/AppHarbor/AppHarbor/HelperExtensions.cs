@@ -40,6 +40,13 @@ namespace System.Web.Mvc
             return MvcHtmlString.Create(string.Format("<input type=\"submit\" value=\"{0}\" />",text));
         }
 
+        public static MvcHtmlString InputButton(this HtmlHelper helper, string id, string text)
+        {
+            if (text == null || text.Length == 0)
+                return MvcHtmlString.Empty;
+            return MvcHtmlString.Create(string.Format("<input type=\"submit\" id=\"{0}\" value=\"{1}\" />", id, text));
+        }
+
         public static MvcHtmlString ImageFromUrl(this HtmlHelper helper, string url)
         {
             if(url==null || url.Length==0)

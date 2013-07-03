@@ -5,20 +5,41 @@
 
 <h2>Delete User</h2>
 
+<script type="text/javascript">
+    window.onload = function () {
+        document.getElementById("deleteButton").onclick = function (e) {
+            e.preventDefault();
+            var userName = document.getElementById("user").value ;
+            var requestText = "user=" + userName;
+            if (userName == null || userName == "") {
+                console.log(document.getElementById("valid-user").innerHTML);
+            }
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    alert("User " + userName + " was deleted.");
+                }
+            }
+            xmlhttp.open("POST", "Delete", true);
+            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xmlhttp.send(requestText);
+        }
+    };
+</script>
 
 <fieldset>
     <legend>User Info</legend>
 
-    @using (Html.BeginForm("Delete","Account", FormMethod.Post)){
+    @using (Html.BeginForm()){
         @Html.ValidationSummary(true)
         <div class="display-label">User to Delete</div>
         <div class="editor-field">
             @Html.TextBox("user")
-            @Html.ValidationMessage("user")
+            @Html.ValidationMessage("user", new{ id="valid-user" })
         </div>
 
         <p>
-            @Html.InputButton("Delete")
+            @Html.InputButton("deleteButton","Delete")
         </p>
     }
 </fieldset>

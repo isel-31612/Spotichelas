@@ -297,12 +297,15 @@ namespace AppHarbor.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeletePost(string user)
         {
-            if (Membership.GetUser(user) != null)
-            {
-                Membership.DeleteUser(user, true);
-                return RedirectToAction("UserCP");
-            }
-            ModelState.AddModelError("user", "User not found!");
+            if (user!=null)
+                if(Membership.GetUser(user) != null)
+                {
+                    Membership.DeleteUser(user, true);
+                    return RedirectToAction("UserCP");
+                }else
+                    ModelState.AddModelError("user", "User not found!");
+            else
+                ModelState.AddModelError("user", "User not specified!");
             return View("Delete");
         }
 

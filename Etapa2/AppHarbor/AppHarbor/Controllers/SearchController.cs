@@ -44,7 +44,7 @@ namespace AppHarbor.Controllers
         [HttpGet, ActionName("Track")]
         public ActionResult TrackGet(string href)
         {
-            ViewBag.Playlists = from ViewPlaylist p in Rules.FindAll.Playlists(Membership.GetUser().UserName)
+            ViewBag.Playlists = from ViewPlaylist p in Rules.FindAll.Playlists(Membership.GetUser().Comment)
                                 select new SelectListItem { Text = p.Name, Value = p.Id+"" };
                 
             var track = Rules.Find.Track(href);

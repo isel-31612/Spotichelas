@@ -17,7 +17,7 @@ namespace BusinessRules
 
         public ViewPlaylist[] Playlists(string user)
         {
-            var pl = new Playlist[0];//repo.getAll<Playlist>();
+            var pl = repo.getAll<Playlist>();
             Permission per;
             var listWhere = pl.Where(p => p.Owner.Equals(user) || (p.Shared.TryGetValue(user, out per) && per.CanRead) );
             var listSelect = listWhere.Select(p => new ViewPlaylist(p.id, p.Name, p.Description, p.Owner, p.Tracks));

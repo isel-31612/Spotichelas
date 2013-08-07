@@ -114,7 +114,7 @@ namespace AppHarbor.Controllers
         {
             var playlist = Rules.Find.Playlist(id, GetCurrentUserName());
             var track = Rules.Find.Track(href);
-            if (Rules.Edit.AddTrack(playlist, track))
+            if (Rules.Edit.AddTrack(playlist, track, GetCurrentUserName()))
                 return RedirectToAction("Details", new { id = playlist.Id });
             return View("Track");
         }
@@ -124,7 +124,7 @@ namespace AppHarbor.Controllers
         public ActionResult RemovePost(int id, string href)
         {
             var playlist = Rules.Find.Playlist(id, GetCurrentUserName());
-            if (Rules.Edit.RemoveTrack(playlist, href))
+            if (Rules.Edit.RemoveTrack(playlist, href, GetCurrentUserName()))
                 return RedirectToAction("Details", new { id = playlist.Id });
             return View("Details");//, new { id=id });
         }
@@ -134,9 +134,10 @@ namespace AppHarbor.Controllers
         public ActionResult PermissionGet(int id)
         {
             ViewBag.Users = from MembershipUser u in Membership.GetAllUsers()
-                        select new SelectListItem { Text = u.Comment, Value = u.Comment.ToLower() };
-            
-            var playlist = Rules.Find.Playlist(id, GetCurrentUserName());
+                            where !u.Equals(Membership.GetUser())
+                            select new SelectListItem { Text = u.Comment, Value = u.Comment };
+
+            ViewPlaylist playlist = Rules.Find.Playlist(id, GetCurrentUserName());
             return View(playlist);
         }
 
@@ -144,10 +145,11 @@ namespace AppHarbor.Controllers
         [HttpPost, ActionName("Permission")]
         public ActionResult PermissionPost(int id, string name, bool writePermission, bool readPermission)
         {
-            var playlist = Rules.Find.Playlist(id, GetCurrentUserName());
-            if(Rules.Edit.AddUser(playlist, name, readPermission, writePermission))
+            ViewPlaylist playlist = Rules.Find.Playlist(id, GetCurrentUserName());
+            playlist = Rules.Find.Playlist(id, GetCurrentUserName());
+            if(Rules.Edit.AddUser(playlist, name, readPermission, writePermission, GetCurrentUserName()))
                 return RedirectToAction("Details", new { id = playlist.Id });
-            return View("Permission");
+            return RedirectToAction("Permission");
         }
         
         private string GetCurrentUserName()

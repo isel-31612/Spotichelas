@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Utils;
 
 namespace Entities
 {
@@ -37,18 +38,6 @@ namespace Entities
             return  ((pl.Name==null)        || pl.Name.Equals(Name)) &&
                     ((pl.Description==null) || pl.Description.Equals(Description)) &&
                     ((pl.Tracks.Count==0)   || pl.Tracks.Equals(Tracks));
-        }
-    }
-
-    public class Permission
-    {
-        public bool CanRead { get; set; }
-        public bool CanWrite { get; set; }
-
-        public Permission(bool read, bool write)
-        {
-            CanRead = read;
-            CanWrite = write;
         }
     }
 }

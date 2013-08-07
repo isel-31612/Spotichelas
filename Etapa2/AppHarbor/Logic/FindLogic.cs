@@ -19,9 +19,9 @@ namespace BusinessRules
         public ViewPlaylist Playlist(int id,string user)
         {
             var pl = repo.get<Playlist>(id);
-            Entities.Permission p;
+            Utils.Permission p;
             if(pl!=null && (pl.Owner.Equals(user) || (pl.Shared.TryGetValue(user, out p) && p.CanRead)))
-                return new ViewPlaylist(pl.id,pl.Name,pl.Description,pl.Owner, pl.Tracks);
+                return new ViewPlaylist(pl.id,pl.Name,pl.Description,pl.Owner, pl.Tracks, pl.Shared);
             return null;
         }
 

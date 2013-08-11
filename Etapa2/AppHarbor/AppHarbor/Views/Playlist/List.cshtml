@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "List";
+    String currentUser = ViewBag.User;
 }
 
 <h2>List</h2>
@@ -36,10 +37,19 @@
             @Html.DisplayFor(modelItem => item.Owner)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id }) |
-            @Html.ActionLink("Permissions","Permission", new { id=item.Id })
+            @if(!currentUser.Equals(item.Owner)){
+                @Html.ActionLink("Details", "Details", new { id = item.Id })
+                @:|
+                @:Only the Owner can edit the playlist
+            }else{
+                @Html.ActionLink("Details", "Details", new { id=item.Id })
+                @:|
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id })
+                @:|
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+                @:|
+                @Html.ActionLink("Permissions","Permission", new { id=item.Id })
+            }
         </td>
     </tr>
 }

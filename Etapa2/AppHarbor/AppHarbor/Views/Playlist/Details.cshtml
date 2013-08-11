@@ -2,6 +2,12 @@
 
 @{
     ViewBag.Title = "Details";
+    int nTrack = Model.Tracks.Count;
+    List<SelectListItem> itens = new List<SelectListItem>();
+    for (int i = 1; i <= nTrack;i++ )
+    {
+        itens.Add(new SelectListItem { Selected=false, Text=i+"", Value=i+"" }); 
+    }
 }
 
 <h2>Details</h2>
@@ -29,16 +35,26 @@
         <table>
             <thead>
                 <tr>
-                    <td>Track Name</td><td></td>
+                    <td>#</td><td>Track Name</td><td>Change Track Order</td><td></td>
                 </tr>
             </thead>
             <tbody>
             @foreach (var track in Model.Tracks){
-                <tr><td><div class="display-field">@track.Value</div></td> 
+                <tr>
+                    <td><div class="display-field">@track.Key</div></td>
+                    <td><div class="display-field">@track.Value.Name</div></td>
+                    <td>
+                        <div class="display-field">
+                            @using (Html.BeginForm("ChangeTrackNumber","Playlist",FormMethod.Post)){
+                                @Html.DropDownList("newTrackNumber", itens)
+                                @Html.InputButton("ChangeTrack","Change")
+                            }
+                        </div>
+                    </td>
                     <td> @using (Html.BeginForm("Remove","Playlist",FormMethod.Post)) {
                             @Html.Hidden("id",Model.Id)
                             @Html.Hidden("href",track.Key)
-                            <input class="button" id="Remove" type="submit" value="Remove"/>
+                            @Html.InputButton("Remove","Remove")
                     } </td>
                 </tr>
             } </tbody>
@@ -48,7 +64,7 @@
     }
 </fieldset>
 
-    @Html.PlaylistPlayer(Model.Name, Model.Tracks.Select(x=>x.Key).ToArray())
+    @Html.PlaylistPlayer(Model.Name, Model.Tracks.Values.Select(music=>music.Href).ToArray())
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
     @Html.ActionLink("Back to List", "Index")

@@ -72,7 +72,7 @@
                 <th>@Html.Label("Grant") @Html.RadioButton("readPermission", true, true)  @Html.Label("Deny")@Html.RadioButton("readPermission", false, false)</th>
             </tr>
         </table>
-        <input class="button" id="Permission" type="submit" value="Save"/>
+        <input class="button" id="Permission" type="submit" value="Save" @(users.Count()==0?"disabled":"") />
     }
 <p>
     @Html.ActionLink("Back to Details", "Details",new { id = Model.Id })

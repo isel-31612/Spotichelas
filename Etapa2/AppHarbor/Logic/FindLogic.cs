@@ -16,15 +16,39 @@ namespace BusinessRules
             repo = d;
         }
 
-        public ViewPlaylist Playlist(int id,string user)
+        public ViewPlaylist Playlist(int id)
         {
             var pl = repo.get<Playlist>(id);
-            Utils.Permission p;
-            if(pl!=null && (pl.Owner.Equals(user) || (pl.Shared.TryGetValue(user, out p) && p.CanRead)))
+            if(pl!=null)
                 return new ViewPlaylist(pl.id,pl.Name,pl.Description,pl.Owner, pl.Tracks, pl.Shared);
             return null;
         }
 
+        public ViewPlaylist PlaylistWithOwnerAccess(int id, string user)
+        {
+            var pl = repo.get<Playlist>(id);
+            if (pl != null && (pl.Owner.Equals(user)))
+                return new ViewPlaylist(pl.id, pl.Name, pl.Description, pl.Owner, pl.Tracks, pl.Shared);
+            return null;
+        }
+
+        public ViewPlaylist PlaylistWithReadAccess(int id, string user)
+        {
+            var pl = repo.get<Playlist>(id);
+            Utils.Permission p;
+            if (pl != null && (pl.Owner.Equals(user) || (pl.Shared.TryGetValue(user, out p) && p.CanRead)))
+                return new ViewPlaylist(pl.id, pl.Name, pl.Description, pl.Owner, pl.Tracks, pl.Shared);
+            return null;
+        }
+
+        public ViewPlaylist PlaylistWithWriteAccess(int id, string user)
+        {
+            var pl = repo.get<Playlist>(id);
+            Utils.Permission p;
+            if (pl != null && (pl.Owner.Equals(user) || (pl.Shared.TryGetValue(user, out p) && p.CanWrite)))
+                return new ViewPlaylist(pl.id, pl.Name, pl.Description, pl.Owner, pl.Tracks, pl.Shared);
+            return null;
+        }
         public ViewArtist Artist(string link)
         {
             var ar = repo.getArtist(link);

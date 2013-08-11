@@ -44,7 +44,10 @@ namespace AppHarbor.Controllers
         [HttpGet, ActionName("Track")]
         public ActionResult TrackGet(string href)
         {
-            ViewBag.Playlists = from ViewPlaylist p in Rules.FindAll.Playlists(Membership.GetUser().Comment)
+            String user = Membership.GetUser().Comment;
+            ViewPlaylist[] playlists = Rules.FindAll.PlaylistsWithWriteAccess(user);//Brings both owner and permissions with write playlists
+
+            ViewBag.Playlists = from ViewPlaylist p in playlists
                                 select new SelectListItem { Text = p.Name, Value = p.Id+"" };
                 
             var track = Rules.Find.Track(href);

@@ -32,29 +32,38 @@ namespace BusinessRules
             return null;
         }
 
-        public bool AddTrack(ViewPlaylist p, ViewTrack t, string CurrentUser)
+        public bool AddTrack(ViewPlaylist vp, ViewTrack t, string CurrentUser)
         {
-            var playlist = repo.get<Playlist>(p.Id);
+            var playlist = repo.get<Playlist>(vp.Id);
             Permission per;
-            if (!playlist.Owner.Equals(CurrentUser) && (!playlist.Shared.TryGetValue(p.Owner, out per) || !per.CanWrite))
+            if (!playlist.Owner.Equals(CurrentUser) && (!playlist.Shared.TryGetValue(vp.Owner, out per) || !per.CanWrite))
                 return false;
-            if(playlist == null || playlist.Tracks.ContainsKey(t.Href))
+            if (playlist == null || playlist.Tracks.Values.Any(music => music.Href.Equals(t.Href)))
                 return false;
-            playlist.Tracks.Add(t.Href, t.Name);
-            repo.update<Playlist>(p.Id, playlist);
+            int nextId = playlist.Tracks.Count + 1;
+            playlist.Tracks.Add(nextId, new Music(t.Href, t.Name));
+            repo.update<Playlist>(vp.Id, playlist);
             return true;
         }
 
-        public bool RemoveTrack(ViewPlaylist p, string href, string CurrentUser)
+        public bool RemoveTrack(ViewPlaylist vp, string href, string CurrentUser)
         {
-            var playlist = repo.get<Playlist>(p.Id);
+            var playlist = repo.get<Playlist>(vp.Id);
             Permission per;
-            if (!playlist.Owner.Equals(CurrentUser) && (!playlist.Shared.TryGetValue(p.Owner, out per) || !per.CanWrite))
+            if (!playlist.Owner.Equals(CurrentUser) && (!playlist.Shared.TryGetValue(vp.Owner, out per) || !per.CanWrite))
                 return false;
-            if (playlist == null || !playlist.Tracks.ContainsKey(href))
+            if (playlist == null || playlist.Tracks.Any(kvp => kvp.Value.Href.Equals(href)))
                 return false;
-            playlist.Tracks.Remove(href);
-            repo.update<Playlist>(p.Id, playlist);
+            int trackId = playlist.Tracks.Single(kvp => kvp.Value.Href.Equals(href)).Key;//Note: There cannot be 2 musics with the same Href in the same playlist(ther can be 2 equal musics, but they must have distinct href)
+            playlist.Tracks.Remove(trackId);
+            foreach(KeyValuePair<int,Music> kvp in playlist.Tracks){
+                if (kvp.Key > trackId)
+                {
+                    playlist.Tracks.Remove(kvp.Key);//Note: Has to be done this way, since KeyValuePair Items cannot be moddifed, only read. So we remove EVERYTHING after the removed item, and re-add them with proper indexes
+                    playlist.Tracks.Add(kvp.Key-1,kvp.Value);//Note: Throws exception if already exists the index.
+                }
+            }
+            repo.update<Playlist>(vp.Id, playlist);
             return true;
         }
 

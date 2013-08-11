@@ -13,16 +13,16 @@ namespace Utils
         public string Description { get; set; }
         public string Owner { get; set; }
         public Dictionary<string, Permission> Shared { get; set; }
-        public Dictionary<string,string> Tracks { get; set; }
+        public SortedDictionary<int,Music> Tracks { get; set; }
 
-        public ViewPlaylist(int id, string name, string description, string user, Dictionary<string, string> tracks = null, Dictionary<string, Permission> shared = null)
+        public ViewPlaylist(int id, string name, string description, string user, SortedDictionary<int, Music> tracks = null, Dictionary<string, Permission> shared = null)
         {
             Id = id;
             Name = name;
             Description = description;
             Owner = user;
             Shared = shared != null ? shared : new Dictionary<string, Permission>();
-            Tracks = tracks != null ? tracks : new Dictionary<string, string>();
+            Tracks = tracks != null ? tracks : new SortedDictionary<int, Music>();
         }
     }
 }

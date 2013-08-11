@@ -33,7 +33,7 @@ namespace WebManager
             if (maxTrys <= 0)
                 return null;
             string ret = Execute(uri);
-            return (ret!=null)? ret: Retry(uri,maxTrys);
+            return (ret!=null)? ret: Retry(uri,maxTrys-1);
         }
     }
 }

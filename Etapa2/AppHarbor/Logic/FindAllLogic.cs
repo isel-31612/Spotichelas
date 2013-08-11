@@ -4,6 +4,7 @@ using System.Linq;
 using DataAccess;
 using Entities;
 using Utils;
+using System;
 
 namespace BusinessRules
 {
@@ -19,7 +20,28 @@ namespace BusinessRules
         {
             var pl = repo.getAll<Playlist>();
             Permission per;
-            var listWhere = pl.Where(p => p.Owner.Equals(user) || (p.Shared.TryGetValue(user, out per) && per.CanRead) );
+            var listWhere = pl.Where(p => p.Owner.Equals(user) || (p.Shared.TryGetValue(user, out per) && per.CanRead));
+            var listSelect = listWhere.Select(p => new ViewPlaylist(p.id, p.Name, p.Description, p.Owner, p.Tracks));
+            var list = listSelect.ToArray();
+            return list;
+        }
+
+        public ViewPlaylist[] PlaylistsWithOwnerAccess(string user)
+        {
+            return PlaylistsWith((Playlist p) => (p.Owner.Equals(user)));
+        }
+
+        public ViewPlaylist[] PlaylistsWithWriteAccess(string user)
+        {
+            Permission per;
+            return PlaylistsWith((Playlist p) => (p.Owner.Equals(user) || p.Shared.TryGetValue(user, out per)&& per.CanWrite));
+        }
+
+        public ViewPlaylist[] PlaylistsWith(Func<Playlist,bool> expression)
+        {
+            var pl = repo.getAll<Playlist>();
+
+            var listWhere = pl.Where(p => expression(p));
             var listSelect = listWhere.Select(p => new ViewPlaylist(p.id, p.Name, p.Description, p.Owner, p.Tracks));
             var list = listSelect.ToArray();
             return list;

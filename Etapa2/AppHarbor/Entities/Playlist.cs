@@ -10,14 +10,14 @@ namespace Entities
         public string Description { get; set; }
         public string Owner { get; set; }
         public virtual Dictionary<string, Permission> Shared { get; set; }
-        public virtual Dictionary<string, string> Tracks {get; set;}
+        public virtual SortedDictionary<int, Music> Tracks { get; set; }
 
         public Playlist()
         {
             Name = null;
             Description = null;
             Owner = null;
-            Tracks = new Dictionary<string, string>();
+            Tracks = new SortedDictionary<int, Music>();
             Shared = new Dictionary<string, Permission>();
         }
 
@@ -26,7 +26,7 @@ namespace Entities
             Name = name;
             Description = description;
             Owner = user;
-            Tracks = new Dictionary<string, string>();
+            Tracks = new SortedDictionary<int, Music>();
             Shared = new Dictionary<string, Permission>();
         }
 

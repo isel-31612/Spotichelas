@@ -28,8 +28,8 @@ namespace BusinessRules
             {
                 int id = repo.put(p);
                 p.id = id;
-                ViewPlaylist ret = new ViewPlaylist(p.id,p.Name,p.Description,p.Owner,p.Tracks);
-                return ret;
+                    //new ViewPlaylist(p.id,p.Name,p.Description,p.Owner,p.Tracks);
+                return new ViewPlaylist(p); ;
             }
             return null;
         }

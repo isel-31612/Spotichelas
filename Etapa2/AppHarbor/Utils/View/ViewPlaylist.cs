@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Entities;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Utils.View;
+using System.Linq;
 
 namespace Utils
 {
@@ -12,17 +15,30 @@ namespace Utils
         [Required]
         public string Description { get; set; }
         public string Owner { get; set; }
-        public Dictionary<string, Permission> Shared { get; set; }
-        public SortedDictionary<int,Music> Tracks { get; set; }
+        public List<ViewPermission> Shared { get; set; }
+        public Dictionary<int,ViewTrack> Tracks { get; set; }
 
-        public ViewPlaylist(int id, string name, string description, string user, SortedDictionary<int, Music> tracks = null, Dictionary<string, Permission> shared = null)
+        public ViewPlaylist()//Note: Only for LINQ query
         {
-            Id = id;
-            Name = name;
-            Description = description;
-            Owner = user;
-            Shared = shared != null ? shared : new Dictionary<string, Permission>();
-            Tracks = tracks != null ? tracks : new SortedDictionary<int, Music>();
+            Name = null;
+            Description = null;
+            Owner = null;
+            Shared = new List<ViewPermission>();
+            Tracks = new Dictionary<int,ViewTrack>();
+        }
+
+        public ViewPlaylist(Playlist pl)
+        {
+            Name = pl.Name;
+            Id = pl.id;
+            Description = pl.Description;
+            Owner = pl.Owner;
+            Shared = pl.Shared.Select(p => new ViewPermission(p)).ToList();
+            Tracks = new Dictionary<int, ViewTrack>();
+            foreach (var track in pl.Tracks)
+            {
+                Tracks.Add(track.Key, new ViewTrack(track.Value));
+            }
         }
     }
 }

@@ -18,11 +18,11 @@ namespace BusinessRules
 
         public ViewPlaylist[] Playlists(string user)
         {
-            var pl = repo.getAll<Playlist>();
+            Playlist[] pl = repo.getAll<Playlist>();
             Permission per;
-            var listWhere = pl.Where(p => p.Owner.Equals(user) || (p.Shared.TryGetValue(user, out per) && per.CanRead));
-            var listSelect = listWhere.Select(p => new ViewPlaylist(p.id, p.Name, p.Description, p.Owner, p.Tracks));
-            var list = listSelect.ToArray();
+            ViewPlaylist[] list = pl.Where(p => p.Owner.Equals(user) || (per = p.Shared.Find( perm => perm.User.Equals(user)))!=null && per.CanRead)
+                            .Select(p => new ViewPlaylist(p))
+                            .ToArray();
             return list;
         }
 
@@ -33,28 +33,26 @@ namespace BusinessRules
 
         public ViewPlaylist[] PlaylistsWithWriteAccess(string user)
         {
-            Permission per;
-            return PlaylistsWith((Playlist p) => (p.Owner.Equals(user) || p.Shared.TryGetValue(user, out per)&& per.CanWrite));
+            return PlaylistsWith((Playlist p) => (p.Owner.Equals(user) || p.Shared.Find( per => per.User.Equals(user)).CanWrite));
         }
 
         public ViewPlaylist[] PlaylistsWith(Func<Playlist,bool> expression)
         {
-            var pl = repo.getAll<Playlist>();
+            Playlist[] pl = repo.getAll<Playlist>();
 
-            var listWhere = pl.Where(p => expression(p));
-            var listSelect = listWhere.Select(p => new ViewPlaylist(p.id, p.Name, p.Description, p.Owner, p.Tracks));
-            var list = listSelect.ToArray();
+            ViewPlaylist[] list = pl.Where(p => expression(p)).Select(p => new ViewPlaylist(p))
+                            .ToArray();
             return list;
         }
 
         public List<ViewAlbum> Albuns(string query, out SearchInfo info)
         {
-            var result = repo.getAllAlbum(query);
-            var ret = new List<ViewAlbum>();
+            SpotifyBridge.SearchResult<Album> result = repo.getAllAlbum(query);
+            List<ViewAlbum> ret = new List<ViewAlbum>();
             foreach (var album in result.Results)
             {
-                List<KeyValuePair<string, string>> artist = album.Artists.Select(a => new KeyValuePair<string, string>(simpleHref(a.Link), a.Name)).ToList();
-                ret.Add(new ViewAlbum(simpleHref(album.Link), album.Name, (int)album.Year, artist));
+                List<KeyValuePair<string, string>> artist = album.Artists.Select(a => new KeyValuePair<string, string>(a.Link, a.Name)).ToList();
+                ret.Add(new ViewAlbum(album.Link, album.Name, (int)album.Year, artist));
             }
             info = result.Info;
             return ret;
@@ -62,12 +60,12 @@ namespace BusinessRules
 
         public List<ViewArtist> Artists(string query, out SearchInfo info)
         {
-            var result = repo.getAllArtists(query);
-            var ret = new List<ViewArtist>();
+            SpotifyBridge.SearchResult<Artist> result = repo.getAllArtists(query);
+            List<ViewArtist> ret = new List<ViewArtist>();
             foreach (var artist in result.Results)
             {
-                List<KeyValuePair<string, string>> albuns = artist.Albuns.Select(a => new KeyValuePair<string, string>(simpleHref(a.Link), a.Name)).ToList();
-                ret.Add(new ViewArtist(simpleHref(artist.Link), artist.Name, albuns));
+                List<KeyValuePair<string, string>> albuns = artist.Albuns.Select(a => new KeyValuePair<string, string>(a.Link, a.Name)).ToList();
+                ret.Add(new ViewArtist(artist.Link, artist.Name, albuns));
             }
             info = result.Info;
             return ret;
@@ -75,22 +73,16 @@ namespace BusinessRules
 
         public List<ViewTrack> Tracks(string query, out SearchInfo info)
         {
-            var result = repo.getAllTracks(query);
-            var ret = new List<ViewTrack>();
+            SpotifyBridge.SearchResult<Track> result = repo.getAllTracks(query);
+            List<ViewTrack> ret = new List<ViewTrack>();
             foreach (var track in result.Results)
             {
-                List<KeyValuePair<string, string>> artists = track.Artist.Select(a => new KeyValuePair<string, string>(a.Link!=null?simpleHref(a.Link):null, a.Name)).ToList();
-                var album = track.Album;
-                ret.Add( new ViewTrack(simpleHref(track.Link), track.Name, (int)track.Duration, artists, track.Album.Name, simpleHref(track.Album.Link))); 
+                List<KeyValuePair<string, string>> artists = track.Artist.Select(a => new KeyValuePair<string, string>(a.Link!=null?a.Link:null, a.Name)).ToList();
+                Album album = track.Album;
+                ret.Add( new ViewTrack(track.Link, track.Name, (int)track.Duration, artists, track.Album.Name, track.Album.Link)); 
             }
             info = result.Info;
             return ret;
-        }
-
-        private string simpleHref(string href)
-        {
-            var array = href.Split(':');
-            return array.Last();
         }
     }
 }

@@ -39,9 +39,11 @@
                 </tr>
             </thead>
             <tbody>
+            @{int index = 0;}
             @foreach (var track in Model.Tracks){
+                index++;
                 <tr>
-                    <td><div class="display-field">@track.Key</div></td>
+                    <td><div class="display-field">@index</div></td>
                     <td><div class="display-field">@track.Value.Name</div></td>
                     <td>
                         <div class="display-field">
@@ -53,7 +55,7 @@
                     </td>
                     <td> @using (Html.BeginForm("Remove","Playlist",FormMethod.Post)) {
                             @Html.Hidden("id",Model.Id)
-                            @Html.Hidden("href",track.Key)
+                            @Html.Hidden("href",track.Value.Href)
                             @Html.InputButton("Remove","Remove")
                     } </td>
                 </tr>
@@ -64,7 +66,7 @@
     }
 </fieldset>
 
-    @Html.PlaylistPlayer(Model.Name, Model.Tracks.Values.Select(music=>music.Href).ToArray())
+    @Html.PlaylistPlayer(Model.Name, Model.Tracks.Select(track=>track.Value.Href ).ToArray())
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
     @Html.ActionLink("Back to List", "Index")

@@ -34,24 +34,24 @@
         <tr>
             <td>
                 <div class="display-field">
-                    @Html.DisplayFor(modelItem => item.Key)
+                    @Html.DisplayFor(modelItem => item.User)
                 </div>
             </td>
             <td>
                 <div class="display-field">
-                    @Html.DisplayFor(modelItem => item.Value.CanWrite)
+                    @Html.DisplayFor(modelItem => item.CanWrite)
                 </div>
             </td>
             <td>
                 <div class="display-field">
-                    @Html.DisplayFor(modelItem => item.Value.CanRead)
+                    @Html.DisplayFor(modelItem => item.CanRead)
                 </div>
             </td>
             <td>
-                @Html.ActionLink("Grant all", "Permission", new { id=Model.Id,name=item.Key,read=true,write=true })
-                @Html.ActionLink("Change write access", "Permission", new { id = Model.Id,name=item.Key,read=item.Value.CanRead,write=!item.Value.CanWrite }) |
-                @Html.ActionLink("Change read access", "Permission", new { id = Model.Id,name=item.Key,read=!item.Value.CanRead,write=item.Value.CanWrite }) |
-                @Html.ActionLink("Remove", "Permission", new { id=Model.Id,name=item.Key,read=false,write=false })
+                @Html.ActionLink("Grant all", "Permission", new { id=Model.Id,name=item.User,read=true,write=true }) |
+                @Html.ActionLink("Change write access", "Permission", new { id = Model.Id,name=item.User,read=item.CanRead,write=!item.CanWrite }) |
+                @Html.ActionLink("Change read access", "Permission", new { id = Model.Id,name=item.User,read=!item.CanRead,write=item.CanWrite }) |
+                @Html.ActionLink("Remove", "Permission", new { id=Model.Id,name=item.User,read=false,write=false })
             </td>
         </tr>
     }

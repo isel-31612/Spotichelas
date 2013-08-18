@@ -17,11 +17,8 @@ namespace BusinessRules
             Playlist p = repo.get<Playlist>(id);
             if (p == null || p.Tracks.Count > 0 || !p.Owner.Equals(CurrentUser))
                 return null;
-            var old = repo.remove<Playlist>(id);
-            var removed = new ViewPlaylist(old.id, old.Name, old.Description,old.Owner);
-            foreach( var track in old.Tracks)
-                removed.Tracks.Add(track.Key,track.Value);
-            return removed;
+            Playlist old = repo.remove<Playlist>(id);
+            return new ViewPlaylist(old);
         }
     }
 }

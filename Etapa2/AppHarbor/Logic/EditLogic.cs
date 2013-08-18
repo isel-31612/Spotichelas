@@ -18,63 +18,52 @@ namespace BusinessRules
 
         public ViewPlaylist PlaylistTo(ViewPlaylist editPlaylist, string CurrentUser)
         {
-            int id = editPlaylist.Id;
-            var oldP = repo.get<Playlist>(id);
-            Permission per;
-            if (oldP == null || !oldP.Owner.Equals(CurrentUser) || (oldP.Shared.TryGetValue(CurrentUser, out per) && per.CanWrite))
+            Playlist oldP = repo.get<Playlist>(editPlaylist.Id);
+            if (oldP == null || !oldP.Owner.Equals(CurrentUser))
                 return null;
-            Playlist p = new Playlist(editPlaylist.Name, editPlaylist.Description, CurrentUser);
-            Playlist edit = repo.update<Playlist>(id, p);
+            Playlist p = new Playlist(editPlaylist.Name, editPlaylist.Description, CurrentUser); //CurrentUser=oldP.Owner
+            Playlist edit = repo.update<Playlist>(editPlaylist.Id, p);
             if ( edit!= null)
             {
-                return new ViewPlaylist(id, edit.Name, edit.Description, edit.Owner,edit.Tracks);
+                return new ViewPlaylist(edit);
             }
             return null;
         }
 
         public bool AddTrack(ViewPlaylist vp, ViewTrack t, string CurrentUser)
         {
-            var playlist = repo.get<Playlist>(vp.Id);
-            Permission per;
-            if (!playlist.Owner.Equals(CurrentUser) && (!playlist.Shared.TryGetValue(vp.Owner, out per) || !per.CanWrite))
+            Playlist p = repo.get<Playlist>(vp.Id);
+            if (p==null || !p.Owner.Equals(CurrentUser) && (!p.Shared.Find( per=>per.User.Equals(CurrentUser)).CanWrite))
                 return false;
-            if (playlist == null || playlist.Tracks.Values.Any(music => music.Href.Equals(t.Href)))
+            if (p == null || p.Tracks.Any(music => music.Value.Link.Equals(t.Href)))
                 return false;
-            int nextId = playlist.Tracks.Count + 1;
-            playlist.Tracks.Add(nextId, new Music(t.Href, t.Name));
-            repo.update<Playlist>(vp.Id, playlist);
+            Track track = repo.getTrack(t.Href);
+            int nextId=p.Tracks.Count+1;
+            p.Tracks.Add(nextId,track);
+            repo.update<Playlist>(vp.Id, p);
             return true;
         }
 
         public bool RemoveTrack(ViewPlaylist vp, string href, string CurrentUser)
         {
-            var playlist = repo.get<Playlist>(vp.Id);
-            Permission per;
-            if (!playlist.Owner.Equals(CurrentUser) && (!playlist.Shared.TryGetValue(vp.Owner, out per) || !per.CanWrite))
+            Playlist playlist = repo.get<Playlist>(vp.Id);
+            if (playlist == null || !playlist.Owner.Equals(CurrentUser) && (!playlist.Shared.Find(per => per.User.Equals(CurrentUser)).CanWrite))
                 return false;
-            if (playlist == null || playlist.Tracks.Any(kvp => kvp.Value.Href.Equals(href)))
+            var track = playlist.Tracks.Where( t=>t.Value.Link.Equals(href) ).FirstOrDefault();
+            if (track.Value!=null || playlist.Tracks.Remove(track.Key))
                 return false;
-            int trackId = playlist.Tracks.Single(kvp => kvp.Value.Href.Equals(href)).Key;//Note: There cannot be 2 musics with the same Href in the same playlist(ther can be 2 equal musics, but they must have distinct href)
-            playlist.Tracks.Remove(trackId);
-            foreach(KeyValuePair<int,Music> kvp in playlist.Tracks){
-                if (kvp.Key > trackId)
-                {
-                    playlist.Tracks.Remove(kvp.Key);//Note: Has to be done this way, since KeyValuePair Items cannot be moddifed, only read. So we remove EVERYTHING after the removed item, and re-add them with proper indexes
-                    playlist.Tracks.Add(kvp.Key-1,kvp.Value);//Note: Throws exception if already exists the index.
-                }
-            }
+            playlist.Tracks.Remove(track.Key);
             repo.update<Playlist>(vp.Id, playlist);
             return true;
         }
 
         public bool AddUser(ViewPlaylist p, string newUser,bool canRead, bool canWrite, string CurrentUser)
         {
-            var playlist = repo.get<Playlist>(p.Id);
-            if (playlist.Owner.Equals(CurrentUser))
+            Playlist playlist = repo.get<Playlist>(p.Id);
+            if (playlist !=null && playlist.Owner.Equals(CurrentUser))
             {
-                if (playlist.Shared.ContainsKey(newUser))
-                    playlist.Shared.Remove(newUser);
-                playlist.Shared.Add(newUser, new Permission(canRead, canWrite));
+                playlist.Shared.RemoveAll(permission => permission.User.Equals(newUser));
+                playlist.Shared.Add(new Permission(newUser,canRead, canWrite));
                 repo.update<Playlist>(p.Id,playlist);
                 return true;
             }
@@ -83,10 +72,10 @@ namespace BusinessRules
 
         public bool RemoveUser(ViewPlaylist p, string oldUser, string CurrentUser)
         {
-            var playlist = repo.get<Playlist>(p.Id);
-            if (playlist.Owner.Equals(CurrentUser) && playlist.Shared.ContainsKey(oldUser))
+            Playlist playlist = repo.get<Playlist>(p.Id);
+            if (playlist!=null && playlist.Owner.Equals(CurrentUser) )
             {
-                playlist.Shared.Remove(oldUser);
+                playlist.Shared.RemoveAll(per => per.User.Equals(oldUser));
                 repo.update<Playlist>(p.Id, playlist);
                 return true;
             }

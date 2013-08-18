@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Utils;
+using System.Linq;
 
 namespace Entities
 {
@@ -9,16 +9,17 @@ namespace Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public string Owner { get; set; }
-        public virtual Dictionary<string, Permission> Shared { get; set; }
-        public virtual SortedDictionary<int, Music> Tracks { get; set; }
+        public virtual List<Permission> Shared { get; set; }
+        public virtual Dictionary<int,Track> Tracks { get; set; }
+        public List<Track> DbTracks { get { return Tracks.Values.ToList(); } }
 
         public Playlist()
         {
             Name = null;
             Description = null;
             Owner = null;
-            Tracks = new SortedDictionary<int, Music>();
-            Shared = new Dictionary<string, Permission>();
+            Tracks = new Dictionary<int,Track>();
+            Shared = new List<Permission>();
         }
 
         public Playlist(string name, string description, string user)
@@ -26,8 +27,8 @@ namespace Entities
             Name = name;
             Description = description;
             Owner = user;
-            Tracks = new SortedDictionary<int, Music>();
-            Shared = new Dictionary<string, Permission>();
+            Tracks = new Dictionary<int,Track>();
+            Shared = new List<Permission>();
         }
 
         public override bool match(object o)

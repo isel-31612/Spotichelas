@@ -18,7 +18,7 @@ namespace BusinessRules
 
         public ViewPlaylist[] Playlists(string user)
         {
-            Playlist[] pl = repo.getAll<Playlist>();
+            Playlist[] pl = repo.getAll();
             Permission per;
             ViewPlaylist[] list = pl.Where(p => p.Owner.Equals(user) || (per = p.Shared.Find( perm => perm.User.Equals(user)))!=null && per.CanRead)
                             .Select(p => new ViewPlaylist(p))
@@ -38,7 +38,7 @@ namespace BusinessRules
 
         public ViewPlaylist[] PlaylistsWith(Func<Playlist,bool> expression)
         {
-            Playlist[] pl = repo.getAll<Playlist>();
+            Playlist[] pl = repo.getAll();
 
             ViewPlaylist[] list = pl.Where(p => expression(p)).Select(p => new ViewPlaylist(p))
                             .ToArray();

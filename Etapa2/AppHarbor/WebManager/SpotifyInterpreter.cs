@@ -22,7 +22,7 @@ namespace WebManager
             HttpClient conditionalGet = new HttpClient();
             conditionalGet.DefaultRequestHeaders.IfModifiedSince = date;
             var response = ProcessReply(conditionalGet, uri);
-            if (response.StatusCode.Equals(HttpStatusCode.NotModified)) { return value; }
+            if (response.StatusCode.Equals(HttpStatusCode.NotModified) || response.RequestMessage.Content==null) { return value; }
             string s = response.RequestMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult();
             CacheResult(response, s);
             return s;

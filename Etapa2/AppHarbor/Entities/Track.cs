@@ -11,12 +11,18 @@ namespace Entities
         public virtual List<Artist> Artist { get; set;}
         public virtual Album Album { get; set; }
 
+        public int Order { get; set; }
+
+        public int PlaylistId { get; set; }
+        public virtual Playlist Playlist { get; set; }
+
         public Track()
         {
             Name = null;
             Duration = 0;
-            Artist = null;
+            Artist = new List<Artist>();
             Album = null;
+            Playlist = null;
         }
         public Track(string name, string link, double duration, List<Artist> ar = null, Album al = null)
         {
@@ -25,6 +31,7 @@ namespace Entities
             Artist = ar != null ? ar : new List<Artist>();
             Album = al;
             Link = link;
+            Playlist = null;
         }
 
         public override bool match(Object o)

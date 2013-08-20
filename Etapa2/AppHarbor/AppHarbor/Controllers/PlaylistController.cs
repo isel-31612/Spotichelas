@@ -81,7 +81,7 @@ namespace AppHarbor.Controllers
             if (ModelState.IsValid)
             {
                 String user = GetCurrentUserName();
-                var playlist = Rules.Find.PlaylistWithWriteAccess(id, user);
+                ViewPlaylist playlist = Rules.Find.PlaylistWithWriteAccess(id, user);
                 if (playlist == null)
                     return HttpNotFound();
                 if (!playlist.Owner.Equals(user))
@@ -89,7 +89,7 @@ namespace AppHarbor.Controllers
                 if (TryUpdateModel<ViewPlaylist>(playlist))
                 {
                     Rules.Edit.PlaylistTo(playlist, user);
-                    return RedirectToAction("Details", new { id = playlist.Id });
+                    return RedirectToAction("Details", playlist);
                 }
                 else
                 {
@@ -133,13 +133,13 @@ namespace AppHarbor.Controllers
         public ActionResult Add(int id, string href)
         {
             String user = GetCurrentUserName();
-            var playlist = Rules.Find.PlaylistWithWriteAccess(id, user);
+            ViewPlaylist p = Rules.Find.PlaylistWithWriteAccess(id, user);
             var track = Rules.Find.Track(href);
-            if (playlist == null || track == null)
+            if (p == null || track == null)
                 return HttpNotFound();
-            if (Rules.Edit.AddTrack(playlist, track, user))
-                return RedirectToAction("Details", new { id = playlist.Id });
-            return RedirectToAction("Track", "Search", new { id = playlist.Id });
+            if (Rules.Edit.AddTrack(p, track, user))
+                return RedirectToAction("Details", new { id = p.Id });
+            return RedirectToAction("Track", "Search", new { href = track.Href });
         }
 
         //POST: root/playlist/{id}/remove/{href}
@@ -147,13 +147,13 @@ namespace AppHarbor.Controllers
         public ActionResult RemovePost(int id, string href)
         {
             String user = GetCurrentUserName();
-            var playlist = Rules.Find.PlaylistWithReadAccess(id, user);
-            var track = Rules.Find.Track(href);
+            ViewPlaylist playlist = Rules.Find.PlaylistWithReadAccess(id, user);
+            ViewTrack track = Rules.Find.Track(href);
             if (playlist == null || track == null)
                 return HttpNotFound();
-            if (Rules.Edit.RemoveTrack(playlist, href, GetCurrentUserName()))
-                return RedirectToAction("Details", new { id = playlist.Id });
-            return View("Details", new { id = playlist.Id });
+            if (Rules.Edit.RemoveTrack(playlist, href, user))
+                return RedirectToAction("Details", playlist);
+            return View("Details", playlist);
         }
 
         //GET: root/playlist/Permission/{id}
@@ -188,10 +188,19 @@ namespace AppHarbor.Controllers
             if (!playlist.Owner.Equals(user))
                 return new HttpStatusCodeResult(403);
             if (Rules.Edit.AddUser(playlist, name, readPermission, writePermission, user))
-                return RedirectToAction("Details", new { id = playlist.Id });//TODO: why would it fail?
+                return RedirectToAction("Details", playlist);//TODO: why would it fail?
             return RedirectToAction("Permission");
         }
 
+        //POST: root/playlist/ChangeTrackNumber/{id}&{href}
+        [HttpPost, ActionName("ChangeTrackNumber")]
+        public ActionResult ChangeTrackNumberPost(int id, string href)
+        {
+            String user = GetCurrentUserName();
+            ViewPlaylist playlist = Rules.Find.PlaylistWithOwnerAccess(id, user);
+            return RedirectToAction("Details", playlist);
+        }
+        
         private string GetCurrentUserName()
         {
             return Membership.GetUser().Comment;

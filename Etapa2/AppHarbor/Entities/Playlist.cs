@@ -10,15 +10,14 @@ namespace Entities
         public string Description { get; set; }
         public string Owner { get; set; }
         public virtual List<Permission> Shared { get; set; }
-        public virtual Dictionary<int,Track> Tracks { get; set; }
-        public List<Track> DbTracks { get { return Tracks.Values.ToList(); } }
+        public ICollection<Track> Tracks { get; set;}
 
         public Playlist()
         {
             Name = null;
             Description = null;
             Owner = null;
-            Tracks = new Dictionary<int,Track>();
+            Tracks = new List<Track>();
             Shared = new List<Permission>();
         }
 
@@ -27,7 +26,7 @@ namespace Entities
             Name = name;
             Description = description;
             Owner = user;
-            Tracks = new Dictionary<int,Track>();
+            Tracks = new List<Track>();
             Shared = new List<Permission>();
         }
 

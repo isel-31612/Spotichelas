@@ -37,7 +37,7 @@ namespace Utils
             Tracks = new Dictionary<int, ViewTrack>();
             foreach (var track in pl.Tracks)
             {
-                Tracks.Add(track.Key, new ViewTrack(track.Value));
+                Tracks.Add(track.Order, new ViewTrack(track));
             }
         }
     }

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace DataAccess
 {
-    public class FileLocalRepository : Repository
+    public class FileLocalRepository
     {
         private DbContext db;
         public FileLocalRepository(string context = "DefaultConnection")
@@ -15,58 +15,51 @@ namespace DataAccess
             db = new EFModel(context); //TODO: Use dependency injector
         }
 
-        Int32 Repository.setT<T>(T t)
+        public Int32 setPlaylist(Playlist playlist)
         {
-            T ret = db.Set<T>().Add(t);
+            Playlist ret = db.Set<Playlist>().Add(playlist);
             db.SaveChanges();
             return ret.id;
         }
 
-        T Repository.getT<T>(int id)
+        public Playlist getPlaylist(int id)
         {
-            var result = db.Set<T>();
-            return result.Where(x => x.id == id).FirstOrDefault();
+            Playlist result = db.Set<Playlist>().Where(x => x.id == id).FirstOrDefault();
+            foreach (Track t in db.Set<Track>().Where(x => x.PlaylistId == id)) ;
+            return result;
         }
 
-        T[] Repository.getAllLike<T>(T t)
+        public Playlist[] getAllLike(Playlist playlist)
         {
-            return db.Set<T>().Where(x => x.match(t)).ToArray<T>();
+            DbSet<Playlist> temp = db.Set<Playlist>();
+            return temp.Where(x => x.match(playlist)).ToArray<Playlist>();
         }
 
-        T Repository.update<T>(int id, T newT)
+        public Playlist update(int id, Playlist p)
         {
-            if (newT is Playlist)
-                update(id, newT as Playlist);
-            db.SaveChanges();
-            return newT; //A alteraçao de um objecto é automaticamente registado pela base de dados
-        }
-
-        Playlist update(int id, Playlist p)
-        {
-            Playlist ret = db.Set<Playlist>().Where(x => x.id == id).FirstOrDefault();
-            if (ret != null)
+            foreach(Track t in p.Tracks)
             {
-                if (p.Name != null) ret.Name = p.Name;
-                if (p.Description != null) ret.Description = p.Description;
-                if (p.Tracks.Count > 0) ret.Tracks = p.Tracks;
+                db.Set<Track>().Add(t);
             }
-            return ret;
-        }
-
-        T[] Repository.getAll<T>()
-        {
-            return db.Set<T>().ToArray();
-        }
-
-        T Repository.remove<T>(int id)
-        {
-            var table = db.Set<T>();
-            T oldT = table.Where(x => x.id == id).FirstOrDefault(); //TODO: nao e possivel chamar o get?
-            if (oldT == default(T))
-                return oldT;
-            oldT = table.Remove(oldT);
             db.SaveChanges();
-            return oldT;
+            return p;
+        }
+
+        public Playlist[] getAll()
+        {
+            DbSet<Playlist> temp = db.Set<Playlist>();
+            return temp.ToArray();
+        }
+
+        public Playlist remove(int id)
+        {
+            DbSet<Playlist> table = db.Set<Playlist>();
+            Playlist oldPlaylist = getPlaylist(id);
+            if (oldPlaylist == null)
+                return null;
+            oldPlaylist = table.Remove(oldPlaylist);
+            db.SaveChanges();
+            return oldPlaylist;
         }
     }
 }

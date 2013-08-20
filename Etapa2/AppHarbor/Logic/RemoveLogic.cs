@@ -14,10 +14,10 @@ namespace BusinessRules
 
         public ViewPlaylist Playlist(int id, string CurrentUser)
         {
-            Playlist p = repo.get<Playlist>(id);
+            Playlist p = repo.get(id);
             if (p == null || p.Tracks.Count > 0 || !p.Owner.Equals(CurrentUser))
                 return null;
-            Playlist old = repo.remove<Playlist>(id);
+            Playlist old = repo.remove(id);
             return new ViewPlaylist(old);
         }
     }

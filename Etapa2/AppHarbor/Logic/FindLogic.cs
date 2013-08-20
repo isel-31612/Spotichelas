@@ -18,7 +18,7 @@ namespace BusinessRules
 
         public ViewPlaylist Playlist(int id)
         {
-            Playlist pl = repo.get<Playlist>(id);
+            Playlist pl = repo.get(id);
             if (pl != null)
                 return new ViewPlaylist(pl);
             return null;
@@ -26,7 +26,7 @@ namespace BusinessRules
 
         public ViewPlaylist PlaylistWithOwnerAccess(int id, string user)
         {
-            Playlist pl = repo.get<Playlist>(id);
+            Playlist pl = repo.get(id);
             if (pl != null && (pl.Owner.Equals(user)))
                 return new ViewPlaylist(pl);
             return null;
@@ -34,7 +34,7 @@ namespace BusinessRules
 
         public ViewPlaylist PlaylistWithReadAccess(int id, string user)
         {
-            Playlist pl = repo.get<Playlist>(id);
+            Playlist pl = repo.get(id);
             if (pl != null && (pl.Owner.Equals(user) || (pl.Shared.Find(per => per.User.Equals(user)).CanRead)))
                 return new ViewPlaylist(pl);
             return null;
@@ -42,7 +42,7 @@ namespace BusinessRules
 
         public ViewPlaylist PlaylistWithWriteAccess(int id, string user)
         {
-            Playlist pl = repo.get<Playlist>(id);
+            Playlist pl = repo.get(id);
             if (pl != null && (pl.Owner.Equals(user) || (pl.Shared.Find(per => per.User.Equals(user)).CanWrite)))
                 return new ViewPlaylist(pl);
             return null;

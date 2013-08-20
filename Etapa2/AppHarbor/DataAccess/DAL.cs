@@ -18,66 +18,66 @@ namespace DataAccess
             return singleton;
         }
 
-        public static DAL Factory(Repository r, SearcherDAL d)
+        public static DAL Factory(FileLocalRepository r, SearcherDAL d)
         {
             return new DAL(r,d);
         }
 
-        protected DAL(Repository r,SearcherDAL dal)
+        protected DAL(FileLocalRepository r, SearcherDAL dal)
         {
             repo = r;
             searcher = dal;
         }
 
-        private Repository repo;
+        private FileLocalRepository repo;
 
-        public T[] getAll<T>(int[] idx) where T : Identity
+        public Playlist[] getAll(int[] idx)
         {
-            T[] t = new T[idx.Length];
+            Playlist[] t = new Playlist[idx.Length];
             for (int i = 0; i < idx.Length; i++)
             {
-                t[i] = get<T>(idx[i]);
+                t[i] = get(idx[i]);
             }
             return t;
         }
-        public T[] getAll<T>() where T : Identity
+        public Playlist[] getAll()
         {
-            return repo.getAll<T>();
+            return repo.getAll();
         }
 
-        public T[] getAll<T>(T t) where T : Identity
+        public Playlist[] getAll(Playlist t)
         {
             return repo.getAllLike(t);
         }
 
-        public int put<T>(T t) where T : Identity
+        public int put(Playlist p)
         {
-            return repo.setT(t);
+            return repo.setPlaylist(p);
         }
 
-        public int[] putAll<T>(T[] t) where T : Identity
+        public int[] putAll(Playlist[] p)
         {
-            int[] idx = new int[t.Length];
-            for (int i=0;i<t.Length;i++)
+            int[] idx = new int[p.Length];
+            for (int i=0;i<p.Length;i++)
             {
-                idx[i]=put(t[i]);
+                idx[i]=put(p[i]);
             }
             return idx;
         }
 
-        public T update<T>(int id, T t) where T : Identity
+        public Playlist update(int id, Playlist t)
         {
             return repo.update(id, t);
         }
 
-        public T remove<T>(int id) where T : Identity
+        public Playlist remove(int id)
         {
-            return repo.remove<T>(id);
+            return repo.remove(id);
         }
 
-        public T get<T>(int idx) where T : Identity
+        public Playlist get(int idx)
         {
-            return repo.getT<T>(idx);
+            return repo.getPlaylist(idx);
         }
 
         public Album getAlbum(string link)

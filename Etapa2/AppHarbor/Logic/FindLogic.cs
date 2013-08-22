@@ -65,7 +65,6 @@ namespace BusinessRules
         public ViewTrack Track(string link)
         {
             Track t = repo.getTrack(link);
-            List<KeyValuePair<string, string>> artists = t.Artist.Select(x => new KeyValuePair<string, string>(x.Link!=null?x.Link:null, x.Name)).ToList();
             ViewTrack vt = new ViewTrack(t);
             return vt;
         }

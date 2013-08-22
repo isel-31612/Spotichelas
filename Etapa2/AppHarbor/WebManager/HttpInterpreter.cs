@@ -18,11 +18,23 @@ namespace WebManager
             Uri requestUri = CreateUri(uri);
             HttpClient client = CreateRequest();
             HttpResponseMessage response = ProcessReply(client, requestUri);
+            if (response == null)
+                return null;
             return ExtractString(response);
         }
         protected virtual Uri CreateUri(string uri) { return new Uri(uri); }
         protected virtual HttpClient CreateRequest() { return new HttpClient(); }
-        protected virtual HttpResponseMessage ProcessReply(HttpClient client, Uri uri) { return client.GetAsync(uri).GetAwaiter().GetResult(); }
+        protected virtual HttpResponseMessage ProcessReply(HttpClient client, Uri uri) {
+            try
+            {
+                return client.GetAsync(uri).GetAwaiter().GetResult();
+            }
+            catch (HttpRequestException)//If theres an issues getting the response from spotify we return null
+            {
+                return null;
+            }
+            
+        }
         protected virtual string ExtractString(HttpResponseMessage response)
         {
             return (response.IsSuccessStatusCode) ? response.Content.ReadAsStringAsync().GetAwaiter().GetResult() : null;

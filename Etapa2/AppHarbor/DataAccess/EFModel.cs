@@ -15,12 +15,14 @@ namespace DataAccess
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Playlist>()
-                .HasMany(p => p.Tracks)
-                .WithRequired(t => t.Playlist);
+            /*modelBuilder.Entity<Playlist>()
+                .HasMany<Track>(p => p.HideTracks)
+                .WithRequired(t => t.Playlist);*/
             modelBuilder.Entity<Permission>()
                 .HasRequired<Playlist>(p => p.Playlist);
             modelBuilder.Entity<Track>()
+                .HasRequired<Playlist>(t => t.Playlist);
+            /*modelBuilder.Entity<Track>()
                 .HasMany<Artist>(t => t.Artist);
             modelBuilder.Entity<Track>()
                 .HasRequired<Album>(t => t.Album);
@@ -33,6 +35,7 @@ namespace DataAccess
             modelBuilder.Entity<Album>()
                 .HasMany<Track>(a => a.Tracks)
                 .WithRequired(t => t.Album);
+            */
         }
     }
 }

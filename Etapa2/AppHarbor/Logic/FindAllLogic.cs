@@ -77,9 +77,9 @@ namespace BusinessRules
             List<ViewTrack> ret = new List<ViewTrack>();
             foreach (var track in result.Results)
             {
-                List<KeyValuePair<string, string>> artists = track.Artist.Select(a => new KeyValuePair<string, string>(a.Link!=null?a.Link:null, a.Name)).ToList();
-                Album album = track.Album;
-                ret.Add( new ViewTrack(track.Link, track.Name, (int)track.Duration, artists, track.Album.Name, track.Album.Link)); 
+                //List<KeyValuePair<string, string>> artists = track.Artist.Select(a => new KeyValuePair<string, string>(a.Link!=null?a.Link:null, a.Name)).ToList();
+                //Album album = track.Album;
+                ret.Add( new ViewTrack(track)); 
             }
             info = result.Info;
             return ret;

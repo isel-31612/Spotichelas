@@ -65,14 +65,24 @@ namespace DataAccess
             return idx;
         }
 
-        public Playlist update(int id, Playlist t)
+        public Playlist update(Playlist p)
         {
-            return repo.update(id, t);
+            return repo.update(p);
         }
 
-        public Playlist remove(int id)
+        public Track addTrack(Track t)
         {
-            return repo.remove(id);
+            return repo.addTrack(t);
+        }
+
+        public Track removeTrack(Track t, Playlist p)
+        {
+            return repo.removeTrack(t,p);
+        }
+
+        public Playlist remove(Playlist p)
+        {
+            return repo.remove(p);
         }
 
         public Playlist get(int idx)

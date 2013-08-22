@@ -39,15 +39,14 @@
                 </tr>
             </thead>
             <tbody>
-            @{int index = 0;}
             @foreach (var track in Model.Tracks){
-                index++;
                 <tr>
-                    <td><div class="display-field">@index</div></td>
+                    <td><div class="display-field">@track.Key</div></td>
                     <td><div class="display-field">@track.Value.Name</div></td>
                     <td>
                         <div class="display-field">
                             @using (Html.BeginForm("ChangeTrackNumber","Playlist",FormMethod.Post)){
+                                @Html.HiddenFor( item => item.Id)
                                 @Html.DropDownList("newTrackNumber", itens)
                                 @Html.InputButton("ChangeTrack","Change")
                             }

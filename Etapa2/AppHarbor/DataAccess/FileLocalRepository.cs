@@ -25,7 +25,6 @@ namespace DataAccess
         public Playlist getPlaylist(int id)
         {
             Playlist result = db.Set<Playlist>().Where(x => x.id == id).FirstOrDefault();
-            foreach (Track t in db.Set<Track>().Where(x => x.PlaylistId == id)) ;
             return result;
         }
 
@@ -35,14 +34,29 @@ namespace DataAccess
             return temp.Where(x => x.match(playlist)).ToArray<Playlist>();
         }
 
-        public Playlist update(int id, Playlist p)
+        public Playlist update(Playlist p)
         {
-            foreach(Track t in p.Tracks)
-            {
-                db.Set<Track>().Add(t);
-            }
+            db.Entry<Playlist>(p).State = System.Data.EntityState.Modified;
             db.SaveChanges();
             return p;
+        }
+
+        public Track removeTrack(Track t,Playlist p)
+        {
+            /*foreach (Track track in p.getTracks())
+            {
+                db.Entry<Track>(track).State = System.Data.EntityState.Modified;
+            }*/
+            Track removed = db.Set<Track>().Remove(t);
+            db.SaveChanges();
+            return removed;
+        }
+
+        public Track addTrack(Track t)
+        {
+            Track added = db.Set<Track>().Add(t);
+            db.SaveChanges();
+            return added;
         }
 
         public Playlist[] getAll()
@@ -51,15 +65,11 @@ namespace DataAccess
             return temp.ToArray();
         }
 
-        public Playlist remove(int id)
+        public Playlist remove(Playlist p)
         {
-            DbSet<Playlist> table = db.Set<Playlist>();
-            Playlist oldPlaylist = getPlaylist(id);
-            if (oldPlaylist == null)
-                return null;
-            oldPlaylist = table.Remove(oldPlaylist);
+            Playlist removed = db.Set<Playlist>().Remove(p);
             db.SaveChanges();
-            return oldPlaylist;
+            return removed;
         }
     }
 }

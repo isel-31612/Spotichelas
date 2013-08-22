@@ -2,6 +2,11 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppHarbor", "AppHarbor\AppHarbor.csproj", "{726FF299-F0BD-4959-B3B9-51A13BD751F3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3554E605-C3D7-474D-BE7C-B13CA5F14C35} = {3554E605-C3D7-474D-BE7C-B13CA5F14C35}
+		{38052F46-34DB-4561-89D0-1F9D72583249} = {38052F46-34DB-4561-89D0-1F9D72583249}
+		{21AFCCD5-D6B1-4158-9DAC-028A2693B27B} = {21AFCCD5-D6B1-4158-9DAC-028A2693B27B}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Spotify", "Spotify", "{27E5EC05-E6D3-420A-A5C7-2456EF2C4AB1}"
 EndProject
@@ -17,14 +22,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{FC610A
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebManager", "WebManager\WebManager.csproj", "{EA239D7B-055F-486B-AC25-F79189E71F4C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EA9C78D7-FF76-4A61-BC2D-32506DBBC164} = {EA9C78D7-FF76-4A61-BC2D-32506DBBC164}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "Utils\Utils.csproj", "{88FAF17D-C105-427B-A1AF-58C60CB15CB1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DA155D36-5A52-4D01-A70F-FFD6FF04EF8E} = {DA155D36-5A52-4D01-A70F-FFD6FF04EF8E}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCache", "WebCache\WebCache.csproj", "{EA9C78D7-FF76-4A61-BC2D-32506DBBC164}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyBridge", "SpotifyBridge\SpotifyBridge.csproj", "{38052F46-34DB-4561-89D0-1F9D72583249}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DA155D36-5A52-4D01-A70F-FFD6FF04EF8E} = {DA155D36-5A52-4D01-A70F-FFD6FF04EF8E}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessRules", "Logic\BusinessRules.csproj", "{3554E605-C3D7-474D-BE7C-B13CA5F14C35}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DA155D36-5A52-4D01-A70F-FFD6FF04EF8E} = {DA155D36-5A52-4D01-A70F-FFD6FF04EF8E}
+		{21AFCCD5-D6B1-4158-9DAC-028A2693B27B} = {21AFCCD5-D6B1-4158-9DAC-028A2693B27B}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{DA155D36-5A52-4D01-A70F-FFD6FF04EF8E}"
 EndProject

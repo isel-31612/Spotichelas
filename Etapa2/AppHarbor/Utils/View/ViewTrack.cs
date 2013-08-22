@@ -25,8 +25,8 @@ namespace Utils
             Href = track.Link;
             Name = track.Name;
             Duration = track.Duration+"";
-            Artists = track.Artist.Select(a => new KeyValuePair<string, string>(a.Link,a.Name)).ToList();
-            Album = new KeyValuePair<string,string>(track.Album.Link,track.Album.Name);
+            Artists = new List<KeyValuePair<string,string>>();//track.Artist.Select(a => new KeyValuePair<string, string>(a.Link,a.Name)).ToList();
+            Album = new KeyValuePair<string, string>();//track.Album.Link,track.Album.Name);
         }
 
         public Track ToTrack()

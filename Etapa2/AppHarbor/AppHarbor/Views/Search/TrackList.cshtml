@@ -29,10 +29,10 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Duration)
+            @Html.Label(Utils.TimeParse.Seconds(item.Duration))
         </td>
         <td>
-            @item.Artists.First().Value
+            @item.Artists.FirstOrDefault().Value
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Album.Value)

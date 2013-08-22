@@ -35,7 +35,7 @@ namespace Utils
             Owner = pl.Owner;
             Shared = pl.Shared.Select(p => new ViewPermission(p)).ToList();
             Tracks = new Dictionary<int, ViewTrack>();
-            foreach (var track in pl.Tracks)
+            foreach (var track in pl.getTracks())
             {
                 Tracks.Add(track.Order, new ViewTrack(track));
             }

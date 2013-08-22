@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using DataAccess;
 using Entities;
@@ -23,12 +24,10 @@ namespace BusinessRules
             if (name.Equals("") || desc.Equals(""))
                 return null;
             Playlist p = new Playlist(name, desc, user);
-            Playlist[] matchingPlaylists = new Playlist[0];//TODO: repo.getAll(p); stupid error...
-            if (matchingPlaylists.Length <= 0)
+            if(repo.getAll(p).Any(existingPlaylist => existingPlaylist.Name.Equals(name)))//TODO: what stupid error...?
             {
                 int id = repo.put(p);
                 p.id = id;
-                    //new ViewPlaylist(p.id,p.Name,p.Description,p.Owner,p.Tracks);
                 return new ViewPlaylist(p); ;
             }
             return null;

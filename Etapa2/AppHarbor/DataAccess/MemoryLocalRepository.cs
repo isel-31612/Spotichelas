@@ -64,7 +64,7 @@ namespace DataAccess
             Playlist ret = (Playlist) obj;
             if (p.Name != null) ret.Name = p.Name;
             if (p.Description != null) ret.Description = p.Description;
-            if (p.Tracks.Count > 0) ret.Tracks = p.Tracks;
+            //TODO: Uncomment ---> if (p.Tracks.Count > 0) ret.Tracks = p.Tracks; ;
             return ret;
         }
 

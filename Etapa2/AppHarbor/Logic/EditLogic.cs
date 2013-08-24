@@ -87,5 +87,10 @@ namespace BusinessRules
             }
             return false;
         }
+
+        public bool ChangeOrderTo(ViewPlaylist p, string href, int target)
+        {
+            return false;
+        }
     }
 }

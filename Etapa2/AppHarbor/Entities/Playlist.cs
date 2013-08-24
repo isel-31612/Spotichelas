@@ -34,10 +34,6 @@ namespace Entities
             return HideTracks;
         }
 
-        public void setTracks(List<Track> c){
-            HideTracks = c;
-        }
-
         public override bool match(object o)
         {
             Playlist pl = o as Playlist;

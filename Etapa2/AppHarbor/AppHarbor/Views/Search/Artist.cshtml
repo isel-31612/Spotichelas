@@ -17,7 +17,7 @@
     <div class="display-label">Albuns</div>
     <div class="display-field">
         <ul>
-            @foreach(var album in Model.Albuns){
+            @foreach(KeyValuePair<string,string> album in Model.Albuns){
                 <li> @(album.Key!=null?Html.ActionLink(album.Value,"Album",new { href=album.Key}):Html.Label("",album.Value)) </li>
             }
         </ul>

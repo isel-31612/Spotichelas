@@ -35,7 +35,7 @@ namespace AppHarbor.Controllers
         {
             if (ModelState.IsValid)
             {
-                var playlist = Rules.Create.Playlist(pl, GetCurrentUserName());
+                ViewPlaylist playlist = Rules.Create.Playlist(pl, GetCurrentUserName());
                 return RedirectToAction("Details", new { id = playlist.Id });
             }
             return View("New");
@@ -45,7 +45,7 @@ namespace AppHarbor.Controllers
         [HttpGet, ActionName("Details")]
         public ActionResult DetailsGet(int id)
         {
-            var playlist = Rules.Find.PlaylistWithReadAccess(id, GetCurrentUserName());
+            ViewPlaylist playlist = Rules.Find.PlaylistWithReadAccess(id, GetCurrentUserName());
             if (playlist == null)
                 return HttpNotFound();
             return View("Details", playlist);
@@ -56,7 +56,7 @@ namespace AppHarbor.Controllers
         public ActionResult List()
         {
             String user = GetCurrentUserName();
-            var list = Rules.FindAll.Playlists(user);
+            ViewPlaylist[] list = Rules.FindAll.Playlists(user);
             ViewBag.User = user;
             return View("List", list);
         }
@@ -66,7 +66,7 @@ namespace AppHarbor.Controllers
         public ActionResult EditGet(int id)
         {
             String user = GetCurrentUserName();
-            var playlist = Rules.Find.PlaylistWithOwnerAccess(id, user);
+            ViewPlaylist playlist = Rules.Find.PlaylistWithOwnerAccess(id, user);
             if (playlist == null)
                 return HttpNotFound();
             return View("Edit", playlist);
@@ -111,7 +111,7 @@ namespace AppHarbor.Controllers
 
         //POST: root/playlist/{id}/delete
         [HttpPost, ActionName("Delete")]
-        public ActionResult RemovePost(int id)//TODO: What? Why would i remove and after verify stuff?
+        public ActionResult RemovePost(int id)
         {
             String user = GetCurrentUserName();
             ViewPlaylist playlist = Rules.Remove.Playlist(id, user);
@@ -170,10 +170,11 @@ namespace AppHarbor.Controllers
 
         //POST: root/playlist/ChangeTrackNumber/{id}&{href}
         [HttpPost, ActionName("ChangeTrackNumber")]
-        public ActionResult ChangeTrackNumberPost(int id, string href)
+        public ActionResult ChangeTrackNumberPost(int id, string href, int newTrackNumber)
         {
             String user = GetCurrentUserName();
             ViewPlaylist playlist = Rules.Find.PlaylistWithOwnerAccess(id, user);
+            Rules.Edit.ChangeOrderTo(playlist,href,newTrackNumber);
             return RedirectToAction("Details", playlist);
         }
         

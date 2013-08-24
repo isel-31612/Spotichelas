@@ -57,7 +57,7 @@ namespace BusinessRules
         public ViewAlbum Album(string link)
         {
             Album al = repo.getAlbum(link);
-            List<KeyValuePair<string, string>> artists = al.Artists.Select(a => new KeyValuePair<string, string>(a.Link!=null?a.Link:null, a.Name)).ToList();
+            List<KeyValuePair<string, string>> artists = al.Artists.Select(a => new KeyValuePair<string, string>(a.Link != null ? a.Link : null, a.Name)).ToList();
             List<KeyValuePair<string, string>> tracks = al.Tracks.Select(t => new KeyValuePair<string, string>(t.Link, t.Name)).ToList();
             ViewAlbum val = new ViewAlbum(al.Link, al.Name, (int)al.Year, artists,tracks);
             return val;

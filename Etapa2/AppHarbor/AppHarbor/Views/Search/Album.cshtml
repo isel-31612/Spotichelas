@@ -17,7 +17,7 @@
     <div class="display-label">Artists</div>
     <div class="display-field">
         <ul>
-            @foreach( var artist in Model.Artist ){
+            @foreach( KeyValuePair<string,string> artist in Model.Artist ){
                 <li> @(artist.Key!=null?Html.ActionLink(artist.Value,"Artist", new { href=artist.Key}):Html.Label("",artist.Value) ) </li>
             }
          </ul>

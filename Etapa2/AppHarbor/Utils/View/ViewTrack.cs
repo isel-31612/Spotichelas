@@ -25,11 +25,11 @@ namespace Utils
             Href = track.Link;
             Name = track.Name;
             Duration = track.Duration+"";
-            Artists = new List<KeyValuePair<string,string>>();//track.Artist.Select(a => new KeyValuePair<string, string>(a.Link,a.Name)).ToList();
-            Album = new KeyValuePair<string, string>();//track.Album.Link,track.Album.Name);
+            Artists = track.Artist.Select(a => new KeyValuePair<string, string>(a.Link,a.Name)).ToList();
+            Album = new KeyValuePair<string, string>(track.Album.Link,track.Album.Name);
         }
 
-        public Track ToTrack()
+        private Track ToTrack()//TODO: check who is using and if its not required to send artist/album
         {
             return new Track(Name, Href, double.Parse(Duration), null, null);
         }

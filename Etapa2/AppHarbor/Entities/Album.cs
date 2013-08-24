@@ -8,6 +8,7 @@ namespace Entities
         public string Name { get; set; }        
         public uint Year { get; set; }
         public string Link { get; set; }
+        
         public virtual List<Artist> Artists { get; set; }
         public virtual List<Track> Tracks  { get; set; }
 

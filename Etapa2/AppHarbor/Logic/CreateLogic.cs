@@ -24,7 +24,7 @@ namespace BusinessRules
             if (name.Equals("") || desc.Equals(""))
                 return null;
             Playlist p = new Playlist(name, desc, user);
-            if(repo.getAll(p).Any(existingPlaylist => existingPlaylist.Name.Equals(name)))//TODO: what stupid error...?
+            if (!repo.getAll().Any(existingPlaylist => existingPlaylist.Name.Equals(name)))
             {
                 int id = repo.put(p);
                 p.id = id;

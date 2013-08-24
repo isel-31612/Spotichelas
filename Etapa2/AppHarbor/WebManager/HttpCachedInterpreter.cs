@@ -24,6 +24,8 @@ namespace WebManager
                 return GetIfModified(requestUri, dt, value);
             }
             HttpResponseMessage response = ProcessReply(client, requestUri);
+            if (response == null)
+                return null;
             string result = ExtractString(response);
             CacheResult(response, result);
             return result;

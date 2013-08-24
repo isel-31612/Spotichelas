@@ -45,11 +45,6 @@ namespace DataAccess
             return repo.getAll();
         }
 
-        public Playlist[] getAll(Playlist t)
-        {
-            return repo.getAllLike(t);
-        }
-
         public int put(Playlist p)
         {
             return repo.setPlaylist(p);

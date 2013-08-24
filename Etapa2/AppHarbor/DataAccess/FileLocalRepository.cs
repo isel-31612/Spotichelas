@@ -28,12 +28,6 @@ namespace DataAccess
             return result;
         }
 
-        public Playlist[] getAllLike(Playlist playlist)
-        {
-            DbSet<Playlist> temp = db.Set<Playlist>();
-            return temp.Where(x => x.match(playlist)).ToArray<Playlist>();
-        }
-
         public Playlist update(Playlist p)
         {
             db.Entry<Playlist>(p).State = System.Data.EntityState.Modified;
@@ -43,10 +37,6 @@ namespace DataAccess
 
         public Track removeTrack(Track t,Playlist p)
         {
-            /*foreach (Track track in p.getTracks())
-            {
-                db.Entry<Track>(track).State = System.Data.EntityState.Modified;
-            }*/
             Track removed = db.Set<Track>().Remove(t);
             db.SaveChanges();
             return removed;

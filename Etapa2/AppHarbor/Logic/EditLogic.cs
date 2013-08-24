@@ -63,9 +63,9 @@ namespace BusinessRules
             return true;
         }
 
-        public bool AddUser(ViewPlaylist p, string newUser,bool canRead, bool canWrite, string CurrentUser)
+        public bool AddUser(int id, string newUser,bool canRead, bool canWrite, string CurrentUser)
         {
-            Playlist playlist = repo.get(p.Id);
+            Playlist playlist = repo.get(id);
             if (playlist !=null && playlist.Owner.Equals(CurrentUser))
             {
                 playlist.Shared.RemoveAll(permission => permission.User.Equals(newUser));
@@ -88,9 +88,19 @@ namespace BusinessRules
             return false;
         }
 
-        public bool ChangeOrderTo(ViewPlaylist p, string href, int target)
+        public bool ChangeOrderTo(int id,string href, int target,string CurrentUser)
         {
-            return false;
+            Playlist playlist = repo.get(id);
+            if (playlist == null || !playlist.Owner.Equals(CurrentUser) && !playlist.Shared.Find(per => per.User.Equals(CurrentUser)).CanWrite || playlist.getTracks().Count>=target)
+                return false;
+            Track sourceTrack = playlist.getTracks().Where(t => t.Link.Equals(href)).FirstOrDefault();
+            if (sourceTrack.Order == target)
+                return true;
+            Track targetTrack = playlist.getTracks().Where(t => t.Order==target).FirstOrDefault();
+            targetTrack.Order = sourceTrack.Order;
+            sourceTrack.Order = target;
+            repo.update(playlist);
+            return true;
         }
     }
 }

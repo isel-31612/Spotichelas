@@ -11,6 +11,10 @@ namespace Utils
         public string Type { get; set; }
         public int Page { get; set; }
 
+        public SearchInfo()
+        {
+        }
+
         public SearchInfo(int count, int max, int offset, string query, string type, int page)
         {
             Count = count;

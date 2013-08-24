@@ -40,10 +40,5 @@ namespace Utils
                 Tracks.Add(track.Order, new ViewTrack(track));
             }
         }
-
-        public Playlist toPlaylist()
-        {
-            return null;
-        }
     }
 }

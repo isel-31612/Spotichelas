@@ -34,9 +34,9 @@ namespace AppHarbor.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Membership.ValidateUser(model.UserName, model.Password))
+                if (Membership.ValidateUser(model.LoginName, model.Password))
                 {
-                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+                    FormsAuthentication.SetAuthCookie(model.LoginName, model.RememberMe);
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                         && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                     {
@@ -49,7 +49,7 @@ namespace AppHarbor.Controllers
                 }
                 else
                 {
-                    MembershipUser u = Membership.GetUser(model.UserName);
+                    MembershipUser u = Membership.GetUser(model.LoginName);
                     if (u != null)
                     {
                         if (!u.IsApproved)
@@ -93,14 +93,14 @@ namespace AppHarbor.Controllers
             {
                 // Attempt to register the user
                 MembershipCreateStatus createStatus;
-                var user = Membership.CreateUser(model.UserName, model.Password, model.Email, model.SecurityQuestion, model.SecurityAnswer
+                var user = Membership.CreateUser(model.Nickname, model.Password, model.Email, model.SecurityQuestion, model.SecurityAnswer
                                         , false, out createStatus);//isApproved=false user cannot log in
 
                 if (createStatus == MembershipCreateStatus.Success)
                 {
-                    user.Comment = ChallengeGenerator(string.Concat(model.UserName,model.Password,model.Email,model.SecurityQuestion,model.SecurityAnswer));
+                    user.Comment = ChallengeGenerator(DateTime.Now.Ticks.ToString());
                     Membership.UpdateUser(user);
-                    sendChallenge(model.UserName,model.Email, user.Comment);
+                    sendChallenge(model.Nickname,model.Email, user.Comment);
                     return RedirectToAction("Validate");
                 }
                 else
@@ -189,7 +189,7 @@ namespace AppHarbor.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = Membership.GetUser(model.Username);
+                MembershipUser user = Membership.GetUser(model.Nickname);
                 var count = from MembershipUser u in Membership.GetAllUsers()
                             where u.Comment.Equals(model.Nickname)
                             select u.Comment;
@@ -197,7 +197,10 @@ namespace AppHarbor.Controllers
                     if (user.Comment.Equals(model.Challenge))
                     {
                         user.IsApproved = true;
-                        user.Comment = model.Nickname;
+                        Profile.SetPropertyValue("LoginName", model.LoginName);
+                        string avatarURL = Utils.GravatarTransformer.GetUserImageUrlFromEmail(user.Email);
+                        Profile.SetPropertyValue("AvatarUrl", avatarURL);
+                        user.Comment = string.Empty;
                         Roles.AddUserToRole(user.UserName, "User");
                         Membership.UpdateUser(user);
                         FormsAuthentication.SetAuthCookie(user.UserName, true /* createPersistentCookie */);
@@ -228,8 +231,13 @@ namespace AppHarbor.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = Membership.GetUser();
-                //TODO: ...
+                MembershipUser user = Membership.GetUser();
+                if (model.Email != null)
+                    user.Email = model.Email;
+                if (model.Image != null)
+                    Profile.SetPropertyValue("AvatarUrl", model.Image);
+                if (model.LoginName != null)
+                    Profile.SetPropertyValue("LoginName", model.LoginName);
             }
             return View("Edit",model);
         }
@@ -259,11 +267,11 @@ namespace AppHarbor.Controllers
         [HttpPost, ActionName("Promote")]
         public ActionResult PromotePost(PromoteAccountModel model)
         {
-            if (Membership.GetUser(model.Username) != null)
+            if (Membership.GetUser(model.Nickname) != null)
                 if (Roles.RoleExists(model.Role))
-                    if (!Roles.IsUserInRole(model.Username, model.Role))
+                    if (!Roles.IsUserInRole(model.Nickname, model.Role))
                     {
-                        Roles.AddUserToRole(model.Username, model.Role);
+                        Roles.AddUserToRole(model.Nickname, model.Role);
                         return RedirectToAction("UserCP");
                     }
                     else

@@ -35,10 +35,15 @@ namespace AppHarbor.Controllers
         {
             if (ModelState.IsValid)
             {
-                ViewPlaylist playlist = Rules.Create.Playlist(pl, GetCurrentUserName());
-                return RedirectToAction("Details", new { id = playlist.Id });
+                int newId = Rules.Create.Playlist(pl, GetCurrentUserName());
+                if (newId == 0)
+                {
+                    ModelState.AddModelError("", "Name must be Unique! Name and Description are required!");//TODO: check element name
+                    return View("Create");
+                }
+                return RedirectToAction("Details", new { id = newId });
             }
-            return View("New");
+            return View("Create");
         }
 
         //GET: root/playlist/{id}
@@ -114,8 +119,7 @@ namespace AppHarbor.Controllers
         public ActionResult RemovePost(int id)
         {
             String user = GetCurrentUserName();
-            ViewPlaylist playlist = Rules.Remove.Playlist(id, user);
-            if (playlist == null)
+            if (Rules.Remove.Playlist(id, user))
                 return HttpNotFound();
             return RedirectToAction("List");
         }
@@ -160,12 +164,11 @@ namespace AppHarbor.Controllers
         public ActionResult PermissionPost(int id, string name, bool writePermission, bool readPermission)
         {
             String user = GetCurrentUserName();
-            ViewPlaylist playlist = Rules.Find.PlaylistWithOwnerAccess(id, user);
-            if (playlist == null || name == null)
+            if (name == null)
                 return HttpNotFound();
-            if (Rules.Edit.AddUser(playlist, name, readPermission, writePermission, user))
-                return RedirectToAction("Details", new { id = id });//TODO: why would it fail?
-            return RedirectToAction("Permission",playlist);
+            if (Rules.Edit.AddUser(id, name, readPermission, writePermission, user))
+                return RedirectToAction("Details", new { id = id });
+            return HttpNotFound();
         }
 
         //POST: root/playlist/ChangeTrackNumber/{id}&{href}
@@ -173,14 +176,14 @@ namespace AppHarbor.Controllers
         public ActionResult ChangeTrackNumberPost(int id, string href, int newTrackNumber)
         {
             String user = GetCurrentUserName();
-            ViewPlaylist playlist = Rules.Find.PlaylistWithOwnerAccess(id, user);
-            Rules.Edit.ChangeOrderTo(playlist,href,newTrackNumber);
-            return RedirectToAction("Details", playlist);
+            if (Rules.Edit.ChangeOrderTo(id, href, newTrackNumber, user))
+                return HttpNotFound();
+            return RedirectToAction("Details", new { id = id });
         }
         
         private string GetCurrentUserName()
         {
-            return Membership.GetUser().Comment;
+            return Membership.GetUser().UserName;
         }
     }
 }

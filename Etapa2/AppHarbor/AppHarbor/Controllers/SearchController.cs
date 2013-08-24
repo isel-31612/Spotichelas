@@ -44,13 +44,14 @@ namespace AppHarbor.Controllers
         [HttpGet, ActionName("Track")]
         public ActionResult TrackGet(string href)
         {
-            String user = Membership.GetUser().Comment;
+            String user = GetCurrentUserName();
             ViewPlaylist[] playlists = Rules.FindAll.PlaylistsWithWriteAccess(user);//Brings both owner and permissions with write playlists
 
             ViewBag.Playlists = from ViewPlaylist p in playlists
                                 select new SelectListItem { Text = p.Name, Value = p.Id+"" };
                 
-            var track = Rules.Find.Track(href);
+            ViewTrack track = Rules.Find.Track(href);
+            if (track == null) return new HttpStatusCodeResult(504);
             return View(track);
         }
 
@@ -58,7 +59,8 @@ namespace AppHarbor.Controllers
         [HttpGet, ActionName("Album")]
         public ActionResult AlbumGet(string href)
         {
-            var album = Rules.Find.Album(href);
+            ViewAlbum album = Rules.Find.Album(href);
+            if (album == null) return new HttpStatusCodeResult(504);
             return View(album);
         }
 
@@ -66,8 +68,14 @@ namespace AppHarbor.Controllers
         [HttpGet, ActionName("Artist")]
         public ActionResult ArtistGet(string href)
         {
-            var artist = Rules.Find.Artist(href);
+            ViewArtist artist = Rules.Find.Artist(href);
+            if (artist == null)return new HttpStatusCodeResult(504);
             return View(artist);
+        }
+
+        private string GetCurrentUserName()
+        {
+            return Membership.GetUser().UserName;
         }
     }
 }

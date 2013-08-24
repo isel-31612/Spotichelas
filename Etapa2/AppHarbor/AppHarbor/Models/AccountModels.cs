@@ -31,7 +31,7 @@ namespace AppHarbor.Models
     {
         [Required]
         [Display(Name = "User name")]
-        public string UserName { get; set; }
+        public string LoginName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -45,8 +45,8 @@ namespace AppHarbor.Models
     public class RegisterModel
     {
         [Required]
-        [Display(Name = "User name")]
-        public string UserName { get; set; }
+        [Display(Name = "Nickname")]
+        public string Nickname { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]
@@ -79,7 +79,7 @@ namespace AppHarbor.Models
     {
         [DataType(DataType.Text)]
         [Display(Name = "Login Name")]
-        public string Username { get; set; }
+        public string LoginName { get; set; }
 
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email address")]
@@ -88,17 +88,13 @@ namespace AppHarbor.Models
         [DataType(DataType.ImageUrl)]
         [Display(Name = "Profile Avatar")]
         public string Image { get; set; }
-
-        [DataType(DataType.Text)]
-        [Display(Name = "Public Name")]
-        public string Nickname { get; set; }
     }
 
     public class ValidateAccountModel
     {
         [Required]
         [Display(Name = "Login Name")]
-        public string Username { get; set; }
+        public string LoginName { get; set; }
 
         [Required]
         [Display(Name = "Challenge Code")]
@@ -112,8 +108,8 @@ namespace AppHarbor.Models
     public class PromoteAccountModel
     {
         [Required]
-        [Display(Name = "User Name")]
-        public string Username { get; set; }
+        [Display(Name = "Public name")]
+        public string Nickname { get; set; }
 
         [Required]
         [Display(Name = "New Role")]

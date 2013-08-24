@@ -17,20 +17,20 @@ namespace BusinessRules
             repo = d;
         }
 
-        public ViewPlaylist Playlist(CreatePlaylist createPlaylist, string user)
+        public int Playlist(CreatePlaylist createPlaylist, string user)
         {
             string name = createPlaylist.Name;
             string desc = createPlaylist.Description;
             if (name.Equals("") || desc.Equals(""))
-                return null;
+                return 0;
             Playlist p = new Playlist(name, desc, user);
             if (!repo.getAll().Any(existingPlaylist => existingPlaylist.Name.Equals(name)))
             {
                 int id = repo.put(p);
                 p.id = id;
-                return new ViewPlaylist(p); ;
+                return id;
             }
-            return null;
+            return 0;
         }
     }
 }

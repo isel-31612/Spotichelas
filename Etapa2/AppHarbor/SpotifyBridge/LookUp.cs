@@ -21,24 +21,27 @@ namespace SpotifyBridge
         public Track Track(string id)
         {
             string link = string.Format("spotify:track:{0}", id);
-            var json = lookup(link);
-            var obj = JsonConvert.DeserializeObject<Reply>(json).track;
+            string json = lookup(link);
+            if (json == null)return null;
+            JsonLookTrack obj = JsonConvert.DeserializeObject<Reply>(json).track;
             return obj.ToEntity();
         }
 
         public Artist Artist(string id)
         {
             string link = string.Format("spotify:artist:{0}", id);
-            var json = lookup(link, "album");
-            var obj = JsonConvert.DeserializeObject<Reply>(json).artist;
+            string json = lookup(link, "album");
+            if (json == null) return null;
+            JsonLookArtist obj = JsonConvert.DeserializeObject<Reply>(json).artist;
             return obj.ToEntity();
         }
 
         public Album Album(string id)
         {
             string link = string.Format("spotify:album:{0}", id);
-            var json = lookup(link, "track");
-            var obj = JsonConvert.DeserializeObject<Reply>(json).album;
+            string json = lookup(link, "track");
+            if (json == null) return null;
+            JsonLookAlbum obj = JsonConvert.DeserializeObject<Reply>(json).album;
             return obj.ToEntity();
         }
 

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Entities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Utils
 {
@@ -8,11 +10,18 @@ namespace Utils
         public string Name { get; set; }
         public List<KeyValuePair<string, string>> Albuns { get; set; }
 
-        public ViewArtist(string href, string name, List<KeyValuePair<string, string>> albuns = null)
+        public ViewArtist()
         {
-            Href = href;
-            Name = name;
-            Albuns = albuns != null ? albuns : new List<KeyValuePair<string, string>>();
+            Href = null;
+            Name = null;
+            Albuns = new List<KeyValuePair<string, string>>();
+        }
+
+        public ViewArtist(Artist artist)
+        {
+            Href = artist.Link;
+            Name = artist.Name;
+            Albuns = artist.Albuns.Select(a => new KeyValuePair<string, string>(a.Link, a.Name)).ToList();
         }
     }
 }

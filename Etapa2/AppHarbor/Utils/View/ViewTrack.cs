@@ -11,13 +11,13 @@ namespace Utils
         public List<KeyValuePair<string, string>> Artists { get; set; }
         public KeyValuePair<string,string> Album { get; set; }
 
-        public ViewTrack(string href, string name, int duration, List<KeyValuePair<string, string>> artists, string album, string albumHref)
+        public ViewTrack()
         {
-            Href = href;
-            Name = name;
-            Duration = duration+"";
-            Artists = artists != null ? artists : new List<KeyValuePair<string, string>>();
-            Album = new KeyValuePair<string, string>(albumHref, album);
+            Href = null;
+            Name = null;
+            Duration = null;
+            Artists = new List<KeyValuePair<string, string>>();
+            Album = new KeyValuePair<string, string>();
         }
 
         public ViewTrack(Track track)
@@ -27,11 +27,6 @@ namespace Utils
             Duration = track.Duration+"";
             Artists = track.Artist.Select(a => new KeyValuePair<string, string>(a.Link,a.Name)).ToList();
             Album = new KeyValuePair<string, string>(track.Album.Link,track.Album.Name);
-        }
-
-        private Track ToTrack()//TODO: check who is using and if its not required to send artist/album
-        {
-            return new Track(Name, Href, double.Parse(Duration), null, null);
         }
     }
 }

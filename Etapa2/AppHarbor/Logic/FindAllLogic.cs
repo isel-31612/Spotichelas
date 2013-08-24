@@ -49,10 +49,9 @@ namespace BusinessRules
         {
             SpotifyBridge.SearchResult<Album> result = repo.getAllAlbum(query);
             List<ViewAlbum> ret = new List<ViewAlbum>();
-            foreach (var album in result.Results)
+            foreach (Album album in result.Results)
             {
-                List<KeyValuePair<string, string>> artist = album.Artists.Select(a => new KeyValuePair<string, string>(a.Link, a.Name)).ToList();
-                ret.Add(new ViewAlbum(album.Link, album.Name, (int)album.Year, artist));
+                ret.Add(new ViewAlbum(album));
             }
             info = result.Info;
             return ret;
@@ -62,10 +61,9 @@ namespace BusinessRules
         {
             SpotifyBridge.SearchResult<Artist> result = repo.getAllArtists(query);
             List<ViewArtist> ret = new List<ViewArtist>();
-            foreach (var artist in result.Results)
+            foreach (Artist artist in result.Results)
             {
-                List<KeyValuePair<string, string>> albuns = artist.Albuns.Select(a => new KeyValuePair<string, string>(a.Link, a.Name)).ToList();
-                ret.Add(new ViewArtist(artist.Link, artist.Name, albuns));
+                ret.Add(new ViewArtist(artist));
             }
             info = result.Info;
             return ret;
@@ -75,10 +73,8 @@ namespace BusinessRules
         {
             SpotifyBridge.SearchResult<Track> result = repo.getAllTracks(query);
             List<ViewTrack> ret = new List<ViewTrack>();
-            foreach (var track in result.Results)
+            foreach (Track track in result.Results)
             {
-                //List<KeyValuePair<string, string>> artists = track.Artist.Select(a => new KeyValuePair<string, string>(a.Link!=null?a.Link:null, a.Name)).ToList();
-                //Album album = track.Album;
                 ret.Add( new ViewTrack(track)); 
             }
             info = result.Info;

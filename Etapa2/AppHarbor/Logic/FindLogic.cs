@@ -49,24 +49,24 @@ namespace BusinessRules
         }
         public ViewArtist Artist(string link)
         {
-            Artist ar = repo.getArtist(link);
-            List<KeyValuePair<string, string>> albuns = ar.Albuns.Select(a => new KeyValuePair<string, string>(a.Link, a.Name)).ToList();
-            ViewArtist vAr = new ViewArtist(ar.Link, ar.Name,albuns);
-            return vAr;
+            Artist artist = repo.getArtist(link);
+            if (artist == null)
+                return null;
+            return new ViewArtist(artist);
         }
         public ViewAlbum Album(string link)
         {
-            Album al = repo.getAlbum(link);
-            List<KeyValuePair<string, string>> artists = al.Artists.Select(a => new KeyValuePair<string, string>(a.Link != null ? a.Link : null, a.Name)).ToList();
-            List<KeyValuePair<string, string>> tracks = al.Tracks.Select(t => new KeyValuePair<string, string>(t.Link, t.Name)).ToList();
-            ViewAlbum val = new ViewAlbum(al.Link, al.Name, (int)al.Year, artists,tracks);
-            return val;
+            Album album = repo.getAlbum(link);
+            if (album == null)
+                return null;
+            return new ViewAlbum(album);
         }
         public ViewTrack Track(string link)
         {
-            Track t = repo.getTrack(link);
-            ViewTrack vt = new ViewTrack(t);
-            return vt;
+            Track track = repo.getTrack(link);
+            if (track == null)
+                return null;
+            return new ViewTrack(track);
         }
     }
 }

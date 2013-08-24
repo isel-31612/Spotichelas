@@ -12,13 +12,13 @@ namespace BusinessRules
             repo = d;
         }
 
-        public ViewPlaylist Playlist(int id, string CurrentUser)
+        public bool Playlist(int id, string CurrentUser)
         {
             Playlist p = repo.get(id);
             if (p == null || p.getTracks().Count > 0 || !p.Owner.Equals(CurrentUser))
-                return null;
+                return false;
             Playlist deleted = repo.remove(p);
-            return new ViewPlaylist(deleted);
+            return deleted!=null;
         }
     }
 }

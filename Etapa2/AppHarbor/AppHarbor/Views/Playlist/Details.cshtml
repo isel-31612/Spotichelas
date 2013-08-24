@@ -47,6 +47,7 @@
                         <div class="display-field">
                             @using (Html.BeginForm("ChangeTrackNumber","Playlist",FormMethod.Post)){
                                 @Html.HiddenFor( item => item.Id)
+                                @Html.Hidden("href",track.Value.Href)
                                 @Html.DropDownList("newTrackNumber", itens)
                                 @Html.InputButton("ChangeTrack","Change")
                             }

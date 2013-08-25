@@ -93,14 +93,16 @@ namespace AppHarbor.Controllers
             {
                 // Attempt to register the user
                 MembershipCreateStatus createStatus;
-                var user = Membership.CreateUser(model.Nickname, model.Password, model.Email, model.SecurityQuestion, model.SecurityAnswer
+                var user = Membership.CreateUser(model.LoginName, model.Password, model.Email, model.SecurityQuestion, model.SecurityAnswer
                                         , false, out createStatus);//isApproved=false user cannot log in
 
                 if (createStatus == MembershipCreateStatus.Success)
                 {
-                    user.Comment = ChallengeGenerator(DateTime.Now.Ticks.ToString());
+                    string challenge = ChallengeGenerator(DateTime.Now.Ticks.ToString());
+                    Profile.SetPropertyValue("Challenge", challenge);
+                    Profile.Save();
                     Membership.UpdateUser(user);
-                    sendChallenge(model.Nickname,model.Email, user.Comment);
+                    Utils.Emailer.SendEmail(model.LoginName, model.Email, " Validation Code: " + challenge, "Account Validation!");
                     return RedirectToAction("Validate");
                 }
                 else
@@ -172,6 +174,8 @@ namespace AppHarbor.Controllers
         [HttpGet, ActionName("UserCP")]
         public ActionResult UserCPGet()
         {
+            object avatar = Profile.GetPropertyValue("AvatarUrl");
+            ViewBag.Image = avatar == null || avatar.Equals(string.Empty) ? string.Empty : avatar.ToString();
             ViewBag.Email = Membership.GetUser().Email;
             return View("UserCP");
         }
@@ -189,18 +193,20 @@ namespace AppHarbor.Controllers
         {
             if (ModelState.IsValid)
             {
-                MembershipUser user = Membership.GetUser(model.Nickname);
-                var count = from MembershipUser u in Membership.GetAllUsers()
+
+                MembershipUser user = Membership.GetUser(model.LoginName);
+                IEnumerable<string> count = from MembershipUser u in Membership.GetAllUsers()
                             where u.Comment.Equals(model.Nickname)
                             select u.Comment;
                 if (count.Count() == 0)
-                    if (user.Comment.Equals(model.Challenge))
+                {
+                    string challenge = Profile.GetPropertyValue("Challenge").ToString();
+                    if (challenge.Equals(model.Challenge))
                     {
                         user.IsApproved = true;
-                        Profile.SetPropertyValue("LoginName", model.LoginName);
-                        string avatarURL = Utils.GravatarTransformer.GetUserImageUrlFromEmail(user.Email);
-                        Profile.SetPropertyValue("AvatarUrl", avatarURL);
-                        user.Comment = string.Empty;
+                        Profile.SetPropertyValue("Challenge", "");
+                        Profile.Save();
+                        user.Comment = model.Nickname;
                         Roles.AddUserToRole(user.UserName, "User");
                         Membership.UpdateUser(user);
                         FormsAuthentication.SetAuthCookie(user.UserName, true /* createPersistentCookie */);
@@ -210,7 +216,7 @@ namespace AppHarbor.Controllers
                     {
                         ModelState.AddModelError("challenge", "Invalid Challenge Code!");
                     }
-                else
+                }else
                     ModelState.AddModelError("nickname", "Public name already taken!");
             }
             return View("Validate");
@@ -235,9 +241,10 @@ namespace AppHarbor.Controllers
                 if (model.Email != null)
                     user.Email = model.Email;
                 if (model.Image != null)
+                {
                     Profile.SetPropertyValue("AvatarUrl", model.Image);
-                if (model.LoginName != null)
-                    Profile.SetPropertyValue("LoginName", model.LoginName);
+                    Profile.Save();
+                }
             }
             return View("Edit",model);
         }
@@ -258,7 +265,8 @@ namespace AppHarbor.Controllers
         public ActionResult PromoteGet()
         {
             ViewBag.Users = (from MembershipUser user in Membership.GetAllUsers()
-                             select user.UserName).ToList();
+                             select user.Comment).ToList();
+            ViewBag.Roles = Roles.GetAllRoles().ToList();
             return View("Promote");
         }
 
@@ -267,11 +275,15 @@ namespace AppHarbor.Controllers
         [HttpPost, ActionName("Promote")]
         public ActionResult PromotePost(PromoteAccountModel model)
         {
-            if (Membership.GetUser(model.Nickname) != null)
+            IEnumerable<MembershipUser> users = from MembershipUser u in Membership.GetAllUsers()
+                                  where u.Comment.Equals(model.Nickname)
+                                  select Membership.GetUser(u.UserName);
+            MembershipUser user = users.FirstOrDefault();
+            if (user != null)
                 if (Roles.RoleExists(model.Role))
-                    if (!Roles.IsUserInRole(model.Nickname, model.Role))
+                    if (!Roles.IsUserInRole(user.UserName, model.Role))
                     {
-                        Roles.AddUserToRole(model.Nickname, model.Role);
+                        Roles.AddUserToRole(user.UserName, model.Role);
                         return RedirectToAction("UserCP");
                     }
                     else
@@ -296,7 +308,6 @@ namespace AppHarbor.Controllers
         {
             ViewBag.Users = (from MembershipUser user in Membership.GetAllUsers()
                                 select user.UserName).ToList();
-            ViewBag.Roles = Roles.GetAllRoles();
             return View("Delete");
         }
 
@@ -327,30 +338,6 @@ namespace AppHarbor.Controllers
                 builder.Append(data[i].ToString("x2"));
             }
             return builder.ToString();
-        }
-
-        private void sendChallenge(string username, string emailAddress, string challenge)
-        {
-            MailMessage mail = new MailMessage();
-            using (SmtpClient SmtpServer = new SmtpClient())
-            {
-
-                SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
-                SmtpServer.UseDefaultCredentials = false;
-                SmtpServer.EnableSsl = true;
-                SmtpServer.Host = "smtp.gmail.com";
-                SmtpServer.Port = 587;
-                SmtpServer.Credentials = new NetworkCredential("spotichelas@gmail.com", "pleasedontstealme");
-                // send the email
-
-                mail.From = new MailAddress("spotichelas@gmail.com");
-                mail.To.Add(emailAddress);
-                mail.Subject = "Account Validation!";
-                mail.Body = " Validation Code: " + challenge;
-
-                SmtpServer.Send(mail);
-            }
-
         }
 
         #region Status Codes

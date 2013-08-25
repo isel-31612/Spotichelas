@@ -75,7 +75,8 @@ namespace AppHarbor.Controllers
 
         private string GetCurrentUserName()
         {
-            return Membership.GetUser().UserName;
+            object nickname = Profile.GetPropertyValue("Nickname");
+            return (string)nickname;
         }
     }
 }

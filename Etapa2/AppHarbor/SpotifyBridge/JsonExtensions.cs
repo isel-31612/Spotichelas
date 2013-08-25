@@ -65,6 +65,8 @@ namespace SpotifyBridge
 
         private static string simpleHref(string href)
         {
+            if (href == null) //Note: Some artists may not have a Link. For ea. "Various Artists"
+                return null;
             string[] array = href.Split(':');
             return array.Last();
         }

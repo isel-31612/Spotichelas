@@ -5,28 +5,6 @@
 
 <h2>Delete User</h2>
 
-<script type="text/javascript">
-    window.onload = function () {
-        document.getElementById("deleteButton").onclick = function (e) {
-            e.preventDefault();
-            var userName = document.getElementById("user").value ;
-            var requestText = "user=" + userName;
-            if (userName == null || userName == "") {
-                console.log(document.getElementById("valid-user").innerHTML);
-            }
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function () {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                    alert("User " + userName + " was deleted.");
-                }
-            }
-            xmlhttp.open("POST", "Delete", true);
-            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xmlhttp.send(requestText);
-        }
-    };
-</script>
-
 <fieldset>
     <legend>User Info</legend>
 
@@ -34,7 +12,7 @@
         @Html.ValidationSummary(true)
         <div class="display-label">User to Delete</div>
         <div class="editor-field">
-            @Html.TextBox("user")
+            @Html.DropDownList("user", users.Select(u => new SelectListItem { Text=u, Value=u }))
             @Html.ValidationMessage("user", new{ id="valid-user" })
         </div>
 
@@ -44,4 +22,4 @@
     }
 </fieldset>
 
-@Html.ActionLink("Back to CP","Index","Home")
+@Html.ActionLink("Back to CP","UserCP","Home")

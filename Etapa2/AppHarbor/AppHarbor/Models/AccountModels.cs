@@ -45,8 +45,8 @@ namespace AppHarbor.Models
     public class RegisterModel
     {
         [Required]
-        [Display(Name = "Nickname")]
-        public string Nickname { get; set; }
+        [Display(Name = "Login Name")]
+        public string LoginName { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]
@@ -77,16 +77,12 @@ namespace AppHarbor.Models
 
     public class EditAccountModel
     {
-        [DataType(DataType.Text)]
-        [Display(Name = "Login Name")]
-        public string LoginName { get; set; }
-
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email address")]
         public string Email { get; set; }
 
         [DataType(DataType.ImageUrl)]
-        [Display(Name = "Profile Avatar")]
+        [Display(Name = "Profile Avatar Url")]
         public string Image { get; set; }
     }
 

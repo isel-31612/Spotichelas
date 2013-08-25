@@ -1,12 +1,16 @@
 ﻿@{
     ViewBag.Title = "UserCP";
     string Email = ViewBag.Email;
+    string Imagem = ViewBag.Image;
+    if (Imagem == string.Empty){
+        Imagem = Utils.GravatarTransformer.GetUserImageUrlFromEmail(Email);
+    }
 }
 
 <h2>User Control Panel</h2>
 
     
-    @Html.ImageFromUrl(Utils.GravatarTransformer.GetUserImageUrlFromEmail(Email))
+    @Html.ImageFromUrl(Imagem)
     <ul>
         <li>@Html.ActionLink("Edit Account","Edit")</li>
         <li>@Html.ActionLink("Change password","ChangePassword")</li>

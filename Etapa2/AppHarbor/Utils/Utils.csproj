@@ -36,6 +36,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Emailer.cs" />
     <Compile Include="Create\CreatePlaylist.cs" />
     <Compile Include="Edit\EditPlaylist.cs" />
     <Compile Include="GravatarTransformer.cs" />

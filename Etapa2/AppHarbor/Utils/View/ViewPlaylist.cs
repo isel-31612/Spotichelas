@@ -9,14 +9,11 @@ namespace Utils
     public class ViewPlaylist
     {
         public int Id { get; set; }
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         public string Name { get; set; }
-        [Required]
         public string Description { get; set; }
         public string Owner { get; set; }
         public List<ViewPermission> Shared { get; set; }
-        public Dictionary<int,ViewTrack> Tracks { get; set; }
+        public List<ViewTrack> Tracks { get; set; }
 
         public ViewPlaylist()//Note: Only for LINQ query
         {
@@ -24,7 +21,7 @@ namespace Utils
             Description = null;
             Owner = null;
             Shared = new List<ViewPermission>();
-            Tracks = new Dictionary<int,ViewTrack>();
+            Tracks = new List<ViewTrack>();
         }
 
         public ViewPlaylist(Playlist pl)
@@ -34,11 +31,7 @@ namespace Utils
             Description = pl.Description;
             Owner = pl.Owner;
             Shared = pl.Shared.Select(p => new ViewPermission(p)).ToList();
-            Tracks = new Dictionary<int, ViewTrack>();
-            foreach (var track in pl.getTracks())
-            {
-                Tracks.Add(track.Order, new ViewTrack(track));
-            }
+            Tracks = pl.Tracks.Select(t => new ViewTrack(t)).ToList();
         }
     }
 }

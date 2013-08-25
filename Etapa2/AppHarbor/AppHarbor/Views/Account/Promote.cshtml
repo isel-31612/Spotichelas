@@ -13,18 +13,18 @@
     @using (Html.BeginForm("Promote","Account", FormMethod.Post)){
         @Html.ValidationSummary(true)
         <div class="display-label">
-            @Html.LabelFor(model => model.Username)
+            @Html.LabelFor(model => model.Nickname)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model=>model.Username)
-            @Html.ValidationMessageFor(model=>model.Username)
+            @Html.DropDownList("Nickname", users.Select(u => new SelectListItem { Text=u, Value=u }))
+            @Html.ValidationMessageFor(model=>model.Nickname)
         </div>
         
         <div class="display-label">
             @Html.LabelFor(model => model.Role)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.Role)
+            @Html.DropDownList("Role", roles.Select(r => new SelectListItem { Text=r, Value=r }))
             @Html.ValidationMessageFor(model => model.Role)
         </div>
 

@@ -154,7 +154,7 @@ namespace AppHarbor.Controllers
                 return HttpNotFound();
             
             var tmp = from MembershipUser u in Membership.GetAllUsers()
-                      select new SelectListItem { Text = u.Comment, Value = u.Comment };
+                      select new SelectListItem { Text = u.UserName, Value = u.UserName };
             ViewBag.Users = tmp.Where(u => !u.Text.Equals(user));
             return View(playlist);
         }
@@ -176,14 +176,14 @@ namespace AppHarbor.Controllers
         public ActionResult ChangeTrackNumberPost(int id, string href, int newTrackNumber)
         {
             String user = GetCurrentUserName();
-            if (Rules.Edit.ChangeOrderTo(id, href, newTrackNumber, user))
+            if (!Rules.Edit.ChangeOrderTo(id, href, newTrackNumber, user))
                 return HttpNotFound();
             return RedirectToAction("Details", new { id = id });
         }
         
         private string GetCurrentUserName()
         {
-            return Membership.GetUser().UserName;
+            return Membership.GetUser().Comment;
         }
     }
 }

@@ -91,7 +91,7 @@ namespace BusinessRules
         public bool ChangeOrderTo(int id,string href, int target,string CurrentUser)
         {
             Playlist playlist = repo.get(id);
-            if (playlist == null || !playlist.Owner.Equals(CurrentUser) && !playlist.Shared.Find(per => per.User.Equals(CurrentUser)).CanWrite || playlist.getTracks().Count>=target)
+            if (playlist == null || !playlist.Owner.Equals(CurrentUser) && !playlist.Shared.Find(per => per.User.Equals(CurrentUser)).CanWrite || !(playlist.getTracks().Count>=target))
                 return false;
             Track sourceTrack = playlist.getTracks().Where(t => t.Link.Equals(href)).FirstOrDefault();
             if (sourceTrack.Order == target)

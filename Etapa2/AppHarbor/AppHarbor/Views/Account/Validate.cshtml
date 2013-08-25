@@ -9,10 +9,10 @@
     @using (Html.BeginForm()){
         @Html.ValidationSummary(true)
         <div class="display-label">
-            @Html.LabelFor( model => model.Username)</div>
+            @Html.LabelFor( model => model.LoginName)</div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.Username )
-            @Html.ValidationMessageFor(model => model.Username)
+            @Html.TextBoxFor(model => model.LoginName )
+            @Html.ValidationMessageFor(model => model.LoginName)
         </div>
         
         <div class="display-label">

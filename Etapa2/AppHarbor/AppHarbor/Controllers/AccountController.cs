@@ -99,8 +99,16 @@ namespace AppHarbor.Controllers
                 if (createStatus == MembershipCreateStatus.Success)
                 {
                     string challenge = ChallengeGenerator(DateTime.Now.Ticks.ToString());
-                    Profile.SetPropertyValue("Challenge", challenge);
-                    Profile.Save();
+                    FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
+                        1,
+                        "Challenge",
+                        DateTime.Now,
+                        DateTime.Now.AddMinutes(30),
+                        false,
+                        "HiIAMaCookie!Do you want to eat me?");
+                    string encryption = FormsAuthentication.Encrypt(ticket);
+                    Response.Cookies.Add(new HttpCookie(".SPOTICHELASANONYMOUS", encryption));
+            
                     Membership.UpdateUser(user);
                     Utils.Emailer.SendEmail(model.LoginName, model.Email, " Validation Code: " + challenge, "Account Validation!");
                     return RedirectToAction("Validate");
@@ -196,16 +204,19 @@ namespace AppHarbor.Controllers
 
                 MembershipUser user = Membership.GetUser(model.LoginName);
                 IEnumerable<string> count = from MembershipUser u in Membership.GetAllUsers()
-                            where u.Comment.Equals(model.Nickname)
+                            where model.Nickname.Equals(u.Comment)
                             select u.Comment;
                 if (count.Count() == 0)
                 {
-                    string challenge = Profile.GetPropertyValue("Challenge").ToString();
-                    if (challenge.Equals(model.Challenge))
+                    HttpCookie cookie = Request.Cookies[".SPOTICHELASANONYMOUS"];
+                    if (cookie == null)
+                        ModelState.AddModelError("", "Validation code expired! Please Register again. Also allow cookies in order to complete the regristration");
+                    //Note: Due to the challenge code being kept in a cookie, they must be activated in the browser. Embebing into Url would be an option but a security risk
+                    FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
+                    string challenge = ticket.UserData;
+                    if (model.Challenge.Equals(challenge))
                     {
                         user.IsApproved = true;
-                        Profile.SetPropertyValue("Challenge", "");
-                        Profile.Save();
                         user.Comment = model.Nickname;
                         Roles.AddUserToRole(user.UserName, "User");
                         Membership.UpdateUser(user);
